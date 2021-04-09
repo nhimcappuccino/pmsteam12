@@ -4,12 +4,7 @@
   "description": "Project Management System: Group project - Team 12",
   "main": "app.js",
   "scripts": {
-    "start": "node server.js",
-    "devServer": "live-server",
-    "watch": "sass sass/main.scss css/style.css --watch",
-    "build": "sass sass/main.scss css/build.css",
-    "dev": "npm-run-all --parallel devServer watch",
-    "application": "nodemon server.js"
+    "start": "node server.js"
   },
   "author": "Tony Tuan Hoang && Team 12",
   "license": "ISC",

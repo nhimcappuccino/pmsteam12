@@ -1,0 +1,51 @@
+doctype html
+html(lang='en')
+
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet" href="/css/style.css")
+        link(rel="shortcut icon" href="/img/logo.png" type="image/x-icon")
+        script(src="https://kit.fontawesome.com/75996eaab7.js" crossorigin="anonymous")
+        title PMS - #{title}
+    body
+    div(class="wrapper")
+        section(class="notification" id="notification")
+            p(class="message")      
+        section(class="main" id="main")
+            div(class="background__video__overlay")
+            div(class="background__video")
+                video(class="background__video--content" autoplay muted loop)
+                    source(src="img/digital_world.mp4" type="video/mp4")
+                    Your browswer is not supported!
+            div(class="particles")
+                div(class="particle particle--1")
+                div(class="particle particle--2")
+                div(class="particle particle--3")
+                div(class="particle particle--4")
+                div(class="particle particle--5")
+            form(class="login__form")
+                div(class="login__group login__group--logo")
+                    img(src="/img/logo.png" alt="logo")
+                div(class="login__group login__group--info")
+                    div(class="login__group--input")
+                        input(type="text" placeholder="Username" id="username")
+                        label(for="username" class="login__group--label") Username
+                    div(class="login__group--input")
+                        input(type="password" placeholder="Password" id="password")
+                        label(for="password" class="login__group--label") Password
+                div(class="login__group login__group--forgot")
+                    p Forgot 
+                        a(href="/forgotUsername") Username/ 
+
+                        a(href="/forgotPassword") Password ?
+                div(class="login__group login__group--submit")
+                    button(type="submit" class="login__group--button")
+                        p Login
+                div(class="login__group login__group--contactManager")
+                    p Don't Have An Account?
+                    a(href="/contactManager") Contact Your Manager
+    script(src="js/application.js")
+    script(src="js/login.js")
+

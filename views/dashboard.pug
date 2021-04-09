@@ -1,0 +1,62 @@
+extends base
+
+block content    
+    body(onload="setDefaultPage();employeetasks();tasksbyemployee()")
+        div(class="pms__page")
+            include _header
+            section(class="dashboard" id="dashboard")
+                div(class="overview overview--1")
+                    div(class="control__group")
+                        label(for="period") Report period:
+                        select(name="period" id="period")
+                            option(value="today" selected) Today
+                            option(value="specificdate") Specific Date
+                            option(value="days") Days
+                            option(value="month") Month                    
+                    div(class="control__group")
+                        div(class="control__group--sub")
+                            label(for="datetimepickerdate") Specific Date
+                            input(type="date" class="datepickers" id="datetimepickerdate" disabled)
+                        div(class="control__group--sub")
+                            label(for="datetimepickerdays") From:
+                            input(type="date" class="datepickers" id="datetimepickerdaysFromDate" disabled)
+                            label(for="datetimepickerdate") To:
+                            input(type="date" class="datepickers" id="datetimepickerdaysToDate" disabled)
+                        div(class="control__group--sub")
+                            label(for="datetimepickermonth") Month:
+                            input(type="month" class="datepickers" id="datetimepickermonth" disabled)
+                    div(class="control__group")
+                        button(id="generateReportBtn" type="button") Generate Report
+                div(class="overview overview--2")
+                    div(class="overview__card")
+                        div(class="overview__card--name")
+                            i(class="fas fa-project-diagram")
+                        div(class="overview__card--info")
+                            p --
+                            p Number of Projects
+                    div(class="overview__card")
+                        div(class="overview__card--name")
+                            i(class="fas fa-users")
+                        div(class="overview__card--info")
+                            p --
+                            p Active Employees
+                    div(class="overview__card")
+                        div(class="overview__card--name")
+                            i(class="fas fa-tasks")
+                        div(class="overview__card--info")
+                            p --
+                            p Tasks in Progress
+                    div(class="overview__card")
+                        div(class="overview__card--name")
+                            i(class="fas fa-coins")
+                        div(class="overview__card--info")
+                            p  --
+                            p Costs
+                div(class="overview overview--3")
+                    div(class="task__progress")
+                        p Tasks Status
+                        canvas(id="employeetasks")
+                    div(class="task__progress")
+                        p Tasks by Employee
+                        canvas(id="tasksbyemployee")
+        script(src="/js/application.js")

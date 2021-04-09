@@ -1,0 +1,45 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="employees" id="employees")
+                div(class="employeeControl")
+                    div(class="employeeControl__group")
+                        button(class="addEmployeeBtn" id="addEmployeeBtn") 
+                            a(href="/addEmployees") Add Employee
+                            i(class="fas fa-plus")
+                    div(class="employeeControl__group")
+                        div(class="employeeControl__criteria")
+                            label(for="searchKeywords") Keywords
+                            div
+                                i(class="fas fa-search")
+                                input(id="searchKeywords" type="text" placeholder="Type in a keyword or name...")
+                        div(class="employeeControl__criteria")
+                            label(for="departmentSearch") Department
+                            div
+                                select(id="departmentNumber")
+                                    option(value="all" selected) All
+                                    option(value="1") Information Technology
+                                    option(value="2") Human Source Managment
+                                    option(value="3") Accounting
+                                    option(value="4") Marketing
+                        div(class="employeeControl__criteria")
+                            button(class="filterCriteria" id="filterCriteria") Filter
+                                 i(class="fas fa-search")
+                div(class="employeeList")
+                    table(class="employeeListTable")
+                        thead
+                            tr
+                                th Employee ID 
+                                    i(class="fas fa-angle-double-up")
+                                th Photo 
+                                th Name 
+                                    i(class="fas fa-angle-double-up")
+                                th Department
+                                th Role
+                                th Information
+                        tbody(id="employeeDetailList")
+                          
+        script(src="/js/application.js")

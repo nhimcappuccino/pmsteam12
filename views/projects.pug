@@ -1,0 +1,55 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="projects" id="projects")
+                div(class="projectGroup")
+                    div(class="projectGroup__status")
+                        div(class="projectGroup__status--Btn")
+                            a(class="projectGroup__status--link " href="/activeProjects") Active Projects
+                        div(class="projectGroup__status--Btn")
+                            a(class="projectGroup__status--link" href="/completedProjects")  Completed Projects
+                    div(class="projectGroup__control")
+                        button
+                            a(href="/addProject") 
+                                i(class="fas fa-plus")
+                div(class="projectList")
+                    div(class="projectCard")
+                        div(class="projectCard__Group projectCard__Group--1")
+                            div(class="projectCard__Group--header")
+                                p April 5, 2021
+                            div(class="projectCard__Group--headerBtn")
+                                a(href="/projectDetail/1")
+                                    i(class="fas fa-info")
+                        div(class="projectCard__Group projectCard__Group--2")
+                            div(class="projectCard__SubGroup")
+                                h2 Project Name
+                                p Project Summary
+                        div(class="projectCard__Group projectCard__Group--3")
+                            div(class="projectCard__SubGroup")
+                                p Progress
+                                div(class="projectCard__Group--progressBar")
+                                    div(class="projectProgressBar" id="projectProgressBar")
+                                        div(class="projectProgressCompletedWork" id="projectProgressCompletedWork")
+                                    p(id="projectProgressPercentage") 0%
+                        div(class="projectCard__Group projectCard__Group--4")
+                            div(class="projectCard__Group--team")
+                                div(class="teamMembers")
+                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
+                                div(class="teamMembers")
+                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
+                                div(class="teamMembers")
+                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
+                                div(class="teamMembers")
+                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
+                                div(class="teamMembers")
+                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
+                            div(class="teamMembers__control")
+                                button(class="teamMembers__control--btn" id="addMoreTeamMember")
+                                    a(href="/addMoreTeamMember")
+                                        i(class="fas fa-plus")
+                            div(class="projectCard__Group--timeleft")
+                                p(id="totalTimeLeft") 2 Days Left
+    script(src="/js/application.js")

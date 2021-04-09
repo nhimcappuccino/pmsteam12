@@ -1,0 +1,192 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="employeeDetails" id="employeeDetails")
+                div(class="employeeDetailGroup")
+                    div(class="employeeGeneralInfo")
+                        div(class="employeeGeneralInfo__group")
+                            button(class="employeeGeneralInfo__group--btn" id="updateEmployeePhotoAccessBtn")
+                                i(class="fas fa-camera-retro")
+                            
+                            img(src=`/img/${data.recordset[0].Employee_Photo}.jpg` alt="employee_photo" id="employeeGeneralInfoPhoto")
+                        div(class="employeeGeneralInfo__group")
+                            h1
+                                strong #{data.recordset[0].First_Name} #{data.recordset[0].Last_Name}
+                            div
+                                p(class="employeeGeneralInfo__group--role") #{data.recordset[0].Role_Name}
+                        div(class="employeeGeneralInfo__group")
+                            label(class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--id") Identification Number
+                            p(id="employeeGeneralInfo__group--id") #{data.recordset[0].Employee_ID}
+                        div(class="employeeGeneralInfo__group")
+                            label(class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--admissionDate") Employeed Since
+                            p(id="employeeGeneralInfo__group--admissionDate") #{data.recordset[0].Created_At.toLocaleString('en-us',{day:'numeric',month:'long',year:'numeric'})}
+                        div(class="employeeGeneralInfo__group")
+                            label(class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--departmentName") Department
+                            p(id="employeeGeneralInfo__group--departmentName") #{data.recordset[0].Department_Name}
+                        div(class="employeeGeneralInfo__group")
+                            label(class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--departmentManagerName") Department Manager
+                            p(id="employeeGeneralInfo__group--departmentManagerName") #{data.recordset[0].Manager_ID}
+                        div(class="employeeGeneralInfo__group")
+                            label(class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--Status") Status
+                            p(id="employeeGeneralInfo__group--Status") #{data.recordset[0].Employee_Status}
+                div(class="employeeDetailGroup")
+                    div(class="detailInformationGroup")
+                        div(class="detailInformationGroup__control")
+                            button(class="detailInformationGroup__control--btn" id="detailInformationGroup__control--personal")
+                               p Personal and Contact Data
+                            button(class="detailInformationGroup__control--btn" id="detailInformationGroup__control--work")
+                                p Work Data
+                        div(class="detailInformationGroup__personalData" id="detailInformationGroup__personalData")
+                            button(class="detailInformationGroup__personalData--btn" id="editEmployeePersonalData")
+                                i(class="fas fa-pencil-alt")
+                            button(class="saveNewEmployeeData" id="saveNewEmployeePersonalData")
+                                p Save Updated Data
+                            h1(class="detailInformationGroup__personalData--header") Personal Data
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--FirstName") First Name
+                                    input(class="personalDataInputBox" id="employeeDetailInfo--FirstName" type="text" value=`${data.recordset[0].First_Name}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--LastName") Last Name
+                                    input(class="personalDataInputBox" id="employeeDetailInfo--LastName" type="text" value=`${data.recordset[0].Last_Name}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--MiddleName") Middle Name                
+                                    input(class="personalDataInputBox" id="employeeDetailInfo--MiddleName" type="text" value=`${data.recordset[0].Middle_Name}` disabled)
+                                    
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--Birthdate") Date of Birth
+                                    input(class="personalDataInputBox" id="employeeDetailInfo--Birthdate" type="text" value=`${data.recordset[0].Date_of_Birth.toLocaleString('en-us',{day:'numeric',month:'long',year:'numeric'})}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--Gender") Gender
+                                    if data.recordset[0].Gender===false
+                                        input(class="personalDataInputBox" id="employeeDetailInfo--Gender" type="text" value="Female" disabled)
+                                    else
+                                        input(class="personalDataInputBox" id="employeeDetailInfo--Gender" type="text" value="Male" disabled)
+                        div(class="detailInformationGroup__contact" id="detailInformationGroup__contact")
+                            button(class="detailInformationGroup__personalData--btn" id="editEmployeeContactData")
+                                i(class="fas fa-pencil-alt")
+                            button(class="saveNewEmployeeData" id="saveNewEmployeeContactData")
+                                p Save Updated Data
+                            h1(class="detailInformationGroup__personalData--header") Contact
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--PhoneNumber") Phone Number
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--PhoneNumber" type="text" value=`${phoneNumber}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--Email") Email
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--Email" type="text" value=`${data.recordset[0].Email}` disabled)
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--HouseNumber") House Number
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--HouseNumber" type="text" value=`${data.recordset[0].House_Number}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--StreetName") Street Name
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--StreetName" type="text" value=`${data.recordset[0].Street_Name}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--City") City
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--City" type="text" value=`${data.recordset[0].City}` disabled)
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--State") State
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--State" type="text" value=`${data.recordset[0]._State}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--Zipcode") Zipcode
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--Zipcode" type="text" value=`${data.recordset[0].Zipcode}` disabled)
+                        div(class="detailInformationGroup__workData" id="detailInformationGroup__workData")
+                            button(class="detailInformationGroup__personalData--btn" id="editEmployeeWorkData")
+                                i(class="fas fa-pencil-alt")
+                            button(class="saveNewEmployeeData" id="saveNewEmployeeWorkData")
+                                p Save Updated Data
+                            h1(class="detailInformationGroup__personalData--header") Work Data
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--UserID") User ID
+                                    input(class="WorkDataInputBox" id="employeeDetailInfo--UserID" type="text" value=`${data.recordset[0].UserID}` disabled)
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--Password") Password
+                                    input(class="WorkDataInputBox" id="employeeDetailInfo--Password" type="password" value=`${data.recordset[0].UserPassword}` disabled)
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--RoleID") Role ID
+                                    select(class="WorkDataInputBox" id="employeeDetailInfo--RoleID" disabled)
+                                        -let role = data.recordset[0].Role_ID[0]
+                                        case role
+                                            when 1
+                                                option(value="1" selected) Department Manager
+                                                option(value="2") Project Manager
+                                                option(value="3") Team Leader
+                                                option(value="4") Team Member
+                                            when 2
+                                                option(value="1") Department Manager
+                                                option(value="2" selected) Project Manager
+                                                option(value="3") Team Leader
+                                                option(value="4") Team Member
+                                            when 3
+                                                option(value="1") Department Manager
+                                                option(value="2") Project Manager
+                                                option(value="3" selected) Team Leader
+                                                option(value="4") Team Member
+
+                                            when 4
+                                                option(value="1") Department Manager
+                                                option(value="2") Project Manager
+                                                option(value="3") Team Leader
+                                                option(value="4" selected) Team Member                           
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--DepartmentID") Department
+                                    select(class="WorkDataInputBox" id="employeeDetailInfo--DepartmentID" disabled)
+                                        -let deparment = data.recordset[0].Department_ID[0]
+                                        case deparment
+                                            when 1
+                                                option(value="1" selected) Information Technology
+                                                option(value="2") Human Resource Management
+                                                option(value="3") Accounting
+                                                option(value="4") Marketing
+                                            when 2
+                                                option(value="1") Information Technology
+                                                option(value="2" selected) Human Resource Management
+                                                option(value="3") Accounting
+                                                option(value="4") Marketing
+                                            when 3
+                                                option(value="1") Information Technology
+                                                option(value="2") Human Resource Management
+                                                option(value="3" selected) Accounting
+                                                option(value="4") Marketing
+
+                                            when 4
+                                                option(value="1") Information Technology
+                                                option(value="2") Human Resource Management
+                                                option(value="3") Accounting
+                                                option(value="4" selected) Marketing
+
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--Payrate") Payrate
+                                    input(class="WorkDataInputBox" id="employeeDetailInfo--Payrate" type="text" value=`$${data.recordset[0].Payrate}` disabled)
+                            div(class="detailInfoSubgroup")
+                                div(class="detailInfoSubgroup__card")
+                                    label(for="employeeDetailInfo--EmployeeStatus") Status
+                                    select(class="WorkDataInputBox" id="employeeDetailInfo--EmployeeStatus" disabled)
+                                        -let employmentStatus = data.recordset[0].Employee_Status
+                                        case employmentStatus
+                                            when 'EMPLOYED'
+                                                option(value="EMPLOYED" selected) Employed
+                                                option(value="NOTEMPLOYED") Not Employed
+                                            when 'NOTEMPLOYED'
+                                                option(value="EMPLOYED" selected) Employed
+                                                option(value="NOTEMPLOYED" selected) Not Employed
+                                        
+                form(id="updateEmployeePhotoForm" class="updateEmployeePhotoForm")
+                    div
+                        img(src="/img/user_profile.jpg" alt="default_profile_photo" id="imageOutput")
+                    div
+                        input(type="file" accept="image/jpeg" name='image' id="imageFile") 
+                        label(for="imageFile") Upload
+                        button(type="submit" id="updateEmployeePhotoBtn")
+                            p Save Image
+                        button(type="reset")
+                            p Cancel
+    script(src="/js/application.js")

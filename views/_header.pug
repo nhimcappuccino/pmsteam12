@@ -1,0 +1,49 @@
+header(class="header" id="header")
+    nav(class="navbar")
+        div(class="burger" id="burger")
+            div(class="burger__button" id="burger__button")
+        
+        ul(class="navbar__list " id="navbar__list")
+            li(class="navbar__items")
+                a(href="/dashboard" class="navbar__link navbar__link--1")
+                    i(class="fas fa-th-large")
+            li(class="navbar__items")
+                a(href="/employees" class="navbar__link  navbar__link--2")
+                    i(class="fas fa-users")
+            li(class="navbar__items")
+                a(href="/customers" class="navbar__link navbar__link--3")
+                    i(class="fas fa-address-book")
+            li(class="navbar__items")
+                a( href="/tasks" class="navbar__link navbar__link--4")
+                    i(class="fas fa-tasks")
+
+            li(class="navbar__items")
+                a( href="/projects" class="navbar__link navbar__link--5")
+                    i(class="fas fa-project-diagram")
+
+            li(class="navbar__items")
+                a( href="/statistics" class="navbar__link navbar__link--6")
+                    i(class="fas fa-coins")
+    div(class="header__group")
+        p(class="header__group--text" id="headerPageName") #{page}
+
+    div(class="header__group")
+        ul(class="header__list")
+            li( class="header__list--items" id="user__dropdown__menu")
+                img(src=`/img/${user_photo}.jpg` alt="user__profile" id="user__profile--img")
+                label( id="user__profile--name") #{user}
+                i( class="fas fa-chevron-down")
+                ul(class="header__dropdown" id="header__dropdown")
+                    li(class="header__dropdown--items")
+                        a(href=`/api/v1/employee/getEmployeeDetail/${loggedInUserID}`) User Profile
+                            i(class="fas fa-user")
+                    li(class="header__dropdown--items")
+                        a(href="/api/v1/employee/logout") Logout
+                            i(class="fas fa-sign-out-alt ")
+            li( class="header__list--items")
+                i(class="fas fa-bell")
+                p(id="user__notification") 0
+            </li>
+            li( class="header__list--items")
+                i(class="fas fa-comment")
+                p(id="user__messages") 0

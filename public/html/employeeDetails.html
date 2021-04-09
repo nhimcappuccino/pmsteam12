@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/75996eaab7.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <title>PMS - Dashboard</title>
+</head>
+
+<body>
+    <div class="pms__page">
+        <header class="header" id="header">
+            <nav class="navbar">
+                <div class="burger" id="burger">
+                    <div class="burger__button" id="burger__button"></div>
+                </div>
+                <ul class="navbar__list " id="navbar__list">
+                    <li class="navbar__items">
+                        <a href="/html/dashboard.html" class="navbar__link navbar__link--1"><i
+                                class="fas fa-th-large"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/employees.html" class="navbar__link  navbar__link--2"><i
+                                class="fas fa-users"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/customers.html" class="navbar__link navbar__link--3"><i
+                                class="fas fa-address-book"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/tasks.html" class="navbar__link navbar__link--4"><i class="fas fa-tasks"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/projects.html" class="navbar__link navbar__link--5"><i
+                                class="fas fa-project-diagram"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/statistics.html" class="navbar__link navbar__link--6"><i
+                                class="fas fa-coins"></i></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__group">
+                <p class="header__group--text" id="headerPageName">
+                    Employees Details
+                </p>
+            </div>
+            <div class="header__group">
+                <ul class="header__list">
+                    <li class="header__list--items" id="user__dropdown__menu">
+                        <img src="/img/man_profile.png" alt="user__profile" id="user__profile--img">
+                        <label id="user__profile--name">Last, First</label>
+                        <i class="fas fa-chevron-down"></i>
+                        <ul class="header__dropdown" id="header__dropdown">
+                            <li class="header__dropdown--items">
+                                <a href="/userprofile">
+                                    <i class="fas fa-user "></i>
+                                    User Profile
+                                </a>
+                            </li>
+                            <li class="header__dropdown--items">
+                                <a href="/logout">
+                                    <i class="fas fa-sign-out-alt "></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-bell"></i>
+                        <p id="user__notification">10</p>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-comment"></i>
+                        <p id="user__messages">5</p>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="employeeDetails" id="employeeDetails">
+
+            <div class="employeeDetailGroup">
+                <div class="employeeGeneralInfo">
+                    <div class="employeeGeneralInfo__group">
+                        <button class="employeeGeneralInfo__group--btn" id="updateEmployeePhotoAccessBtn">
+                            <i class="fas fa-camera-retro"></i>
+                        </button>
+                        <img src="/img/somebody2.jpg" alt="employee_photo" id="employeeGeneralInfoPhoto">
+
+                    </div>
+                    <div class="employeeGeneralInfo__group">
+                        <h1>
+                            <strong>
+                                Sharon Musk
+                            </strong>
+                        </h1>
+                        <div>
+                            <p class="employeeGeneralInfo__group--role">
+                                Employee
+                            </p>
+                        </div>
+                    </div>
+                    <div class="employeeGeneralInfo__group">
+                        <label class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--id">
+                            Identification Number
+                        </label>
+                        <p id="employeeGeneralInfo__group--id">
+                            4
+                        </p>
+                    </div>
+                    <div class="employeeGeneralInfo__group">
+                        <label class="employeeGeneralInfo__group--label"
+                            for="employeeGeneralInfo__group--admissionDate">
+                            Employeed Since
+                        </label>
+                        <p id="employeeGeneralInfo__group--admissionDate">
+                            04/07/2021
+                        </p>
+                    </div>
+                    <div class="employeeGeneralInfo__group">
+                        <label class="employeeGeneralInfo__group--label"
+                            for="employeeGeneralInfo__group--departmentName"> Department
+                        </label>
+                        <p id="employeeGeneralInfo__group--departmentName">
+                            Information Technology
+                        </p>
+                    </div>
+                    <div class="employeeGeneralInfo__group">
+                        <label class="employeeGeneralInfo__group--label"
+                            for="employeeGeneralInfo__group--departmentManagerName"> Department Manager
+                        </label>
+                        <p id="employeeGeneralInfo__group--departmentManagerName">
+                            Tony Hoang
+                        </p>
+                    </div>
+                    <div class="employeeGeneralInfo__group">
+                        <label class="employeeGeneralInfo__group--label" for="employeeGeneralInfo__group--Status">
+                            Status
+                        </label>
+                        <p id="employeeGeneralInfo__group--Status">
+                            Employeed
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            <div class="employeeDetailGroup">
+                <div class="detailInformationGroup">
+                    <div class="detailInformationGroup__control">
+                        <button class="detailInformationGroup__control--btn"
+                            id="detailInformationGroup__control--personal">
+                            <p>
+                                Personal and Contact Data
+                            </p>
+                        </button>
+                        <button class="detailInformationGroup__control--btn" id="detailInformationGroup__control--work">
+                            <p>
+                                Work Data
+                            </p>
+                        </button>
+                    </div>
+                    <div class="detailInformationGroup__personalData" id="detailInformationGroup__personalData">
+                        <button class="detailInformationGroup__personalData--btn" id="editEmployeePersonalData">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="saveNewEmployeeData" id="saveNewEmployeePersonalData">
+                            <p>Save Updated Data</p>
+                        </button>
+                        <h1 class="detailInformationGroup__personalData--header">
+                            Personal Data
+                        </h1>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--FirstName">
+                                    First Name
+                                </label>
+                                <input class="personalDataInputBox" id="employeeDetailInfo--FirstName" type="text"
+                                    value="Sharon" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--LastName">
+                                    Last Name
+                                </label>
+                                <input class="personalDataInputBox" id="employeeDetailInfo--LastName" type="text"
+                                    value="Musk" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--MiddleName">
+                                    Middle Name
+                                </label>
+                                <input class="personalDataInputBox" id="employeeDetailInfo--MiddleName" type="text"
+                                    value="M" disabled>
+                            </div>
+                        </div>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--Birthdate">
+                                    Date of Birth
+                                </label>
+                                <input class="personalDataInputBox" id="employeeDetailInfo--Birthdate" type="text"
+                                    value="08/21/1992" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--Gender">
+                                    Gender
+                                </label>
+                                <input class="personalDataInputBox" id="employeeDetailInfo--Gender" type="text"
+                                    value="Female" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detailInformationGroup__contact" id="detailInformationGroup__contact">
+                        <button class="detailInformationGroup__personalData--btn" id="editEmployeeContactData">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="saveNewEmployeeData" id="saveNewEmployeeContactData">
+                            <p>Save Updated Data</p>
+                        </button>
+                        <h1 class="detailInformationGroup__personalData--header">
+                            Contact
+                        </h1>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--PhoneNumber">
+                                    Phone Number
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--PhoneNumber" type="text"
+                                    value="(713) 367 2499" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--Email">
+                                    Email
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--Email" type="text"
+                                    value="sharonmusk@gmail.com" disabled>
+                            </div>
+                        </div>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--HouseNumber">
+                                    House Number
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--HouseNumber" type="text"
+                                    value="12811" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--StreetName">
+                                    Street Name
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--StreetName" type="text"
+                                    value="Glenwolde Dr" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--City">
+                                    City
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--City" type="text"
+                                    value="Houston" disabled>
+                            </div>
+                        </div>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--State">
+                                    State
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--State" type="text" value="TX"
+                                    disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--Zipcode">
+                                    Zipcode
+                                </label>
+                                <input class="ContactDataInputBox" id="employeeDetailInfo--Zipcode" type="text"
+                                    value="77099" disabled>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="detailInformationGroup__workData" id="detailInformationGroup__workData">
+                        <button class="detailInformationGroup__personalData--btn" id="editEmployeeWorkData">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+                        <button class="saveNewEmployeeData" id="saveNewEmployeeWorkData">
+                            <p>Save Updated Data</p>
+                        </button>
+                        <h1 class="detailInformationGroup__personalData--header">
+                            Work Data
+                        </h1>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--UserID">
+                                    User ID
+                                </label>
+                                <input class="WorkDataInputBox" id="employeeDetailInfo--UserID" type="text"
+                                    value="sharonmusk88" disabled>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--Password">
+                                    Password
+                                </label>
+                                <input class="WorkDataInputBox" id="employeeDetailInfo--Password" type="password"
+                                    value="sharonmusk@gmail.com" disabled>
+                            </div>
+                        </div>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--RoleID">
+                                    Role ID
+                                </label>
+                                <select class="WorkDataInputBox" id="employeeDetailInfo--RoleID" disabled>
+                                    <option value="1">Department Manager</option>
+                                    <option value="2">Project Manager</option>
+                                    <option value="3">Team Leader</option>
+                                    <option value="4">Team Member</option>
+                                </select>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--DepartmentID">
+                                    Department
+                                </label>
+                                <select class="WorkDataInputBox" id="employeeDetailInfo--DepartmentID" disabled>
+                                    <option value="1">Information Technology</option>
+                                    <option value="2">Human Resource Managerment</option>
+                                    <option value="3">Accounting</option>
+                                    <option value="4">Marketing</option>
+                                </select>
+                            </div>
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--Payrate">
+                                    Payrate
+                                </label>
+                                <input class="WorkDataInputBox" id="employeeDetailInfo--Payrate" type="text"
+                                    value="$15.50" disabled>
+                            </div>
+                        </div>
+                        <div class="detailInfoSubgroup">
+                            <div class="detailInfoSubgroup__card">
+                                <label for="employeeDetailInfo--EmployeeStatus">
+                                    Status
+                                </label>
+                                <select class="WorkDataInputBox" id="employeeDetailInfo--EmployeeStatus" disabled>
+                                    <option value="EMPLOYEED">Employeed</option>
+                                    <option value="NOTEMPLOYEED">Not Employeed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <form id="updateEmployeePhotoForm" class="updateEmployeePhotoForm">
+                <div>
+                    <img src="/img/man_profile.png" alt="default_profile_photo" id="imageOutput">
+                </div>
+                <div>
+                    <input type="file" accept="image/jpeg" name='image' id="imageFile">
+                    <label for="imageFile">Upload Image</label>
+                    <button type="submit" id="updateEmployeePhotoBtn">
+                        <p>
+                            Save Image
+                        </p>
+                    </button>
+                    <button type="reset">
+                        <p>
+                            Cancel
+                        </p>
+                    </button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="/js/application.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="addEmployees" id="addEmployees")
+                form(id="addNewEmployee" class="addNewEmployee")
+                    div(class="newEmployeeInfoGeneral")
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeFirstName") First Name
+                            input(type="text" id="newEmployeeFirstName" placeholder="First Name")
+                       
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeLastName") Last Name
+                            input(type="text" id="newEmployeeLastName" placeholder="Last Name")
+                       
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeMiddleName") Middle Name
+                            input(type="text" id="newEmployeeMiddleName" placeholder="Middle Name")
+                       
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeDateofBirth") Date of Birth
+                            input(type="text" id="newEmployeeDateofBirth" placeholder="Date of Birth")
+                       
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeGender") Gender
+                            select(id="newEmployeeGender")
+                                option(value="1" selected) Male
+                                option(value="0") Female
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeePhoneNumber") Phone Number
+                            input(type="text" id="newEmployeePhoneNumber" placeholder="Phone Number" maxlength="10" pattern="[0-9]+")
+
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeEmail") Email
+                            input(type="text" id="newEmployeeEmail" placeholder="Email")
+
+                    div(class="newEmployeeInfoAddress")
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeHouseNumber") House Number
+                            input(type="text" id="newEmployeeHouseNumber" placeholder="House Number")
+                        
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeStreetName") Street Name
+                            input(type="text" id="newEmployeeStreetName" placeholder="Street Name")
+                        
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeCity") City
+                            input(type="text" id="newEmployeeCity" placeholder="City")
+                        
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeState") State
+                            input(type="text" id="newEmployeeState" placeholder="State" pattern="[A-Za-z]{2}")
+                        
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeZipcode") Zipcode
+                            input(type="text" id="newEmployeeZipcode" placeholder="Zipcode" maxlength="5" pattern="[0-9]+")
+                        
+
+                    div(class="newEmployeeInfoCompany")
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeUserID") UserID
+                            input(type="text" id="newEmployeeUserID" placeholder="UserID")
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeePassword") Password
+                                i(class="far fa-check-circle isAMatchPair")
+                            input(type="password" id="newEmployeePassword" placeholder="Password")                  
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeePasswordConfirm") Password Confirm
+                                i(class="far fa-check-circle isAMatchPair")
+                            input(type="password" id="newEmployeePasswordConfirm" placeholder="Password Confirm")          
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeRoleID") Role
+                            select(id="newEmployeeRoleID")
+                                option(value="1") Department Manager
+                                option(value="2") Project Manager
+                                option(value="3") Team Leader
+                                option(value="4") Team Member
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeeDepartment") Department
+                            select(id="newEmployeeDepartment")
+                                option(value="1") Information Technology
+                                option(value="2") Human Resource Management
+                                option(value="3") Accounting
+                                option(value="4") Marketing
+                        div(class="newEmployeeInfoGroup")
+                            label(for="newEmployeePayRate") Payrate
+                            input(type="text" id="newEmployeePayRate" placeholder="Payrate" pattern="[0-9]+")
+                   
+               
+                    div(class="newEmployeeInfoControl")
+                        button(class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--submit" id="newEmployeeInfoSubmitBtn" type="submit") Create New Employee
+                        button(class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--reset" id="newEmployeeInfoReset" type="reset") Reset
+                        button(class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--back" id="newEmployeeInfoBack" type="button") 
+                            a(href="/employees") Back 
+    script(src=" /js/application.js")

@@ -1,0 +1,46 @@
+@mixin responsive($breakpoint) {
+    @if $breakpoint == phone {
+        @media (max-width: 15em) {@content};
+    }
+    @if $breakpoint == phoneMedium {
+        @media (max-width: 20em) {@content};
+    }
+    @if $breakpoint == phoneLarge {
+        @media (max-width: 27em) {@content};
+    }
+    @if $breakpoint == tablet {
+        @media (max-width: 48em) {@content};
+    }
+    @if $breakpoint == laptop {
+        @media (max-width: 64em) {@content};
+    }
+    @if $breakpoint == laptopLarge {
+        @media (max-width: 90em) {@content};
+    }
+    @if $breakpoint == largeScreen {
+        @media (min-width: 120em) {@content};
+    }
+};
+@mixin absoluteCenter{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+};
+
+@mixin defaultFont{
+    font-family: 'Poppins', sans-serif;
+};
+
+@mixin noSelect{
+        -webkit-touch-callout: none; /* iOS Safari */
+          -webkit-user-select: none; /* Safari */
+           -khtml-user-select: none; /* Konqueror HTML */
+             -moz-user-select: none; /* Old versions of Firefox */
+              -ms-user-select: none; /* Internet Explorer/Edge */
+                  user-select: none; /* Non-prefixed version, currently
+                                        supported by Chrome, Edge, Opera and Firefox */
+};
+
+@mixin gradientBackground{
+    background: linear-gradient(-45deg, rgba(#ee7752,.8), rgba(#e73c7e,.8), rgba(#23a6d5,.8), rgba(#23d5ab,.8));
+}

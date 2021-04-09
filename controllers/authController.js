@@ -28,7 +28,6 @@ exports.login = catchAsync(async (req, res, next) => {
             req.session.loggedInUserID = loggedInUserID;
             req.session.userPhoto = userPhoto;
 
-            console.log(userPhoto);
             res.status(200).json({
                 status: 'Success',
                 message: `Login Successfully! Logging you in as ${employee_first_name} ${employee_last_name}`,

@@ -92,7 +92,7 @@ block content
                             div(class="detailInfoSubgroup")
                                 div(class="detailInfoSubgroup__card")
                                     label(for="employeeDetailInfo--State") State
-                                    input(class="ContactDataInputBox" id="employeeDetailInfo--State" type="text" value=`${data.recordset[0]._State}` disabled)
+                                    input(class="ContactDataInputBox" id="employeeDetailInfo--State" type="text" value=`${data.recordset[0].States}` disabled)
                                 div(class="detailInfoSubgroup__card")
                                     label(for="employeeDetailInfo--Zipcode") Zipcode
                                     input(class="ContactDataInputBox" id="employeeDetailInfo--Zipcode" type="text" value=`${data.recordset[0].Zipcode}` disabled)
@@ -181,12 +181,15 @@ block content
                                         
                 form(id="updateEmployeePhotoForm" class="updateEmployeePhotoForm")
                     div
-                        img(src="/img/user_profile.jpg" alt="default_profile_photo" id="imageOutput")
+                        img(src="/img/user_profile.jpg" alt="default_profile_photo" name='photo' id="imageOutput")
                     div
                         input(type="file" accept="image/jpeg" name='image' id="imageFile") 
                         label(for="imageFile") Upload
                         button(type="submit" id="updateEmployeePhotoBtn")
                             p Save Image
                         button(type="reset")
-                            p Cancel
+                            p(id="updatePhotoFormCancel") Cancel
+            section(class="updateEmployeeInformationNotification" id="updateEmployeeInformationNotification")
+                p(class="message") Message
+        
     script(src="/js/application.js")

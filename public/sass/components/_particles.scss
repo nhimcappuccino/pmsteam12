@@ -1,0 +1,74 @@
+.particles{
+    display: flex;
+    position: absolute;
+    width: 45rem;
+    height: 60rem;
+}
+.particle{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(255,255,255,.1);
+    backdrop-filter: blur(1rem);
+    border-radius: 1rem;
+    border-left: 1px solid rgba(255,255,255,.2);
+    border-top: 1px solid rgba(255,255,255,.2);
+    box-shadow: 1rem 1rem 6rem -.8rem rgba(0,0,0,.1);
+    transition: all .2s ease;
+    position: absolute;
+    backface-visibility: hidden;
+    
+    &--1{
+        height: 8rem;
+        width: 8rem;
+        top: -2rem;
+        left: -2rem;
+        animation-name: rotation;
+        animation-timing-function: ease-in-out;
+        animation-duration: random(30)+s;
+        animation-iteration-count: infinite;
+    }
+    &--2{
+        height: 10rem;
+        width: 10rem;
+        right: -6rem;
+        bottom: -5rem;
+        z-index: 1;
+        animation-name: smoothbounce;
+        animation-timing-function: ease;
+        animation-duration: random(20)+s;
+        animation-iteration-count: infinite;
+    }
+    &--3{
+        height: 8rem;
+        width: 8rem;
+        top: 40rem;
+        left: 10rem;
+        z-index: -1;
+        animation-name: scaling;
+        animation-timing-function: ease-in;
+        animation-duration: random(40)+s;
+        animation-iteration-count: infinite;
+    }
+    &--4{
+        height: 4rem;
+        width: 4rem;
+        left: -6rem;
+        bottom: -5rem;
+        z-index: 4;
+        animation-name: swing;
+        animation-timing-function: ease-in;
+        animation-duration: random(20)+s;
+        animation-iteration-count: infinite;
+    }
+    &--5{
+        height: 12rem;
+        width: 12rem;
+        left: 36rem;
+        top: -8rem;
+        z-index: 4;
+        animation-name: swing;
+        animation-timing-function: ease-in;
+        animation-duration: random(20)+s;
+        animation-iteration-count: infinite;
+    }
+}

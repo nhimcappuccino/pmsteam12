@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/75996eaab7.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <title>PMS - Dashboard</title>
+</head>
+
+<body onload="setDefaultPage();employeetasks();tasksbyemployee()">
+    <div class="pms__page">
+        <header class="header" id="header">
+            <nav class="navbar">
+                <div class="burger" id="burger">
+                    <div class="burger__button" id="burger__button"></div>
+                </div>
+                <ul class="navbar__list " id="navbar__list">
+                    <li class="navbar__items">
+                        <a href="/html/dashboard.html" class="navbar__link navbar__link--1"><i
+                                class="fas fa-th-large"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/employees.html" class="navbar__link  navbar__link--2"><i
+                                class="fas fa-users"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/customers.html" class="navbar__link navbar__link--3"><i
+                                class="fas fa-address-book"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/tasks.html" class="navbar__link navbar__link--4"><i class="fas fa-tasks"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/projects.html" class="navbar__link navbar__link--5"><i
+                                class="fas fa-project-diagram"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/statistics.html" class="navbar__link navbar__link--6"><i
+                                class="fas fa-coins"></i></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__group">
+                <p class="header__group--text" id="headerPageName">
+                    Tasks
+                </p>
+            </div>
+            <div class="header__group">
+                <ul class="header__list">
+                    <li class="header__list--items" id="user__dropdown__menu">
+                        <img src="/img/man_profile.png" alt="user__profile" id="user__profile--img">
+                        <label id="user__profile--name">Last, First</label>
+                        <i class="fas fa-chevron-down"></i>
+                        <ul class="header__dropdown" id="header__dropdown">
+                            <li class="header__dropdown--items">
+                                <a href="/userprofile">
+                                    <i class="fas fa-user "></i>
+                                    User Profile
+                                </a>
+                            </li>
+                            <li class="header__dropdown--items">
+                                <a href="/logout">
+                                    <i class="fas fa-sign-out-alt "></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-bell"></i>
+                        <p id="user__notification">10</p>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-comment"></i>
+                        <p id="user__messages">5</p>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="employees" id="employees">
+
+        </section>
+
+    </div>
+
+    <script src="/js/application.js"></script>
+</body>
+
+</html>

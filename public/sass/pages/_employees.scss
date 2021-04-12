@@ -1,0 +1,273 @@
+.employees{
+    display:  flex;
+    flex-direction: column;
+    @include defaultFont;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: .2rem;
+    color: rgba($tertiary-font-color,.9);
+    text-align: left;
+    justify-content: left;
+    align-items: center;
+}
+
+.employeeControl{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    flex-direction: column;
+    padding: 2rem 0 2rem 2rem;
+    width: 100%;
+    background-color: rgba($primary-font-color,.8);
+    border-radius: .4rem;
+    &__group{
+        display: flex;
+        margin: 2rem 0;
+    }
+    &__criteria{
+        box-shadow: 0 .8rem .6rem -.6rem rgba($tertiary-font-color,.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: left;
+        position: relative;
+        & label{
+            font-size: 1.2rem;
+            margin-bottom: .5rem;
+            text-align: left;
+        }
+        & input{
+            @include defaultFont;
+            font-weight: 700;
+            letter-spacing: .2rem;
+            font-size: 1.4rem;
+            width: 35rem;
+            height: 5rem;
+            padding-left: 5rem;
+            border-radius: .2rem;
+            outline: none;
+            background-color: rgba($primary-font-color,.1);
+            border: .2rem solid rgba($tertiary-font-color,.3);
+            color:rgba($tertiary-font-color,1);        
+            &:focus{
+                outline: none;
+            }
+            &::placeholder{
+                color: rgba($tertiary-font-color,.5);
+            }
+        }
+        & select{
+            padding-left: 1rem;
+            @include defaultFont;
+            font-weight: 700;
+            letter-spacing: .2rem;
+            font-size: 1.2rem;
+            width: 24rem;
+            height: 5rem;
+            border-radius: .2rem;
+            outline: none;
+            background-color: rgba($primary-font-color,.1);
+            color:rgba($tertiary-font-color,1);
+            border: .2rem solid rgba($tertiary-font-color,.3);
+            border-left: none;
+            border-right: none;
+            &:focus{
+                outline: none;
+                
+            }
+        }
+        & option{
+            @include defaultFont;
+            font-weight: 700;
+            letter-spacing: .2rem;
+            font-size: 1.4rem;
+            color: rgba($tertiary-font-color,1);
+        }
+        & div i{
+            position: absolute;
+            width: 5rem;
+            height: 5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            font-size: 2rem;
+        }
+
+    }
+}
+
+.addEmployeeBtn{
+    @include defaultFont;
+    cursor: pointer;
+    font-weight: 700;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: .3rem solid rgba($secondary-page-color,1);
+    font-size: 1.5rem;
+    letter-spacing: .2rem;
+    border-radius: .4rem;
+    box-shadow: 0 .2rem .5rem .2rem rgba($secondary-page-color,.6);
+    transition: $ease;
+    backface-visibility: hidden;
+    &:hover{
+        box-shadow: 0 .2rem .5rem .3rem rgba($secondary-page-color,.5);
+        transform: translateY(-.1rem);
+    }
+    &:active{
+        transform: translateY(0rem);
+        box-shadow: 0 .2rem .5rem .2rem rgba($secondary-page-color,.6);
+
+    }
+    & i{
+        margin-right:1rem;
+        color: rgba($secondary-page-color,1);
+
+
+    }
+    &:active, &:hover, &:focus{
+        outline: none;
+    }
+    & a:link, & a:visited{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        width: 15rem;
+        height: 4rem;
+        text-decoration: none;
+        color: rgba($secondary-page-color,1);
+
+    }
+
+}
+.filterCriteria{
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: .2rem;
+    cursor: pointer;
+    margin-top:2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    width: 10rem;
+    height: 5rem;
+    background-color: transparent;
+    border-radius: .2rem;
+    border: none;
+    border: .2rem solid rgba($secondary-page-color,1);
+    background-image: linear-gradient(90deg, transparent 0%, transparent 50%, rgba($secondary-page-color,1) 50%);
+    background-size: 230%;
+    transition: $ease;
+    color: rgba($tertiary-font-color,.9);
+    backface-visibility: hidden;
+    box-shadow: 0 .8rem .6rem -.6rem rgba($tertiary-font-color,.8);
+
+    &:hover{
+        background-position: 100%;
+        color: rgba($primary-font-color,.9);
+        transform: translateY(-.1rem);
+        box-shadow: 0 .8rem .5rem -.6rem rgba($tertiary-font-color,.8);
+
+    }
+    &:focus,&:active{
+        outline: none;
+    }
+    &:active{
+        transform: scale(.9);
+        transform: translateY(0);
+        box-shadow: 0 .8rem .6rem -.6rem rgba($tertiary-font-color,.8);
+    }
+    & i{
+        margin-left: 1rem;
+    }
+}
+.employeeList{
+    display: flex;
+    width: 100%;
+    padding: 2rem;
+    background-color: rgba($primary-font-color,1);
+    position: relative;
+}
+.employeeListTable{
+    @include defaultFont;
+    display: table;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    box-shadow: 0 .6rem .9rem -.2rem rgba($tertiary-font-color,.8);
+    border-collapse: separate;
+    border-spacing:0 1rem;
+    height: 5rem;
+
+    & thead{
+        display: table-header-group;
+        vertical-align: middle;
+        font-size: 1.5rem;
+        font-weight: 1000;
+        color: rgba($primary-font-color,1);
+        background:linear-gradient(to right bottom, #E3E3E3 0%,#5D6874 100%);
+    }
+    & th{
+        padding: 1rem 2rem;
+
+        }
+    & tr{
+        transition: all .2s ;
+        &:nth-of-type(even){
+            background-color: rgba($tertiary-font-color,.2);
+        }
+        &:hover{
+         background-color: rgba($secondary-page-color,.2);
+        }
+    }
+    & td{
+        text-align: center;
+        font-size: 1.3rem;
+        vertical-align: middle;
+
+    }
+}
+
+.moreInfoBtn{
+    border-radius: 2rem ;
+    width: 8rem;
+    height: 4rem;
+    background-color: transparent;
+    letter-spacing: .2rem;
+    font-weight: 600;
+    border: .2rem solid rgba($secondary-page-color,1);
+    transition: all .1s;
+    backface-visibility: hidden;
+    box-shadow: 0 .2rem .5rem .2rem rgba($tertiary-font-color,.5);
+    & a{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+        color: rgba($secondary-page-color,1);
+ 
+    }
+    &:hover{
+        box-shadow: 0 .4rem .8rem .2rem rgba($tertiary-font-color,.5);
+
+        box-shadow: inset;
+    }
+    &:active{
+        transform: translateY(.2rem);
+        box-shadow: 0 .2rem .5rem .2rem rgba($tertiary-font-color,.5);
+
+    }
+    &:focus{
+        outline: none;
+    }
+}
+

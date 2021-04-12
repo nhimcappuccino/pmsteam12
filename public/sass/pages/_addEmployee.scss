@@ -1,0 +1,155 @@
+.addEmployees{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align:center;    
+    width: 100vw;
+    height: 100vh;
+    @include gradientBackground;
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+    position: relative;
+    overflow: hidden;
+
+}
+.addNewEmployee{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    text-align:center;
+    width: 80%;
+    height: 80%;
+    @include defaultFont;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: .1rem;
+    color: rgba($tertiary-font-color,1);
+    background-color: rgba($primary-font-color,.8);
+    box-shadow: 0 0 2rem -.5rem rgba($tertiary-font-color,1);
+    border-radius: 1rem ;
+    padding-top: 4rem;
+    overflow: hidden;
+}
+.newEmployeeInfoGeneral, .newEmployeeInfoAddress, .newEmployeeInfoCompany,.newEmployeeInfoControl{
+    display: flex;
+    flex-direction: column;
+    width: 22%;
+    height: 100%;
+    justify-content: baseline;
+    align-items: center;
+    text-align: center;
+
+}
+
+.newEmployeeInfoGroup{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 1rem 2rem;
+
+    & label{
+        width: 100%;
+        text-align: left;
+        margin-bottom: .5rem;
+        font-size:1.2rem;
+    }
+    & input, select{
+        width: 20rem;
+        height: 3rem;
+        border: none;
+        padding: 0 0 0 .5rem;
+        color: rgba($tertiary-font-color,1);
+        letter-spacing: .1rem;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: .2rem;        
+        &:focus{
+            outline: .2rem solid rgba($secondary-page-color,.8);
+        }
+    } 
+}
+.newEmployeeInfoControl{
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.newEmployeeInfoControll__btn{
+    @include noSelect;
+    margin: 2rem 0;
+    width: 20rem;
+    height: 5rem;
+    @include defaultFont;
+    font-weight: 700;
+    letter-spacing: .1rem;
+    background-color: transparent;
+    border-radius: .5rem;
+    border: none;
+    background-size: 200%;
+    transition: all .2s;
+    box-shadow: -.2rem .6rem 2rem -.2rem rgba($primary-font-color,1);
+    backface-visibility: hidden;
+    cursor: pointer;
+    &:focus{
+    outline: none;
+    }
+    &:hover{
+        background-position: 100%;
+        transform: translateY(-.1rem);
+
+    }
+    &--submit{
+        background-image: linear-gradient(112.72013189013455deg,transparent 0%, rgba(0, 226, 123,1) 50%,rgba(0, 166, 190,1) 80%);
+    }   
+    &--reset{
+        background-image: linear-gradient(112.72013189013455deg,transparent 0%, rgba(248, 188, 79,1) 50%,rgba(211, 21, 87,1) 80%);
+    }
+    &--back{
+        background-image: linear-gradient(112.72013189013455deg,transparent 0%, rgba(250, 247, 245,1) 50%,rgba(226, 210, 196,1) 80%);
+        & a{
+
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
+        & a:link, & a:visited{
+
+            text-decoration: none;
+            color: rgba(black,1);
+        }
+    }
+    &:active{
+        transform: translateY(0);
+    }
+}
+
+.isAMatchPair{
+    color: green;
+    font-size: 1.4rem;
+    opacity:0;
+    margin-left: .5rem;
+}
+
+.createNewEmployeeNotification{
+    @include defaultFont;
+    display: flex;
+    width: auto;
+    padding: 0 2rem;
+    height: 5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: .2rem;
+    background-color: rgba(black,1);
+    position: absolute;
+    border-top-left-radius: .8rem;
+    border-top-right-radius: .8rem;
+    bottom: 0rem;
+    transform: translateY(100%);
+
+}

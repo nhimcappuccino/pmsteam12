@@ -18,7 +18,7 @@ const updateEmployeePhotoAccessBtn = document.getElementById('updateEmployeePhot
 const updateEmployeePhotoBtn = document.getElementById('updateEmployeePhotoBtn');
 const updateEmployeePhotoForm = document.getElementById('updateEmployeePhotoForm');
 let imageFile = document.getElementById('imageFile');
-
+const updatePhotoFormCancel = document.getElementById('updatePhotoFormCancel');
 
 const editEmployeeContactData = document.getElementById('editEmployeeContactData');
 const editEmployeePersonalData = document.getElementById('editEmployeePersonalData');
@@ -40,29 +40,15 @@ const personalContactBtn = document.getElementById('detailInformationGroup__cont
 const workBtn = document.getElementById('detailInformationGroup__control--work');
 
 
-
-
-
-//Form variables
-let FirstName = document.getElementById('newEmployeeFirstName');
-let LastName = document.getElementById('newEmployeeLastName');
-let MiddleName = document.getElementById('newEmployeeMiddleName');
-let DateofBirth = document.getElementById('newEmployeeDateofBirth');
-let Gender = document.getElementById('newEmployeeGender');
-let PhoneNumber = document.getElementById('newEmployeePhoneNumber');
-let Email = document.getElementById('newEmployeeEmail');
-let HouseNumber = document.getElementById('newEmployeeHouseNumber');
-let StreetName = document.getElementById('newEmployeeStreetName');
-let City = document.getElementById('newEmployeeCity');
-let State = document.getElementById('newEmployeeState');
-let Zipcode = document.getElementById('newEmployeeZipcode');
-let UserID = document.getElementById('newEmployeeUserID');
-let Password = document.getElementById('newEmployeePassword');
-let PasswordConfirm = document.getElementById('newEmployeePasswordConfirm');
-let RoleID = document.getElementById('newEmployeeRoleID');
-let Department = document.getElementById('newEmployeeDepartment');
-let PayRate = document.getElementById('newEmployeePayRate');
+//Form variables and validation 
+const Password = document.getElementById('newEmployeePassword');
+const PasswordConfirm = document.getElementById('newEmployeePasswordConfirm');
+const createNewEmployeeNotification = document.getElementById('createNewEmployeeNotification');
 const tickMarks = document.querySelectorAll('.isAMatchPair');
+
+//UPDATE EMPLOYEE INFORMATION
+const updateEmployeeInformationNotification = document.getElementById('updateEmployeeInformationNotification');
+
 
 
 
@@ -96,6 +82,19 @@ if (periodSelection) {
 
 };
 //SUPPORT FUNCTIONS
+function displayNotification(notificationBox, className, message, status) {
+    window.setTimeout(() => {
+        notificationBox.innerHTML = message;
+        notificationBox.classList.add(`${className}`, `notification_shown_${status}`);
+
+    }, 50);
+    window.setTimeout(() => {
+        notificationBox.classList.remove(`${className}`);
+        notificationBox.classList.remove(`notification_shown_${status}`);
+    }, 2000);
+};
+
+
 function convertDateFormat(date) {
     let day;
     let month;
@@ -125,9 +124,58 @@ function getDaysInMonth(input) {
     return [31, (isLeap ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
 };
 
+function convertTextDateToDate(input) {
+    let month = input.split(' ')[0];
+    let date = input.split(' ')[1].replace(',', '');
+    let year = input.split(' ')[2];
+    let convertMonth;
+    switch (month) {
+        case 'January':
+            convertMonth = 01;
+            break;
+        case 'February':
+            convertMonth = 02;
+            break;
+        case 'March':
+            convertMonth = 03;
+            break;
+        case 'April':
+            convertMonth = 04;
+            break;
+        case 'May':
+            convertMonth = 05;
+            break;
+        case 'June':
+            convertMonth = 06;
+            break;
+        case 'July ':
+            convertMonth = 07;
+            break;
+        case 'August':
+            convertMonth = 08;
+            break;
+        case 'September':
+            convertMonth = 09;
+            break;
+        case 'October':
+            convertMonth = 10;
+            break;
+        case 'November':
+            convertMonth = 11;
+            break;
+        case 'December':
+            convertMonth = 12;
+            break;
+    }
+    const fullDate = `${year}-${convertMonth.toString()}-${date}`;
+    return fullDate;
+}
+
 function replaceEmptySpace(string) {
     return string.split(' ').join('&');
-}
+};
+
+
 //DROPDOWN MENU FUNCTION
 if (dropdownMenuBtn) {
     dropdownMenuBtn.addEventListener('click', () => {
@@ -194,7 +242,7 @@ const renderEmployees = (employeesList) => {
             <tr>
                 <td>${emp.Employee_ID}</td>
                 <td>
-                    <div class="centerImg"><img src="/img/${emp.UserID}.jpg" alt="employee__photo"
+                    <div class="centerImg"><img src="/img/${emp.Employee_Photo}.jpg" alt="employee__photo"
                             class="employee__photo">
                     </div>
                 </td>
@@ -302,14 +350,59 @@ if (PasswordConfirm) {
 };
 
 //CREATE NEW EMPLOYEE FUNCTION CALLED IF CLICK
-if (newEmployeeInfoSubmitBtn) {
-    newEmployeeInfoSubmitBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        createNewEmployee();
-    });
+const createNewEmployee = async (bodyData) => {
+    try {
+        const result = await fetch(`/api/v1/employee/createNewEmployee`,
+            {
+                method: `POST`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData),
+            });
+        const response = await result.json();
+        if (response.status === 'Success') {
+            displayNotification(createNewEmployeeNotification, 'createNewEmployeeNotification_shown', response.message, 'success');
+            setTimeout(() => {
+                location.assign('/employees')
+            }, 4000);
+        } else if (response.status === 'Bad Resquest') {
+            displayNotification(createNewEmployeeNotification, 'createNewEmployeeNotification_shown', response.message, 'failed');
+        };
+    } catch (err) {
+        console.log(err);
+    };
 
 };
 
+if (newEmployeeInfoSubmitBtn) {
+    newEmployeeInfoSubmitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let bodyData = new Object();
+        bodyData.First_Name = document.getElementById('newEmployeeFirstName').value;
+        bodyData.Last_Name = document.getElementById('newEmployeeLastName').value;
+        bodyData.Middle_Name = document.getElementById('newEmployeeMiddleName').value;
+        bodyData.Date_of_Birth = document.getElementById('newEmployeeDateofBirth').value;
+        bodyData.Gender = parseInt(document.getElementById('newEmployeeGender').value);
+        bodyData.Phone_Number = parseInt(document.getElementById('newEmployeePhoneNumber').value);
+        bodyData.Email = document.getElementById('newEmployeeEmail').value;
+        bodyData.House_Number = parseInt(document.getElementById('newEmployeeHouseNumber').value);
+        bodyData.StreetName = document.getElementById('newEmployeeStreetName').value;
+        bodyData.City = document.getElementById('newEmployeeCity').value;
+        bodyData.States = document.getElementById('newEmployeeState').value;
+        bodyData.Zipcode = parseInt(document.getElementById('newEmployeeZipcode').value);
+        bodyData.UserID = document.getElementById('newEmployeeUserID').value;
+        bodyData.Password = document.getElementById('newEmployeePassword').value;
+        bodyData.RoleID = parseInt(document.getElementById('newEmployeeRoleID').value);
+        bodyData.Department = parseInt(document.getElementById('newEmployeeDepartment').value);
+        bodyData.PayRate = parseFloat(document.getElementById('newEmployeePayRate').value);
+
+        createNewEmployee(bodyData);
+
+    });
+
+};
 
 //Edit personal, contact, or work data information functions
 if (editEmployeeContactData || editEmployeePersonalData) {
@@ -396,36 +489,221 @@ if (personalContactBtn || workBtn) {
         };
     });
 };
+// SAVE INFORMATION BUTTON => FETCH PATCH REQUEST
+const updateEmployeeNewInformation = async (bodyData) => {
+    console.log(bodyData);
+    try {
+        const result = await fetch(`/api/v1/employee/updateEmployeeInformation/${bodyData.getEmployeeID}`,
+            {
+                method: `PATCH`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData),
+            });
 
-// SAVE INFORMATION BUTTON => FETCH POST REQUEST
-if (saveNewEmployeeContactData) {
-    saveNewEmployeeContactData.addEventListener('click', () => {
-        //FETCH UPDATE ROUTE TO UPDATE CONTACT INFORMATION
+        displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', 'Processing your update request', 'success');
+        const data = await result.json();
+        const response = data;
+        if (response.status === 'Success') {
+            setTimeout(() => {
+                displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', response.message, response.status.toLowerCase());
+            }, 3000);
+            setTimeout(() => {
+                location.assign(`/api/v1/employee/getEmployeeDetail/${bodyData.getEmployeeID}`);
+            }, 5000);
+
+        } else if (response.status === 'Failed') {
+            displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', response.message, response.status.toLowerCase());
+        };
+    } catch (err) {
+        console.log(err);
+    };
+
+};
+
+
+if (saveNewEmployeeContactData || saveNewEmployeePersonalData || saveNewEmployeeWorkData) {
+    let bodyData = new Object();
+    bodyData.getEmployeeID = parseInt(document.getElementById('employeeGeneralInfo__group--id').innerHTML);
+    const First_Name = document.getElementById('employeeDetailInfo--FirstName');
+    const Last_Name = document.getElementById('employeeDetailInfo--LastName');
+    const Middle_Name = document.getElementById('employeeDetailInfo--MiddleName');
+    const Date_of_Birth = document.getElementById('employeeDetailInfo--Birthdate');
+    const Gender = document.getElementById('employeeDetailInfo--Gender');
+    const Phone_Number = document.getElementById('employeeDetailInfo--PhoneNumber');
+    const Email = document.getElementById('employeeDetailInfo--Email');
+    const House_Number = document.getElementById('employeeDetailInfo--HouseNumber');
+    const StreetName = document.getElementById('employeeDetailInfo--StreetName');
+    const City = document.getElementById('employeeDetailInfo--City');
+    const States = document.getElementById('employeeDetailInfo--State');
+    const Zipcode = document.getElementById('employeeDetailInfo--Zipcode');
+    const UserID = document.getElementById('employeeDetailInfo--UserID');
+    const Password = document.getElementById('employeeDetailInfo--Password');
+    const RoleID = document.getElementById('employeeDetailInfo--RoleID');
+    const Department = document.getElementById('employeeDetailInfo--DepartmentID');
+    const PayRate = document.getElementById('employeeDetailInfo--Payrate');
+    const EmployeeStatus = document.getElementById('employeeDetailInfo--EmployeeStatus');
+    bodyData.First_Name = First_Name.value;
+    bodyData.Last_Name = Last_Name.value;
+    bodyData.Middle_Name = Middle_Name.value;
+    bodyData.Date_of_Birth = convertTextDateToDate(Date_of_Birth.value);
+    bodyData.Gender = Gender.value === "Female" ? 0 : 1;
+    bodyData.Phone_Number = parseInt(Phone_Number.value.replace(/[^\d]/g, ''));
+    bodyData.Email = Email.value;
+    bodyData.House_Number = parseInt(House_Number.value);
+    bodyData.StreetName = StreetName.value;
+    bodyData.City = City.value;
+    bodyData.States = States.value;
+    bodyData.Zipcode = parseInt(Zipcode.value);
+    bodyData.UserID = UserID.value;
+    bodyData.Password = Password.value;
+    bodyData.RoleID = parseInt(RoleID.value);
+    bodyData.Department = parseInt(Department.value);
+    bodyData.PayRate = parseFloat(PayRate.value.replace('$', ''));
+    bodyData.EmployeeStatus = EmployeeStatus.value;
+    First_Name.addEventListener('input', (e) => {
+        bodyData.First_Name = e.target.value;
     });
-}
-if (saveNewEmployeePersonalData) {
-    saveNewEmployeePersonalData.addEventListener('click', () => {
-        //FETCH UPDATE ROUTE TO UPDATE PERSONAL INFORMATION
+    Last_Name.addEventListener('input', (e) => {
+
+        bodyData.Last_Name = e.target.value;
 
     });
+    Date_of_Birth.addEventListener('input', (e) => {
+        bodyData.Date_of_Birth = convertTextDateToDate(e.target.value)
+    });
+    Gender.addEventListener('onchange', (e) => {
+        bodyData.Gender = e.target.value === "Female" ? 0 : 1;
+    });
+    Phone_Number.addEventListener('input', (e) => {
+        bodyData.Phone_Number = parseInt(e.target.value.replace(/[^\d]/g, ''));
+    });
+    Email.addEventListener('input', e => {
+        bodyData.Email = e.target.value;
+    });
+    House_Number.addEventListener('input', e => {
+        bodyData.House_Number = parseInt(e.target.value);
+    });
+    StreetName.addEventListener('click', e => {
+        bodyData.StreetName = e.target.value;
+    });
+    City.addEventListener('input', e => {
+        bodyData.City = e.target.value;
+    })
+    States.addEventListener('input', e => {
+        bodyData.States = e.target.value;
+    });
+    Zipcode.addEventListener('input', e => {
+        bodyData.Zipcode = parseInt(e.target.value);
+    });
+    UserID.addEventListener('input', e => {
+        bodyData.UserID = e.target.value;
+    });
+    Password.addEventListener('input', e => {
+        bodyData.Password = e.target.value;
+    });
+    RoleID.addEventListener('input', e => {
+        bodyData.RoleID = parseInt(e.target.value);
+    });
+    Department.addEventListener('input', e => {
+        bodyData.Department = parseInt(e.target.value);
+    });
+    PayRate.addEventListener('input', e => {
+        bodyData.PayRate = parseFloat(e.target.value.replace('$', ''));
+    })
+    EmployeeStatus.addEventListener('input', e => {
+        bodyData.EmployeeStatus = e.target.value;
+    });
 
-}
+
+    const updateButtons = [saveNewEmployeeContactData, saveNewEmployeePersonalData, saveNewEmployeeWorkData];
+    updateButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault()
+            updateEmployeeNewInformation(bodyData);
+
+        });
+    });
+
+};
+
+
+
 
 // UPDATE PHOTO FORM FUNCTION 
+if (updatePhotoFormCancel) {
+    updatePhotoFormCancel.addEventListener('click', () => {
+        updateEmployeePhotoForm.classList.add('removeUpdatePhotoForm');
+        setTimeout(() => {
+            updateEmployeePhotoForm.classList.remove('removeUpdatePhotoForm');
+            updateEmployeePhotoForm.classList.remove('showUpdatePhotoForm');
+        }, 300);
+    });
+};
 if (updateEmployeePhotoAccessBtn) {
     updateEmployeePhotoAccessBtn.addEventListener('click', () => {
-        updateEmployeePhotoForm.classList.add('showUpdatePhotoForm');
+        if (updateEmployeePhotoForm.classList.contains('showUpdatePhotoForm')) {
+            updateEmployeePhotoForm.classList.add('removeUpdatePhotoForm');
+            setTimeout(() => {
+                updateEmployeePhotoForm.classList.remove('removeUpdatePhotoForm');
+                updateEmployeePhotoForm.classList.remove('showUpdatePhotoForm');
+            }, 300);
+        } else {
+
+            updateEmployeePhotoForm.classList.add('showUpdatePhotoForm');
+        };
     });
 };
 if (imageFile) {
     let loadFile = function (event) {
         let image = document.getElementById('imageOutput');
         image.src = URL.createObjectURL(event.target.files[0]);
+
     };
     imageFile.addEventListener('change', loadFile);
 };
 
+const uploadEmployeePhoto = async (getEmployeeID, photo) => {
+    const result = await fetch(`/api/v1/employee/updateEmployeePhotoName/${getEmployeeID}`,
+        {
+            method: `PATCH`,
+            body: photo,
+        });
+    displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', 'uploading photo...', 'success');
+    const data = await result.json();
+    const response = data;
+    if (response.status === "Success") {
+        setTimeout(() => {
+            displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', response.message, response.status.toLowerCase());
+        }, 3000);
+        setTimeout(() => {
+            location.assign(`/api/v1/employee/getEmployeeDetail/${getEmployeeID}`);
+        }, 5000);
 
+    } else if (response.status === 'Failed') {
+        displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', response.message, response.status.toLowerCase());
+    };
+};
+
+if (updateEmployeePhotoBtn) {
+    updateEmployeePhotoBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const photoFile = document.getElementById('imageFile').files[0];
+        const photoName = imageFile.value.replace(/^.*[\\\/]/, ''); //get file name
+        const formData = new FormData();
+        const getEmployeeID = parseInt(document.getElementById('employeeGeneralInfo__group--id').innerHTML);
+        formData.append('photo', photoFile);
+        formData.append('Employee_ID', getEmployeeID);
+        uploadEmployeePhoto(getEmployeeID, formData, photoName);
+
+    });
+};
+
+
+
+//
 
 // Render charts
 function tasksbyemployee() {

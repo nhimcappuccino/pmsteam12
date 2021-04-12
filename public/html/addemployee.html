@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/75996eaab7.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <title>PMS - Dashboard</title>
+</head>
+
+<body>
+    <div class="pms__page">
+        <header class="header" id="header">
+            <nav class="navbar">
+                <div class="burger" id="burger">
+                    <div class="burger__button" id="burger__button"></div>
+                </div>
+                <ul class="navbar__list " id="navbar__list">
+                    <li class="navbar__items">
+                        <a href="/html/dashboard.html" class="navbar__link navbar__link--1"><i
+                                class="fas fa-th-large"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/employees.html" class="navbar__link  navbar__link--2"><i
+                                class="fas fa-users"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/customers.html" class="navbar__link navbar__link--3"><i
+                                class="fas fa-address-book"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/tasks.html" class="navbar__link navbar__link--4"><i class="fas fa-tasks"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/projects.html" class="navbar__link navbar__link--5"><i
+                                class="fas fa-project-diagram"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/statistics.html" class="navbar__link navbar__link--6"><i
+                                class="fas fa-coins"></i></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__group">
+                <p class="header__group--text" id="headerPageName">
+                    Add New Employees
+                </p>
+            </div>
+            <div class="header__group">
+                <ul class="header__list">
+                    <li class="header__list--items" id="user__dropdown__menu">
+                        <img src="/img/man_profile.png" alt="user__profile" id="user__profile--img">
+                        <label id="user__profile--name">Last, First</label>
+                        <i class="fas fa-chevron-down"></i>
+                        <ul class="header__dropdown" id="header__dropdown">
+                            <li class="header__dropdown--items">
+                                <a href="/userprofile">
+                                    <i class="fas fa-user "></i>
+                                    User Profile
+                                </a>
+                            </li>
+                            <li class="header__dropdown--items">
+                                <a href="/logout">
+                                    <i class="fas fa-sign-out-alt "></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-bell"></i>
+                        <p id="user__notification">10</p>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-comment"></i>
+                        <p id="user__messages">5</p>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="addEmployees" id="addEmployees">
+            <div class="addEmployeeNotification"></div>
+            <form id="addNewEmployee" class="addNewEmployee">
+                <div class="newEmployeeInfoGeneral">
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeFirstName">First Name</label>
+                        <input type="text" id="newEmployeeFirstName" placeholder="First Name">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeLastName">Last Name</label>
+                        <input type="text" id="newEmployeeLastName" placeholder="Last Name">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeMiddleName">Middle Name</label>
+                        <input type="text" id="newEmployeeMiddleName" placeholder="Middle Name">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeDateofBirth">Date of Birth</label>
+                        <input type="text" id="newEmployeeDateofBirth" placeholder="Date of Birth">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeGender">Gender</label>
+
+                        <select id="newEmployeeGender">
+                            <option value="1" selected>Male</option>
+                            <option value="0">Female</option>
+
+                        </select>
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeePhoneNumber">Phone Number</label>
+                        <input type="text" id="newEmployeePhoneNumber" placeholder="Phone Number" maxlength="10"
+                            pattern="[0-9]+">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeEmail">Email</label>
+                        <input type="text" id="newEmployeeEmail" placeholder="Email">
+                    </div>
+                </div>
+                <div class="newEmployeeInfoAddress">
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeHouseNumber">House Number</label>
+                        <input type="text" id="newEmployeeHouseNumber" placeholder="House Number">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeStreetName">Street Name</label>
+                        <input type="text" id="newEmployeeStreetName" placeholder="Street Name">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeCity">City</label>
+                        <input type="text" id="newEmployeeCity" placeholder="City">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeState">State</label>
+                        <input type="text" id="newEmployeeState" placeholder="State" pattern="[A-Za-z]{2}">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeZipcode">Zipcode</label>
+                        <input type="text" id="newEmployeeZipcode" placeholder="Zipcode" maxlength="5" pattern="[0-9]+">
+                    </div>
+                </div>
+                <div class="newEmployeeInfoCompany">
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeUserID">UserID</label>
+                        <input type="text" id="newEmployeeUserID" placeholder="UserID">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeePassword">Password</label>
+                        <input type="password" id="newEmployeePassword" placeholder="Password">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeePasswordConfirm">Password Confirm</label>
+                        <input type="password" id="newEmployeePasswordConfirm" placeholder="Password Confirm">
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeRoleID">Role</label>
+                        <select id="newEmployeeRoleID">
+                            <option value="1">Department Manager</option>
+                            <option value="2">Project Manager</option>
+                            <option value="3">Team Leader</option>
+                            <option value="4">Team Member</option>
+                        </select>
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeeDepartment">Department</label>
+                        <select id="newEmployeeDepartment">
+                            <option value="1">Information Technology</option>
+                            <option value="2">Human Resource Management</option>
+                            <option value="3">Accounting</option>
+                            <option value="4">Marketing</option>
+                        </select>
+                    </div>
+                    <div class="newEmployeeInfoGroup">
+                        <label for="newEmployeePayRate">Payrate</label>
+                        <input type="text" id="newEmployeePayRate" placeholder="Payrate" pattern="[0-9]+">
+                    </div>
+                </div>
+                <div class="newEmployeeInfoControl">
+                    <button class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--submit"
+                        id="newEmployeeInfoSubmitBtn" type="submit"> Create
+                        New Employee
+                    </button>
+                    <button class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--reset"
+                        id="newEmployeeInfoReset" type="reset"> Reset
+
+                    </button>
+
+                </div>
+            </form>
+
+        </section>
+    </div>
+
+    <script src=" /js/application.js"></script>
+</body>
+
+</html>

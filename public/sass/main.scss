@@ -1,0 +1,25 @@
+@import "abstracts/variables";
+@import "abstracts/typography";
+@import "abstracts/mixins";
+
+@import "animations/animations";
+
+@import "pages/index";
+@import "pages/dashboard";
+@import "pages/employees";
+@import "pages/addEmployee";
+@import "pages/projects";
+@import "pages/employeeDetails";
+
+
+@import "base/base";
+
+
+@import "components/header";
+@import "components/images";
+@import "components/forms";
+@import "components/navbar";
+@import "components/active";
+@import "components/video";
+@import "components/particles";
+@import "components/loader";

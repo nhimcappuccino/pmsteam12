@@ -10,10 +10,10 @@ exports.login = catchAsync(async (req, res, next) => {
     let pool = await sql.connect(config);
     let auth = await pool.request().query(sqlQuery).then(result => {
         if (result.recordset[0] === undefined) {
-            let message = 'Login Failed! Your username and/ or password is incorrect!';
+
             res.status(401).json({
                 status: 'Failed',
-                message
+                message: 'Login Failed! Your username and/ or password is incorrect!',
             });
         } else {
             const employee_first_name = result.recordset[0].First_Name;
@@ -22,6 +22,7 @@ exports.login = catchAsync(async (req, res, next) => {
             const loggedInUserID = result.recordset[0].Employee_ID;
             const userPhoto = result.recordset[0].Employee_Photo.toLowerCase();
             const userData = result.recordset[0];
+
             req.session.isLoggedIn = true;
             req.session.username = userData;
             req.session.userRole = employee_role;
@@ -36,6 +37,11 @@ exports.login = catchAsync(async (req, res, next) => {
                 }
             });
         };
+    }).catch(err => {
+        res.status(401).json({
+            status: 'Failed',
+            message: 'Unable to log you in! Please contact your administrator for more information.',
+        })
     });
     sql.close();
 });

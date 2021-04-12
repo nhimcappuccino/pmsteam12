@@ -10,6 +10,7 @@ exports.getDashboard = (req, res, next) => {
         const user_full_name = data.First_Name + ' ' + data.Last_Name;
         const user_photo = req.session.userPhoto;
         const loggedInUserID = req.session.loggedInUserID;
+
         res.status(200).render(`dashboard`, {
             title: `PMS - Manager Dashboard`,
             page: `Dashboard`,

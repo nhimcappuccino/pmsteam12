@@ -10,8 +10,7 @@ function displayNotification(message, status) {
     }, 50);
     window.setTimeout(() => {
         notification.innerHTML = message;
-        notification.classList.remove('notification_shown', `notification_shown_${status}`);
-
+        notification.classList.remove('notification_shown');
     }, 5000);
 };
 const login = async (username, password) => {
@@ -20,30 +19,28 @@ const login = async (username, password) => {
             method: "POST",
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+
             },
             body: JSON.stringify({ username: username, password: password }),
         });
         const data = await result.json();
-        const message = data.message;
-        const statusCode = data.status.toLowerCase();
-        const userRole = data.data.userData.Role_ID;
-
-        if (data.status === "Success") {
-
-            displayNotification(message, statusCode);
-            if (userRole < 4) {
-                window.setTimeout(() => { location.assign('/dashboard'); }, 2000);
-
+        const response = data;
+        if (response.status === "Success") {
+            displayNotification(response.message, response.status.toLowerCase());
+            if (response.data.userData.Role_ID < 4) {
+                window.setTimeout(() => { location.assign('/dashboard'); }, 1000);
             } else {
-                window.setTimeout(() => { location.assign('/projects'); }, 2000);
-            }
+                window.setTimeout(() => { location.assign('/projects'); }, 1000);
+            };
 
-        } else if (data.status === "Failed") {
-            displayNotification(message, statusCode);
+        } else if (response.status === "Failed") {
+            displayNotification(response.message, response.status.toLowerCase());
+        };
+    } catch (err) {
 
-        }
-    } catch (err) { };
+    };
 };
 
 if (loginForm) {

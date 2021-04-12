@@ -4,20 +4,23 @@ block content
     body
         div(class="pms__page")
             include _header
+   
             section(class="addEmployees" id="addEmployees")
+                section(class="createNewEmployeeNotification" id="createNewEmployeeNotification")
+                    p(class="message")     
                 form(id="addNewEmployee" class="addNewEmployee")
                     div(class="newEmployeeInfoGeneral")
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeFirstName") First Name
-                            input(type="text" id="newEmployeeFirstName" placeholder="First Name")
+                            input(type="text"  style="text-transform: capitalize;"  id="newEmployeeFirstName" placeholder="First Name")
                        
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeLastName") Last Name
-                            input(type="text" id="newEmployeeLastName" placeholder="Last Name")
+                            input(type="text"  style="text-transform: capitalize;"  id="newEmployeeLastName" placeholder="Last Name")
                        
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeMiddleName") Middle Name
-                            input(type="text" id="newEmployeeMiddleName" placeholder="Middle Name")
+                            input(type="text"  style="text-transform: capitalize;"  id="newEmployeeMiddleName" placeholder="Middle Name")
                        
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeDateofBirth") Date of Birth
@@ -39,19 +42,19 @@ block content
                     div(class="newEmployeeInfoAddress")
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeHouseNumber") House Number
-                            input(type="text" id="newEmployeeHouseNumber" placeholder="House Number")
+                            input(type="text"  id="newEmployeeHouseNumber" placeholder="House Number")
                         
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeStreetName") Street Name
-                            input(type="text" id="newEmployeeStreetName" placeholder="Street Name")
+                            input(type="text"  style="text-transform: capitalize;"  id="newEmployeeStreetName" placeholder="Street Name")
                         
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeCity") City
-                            input(type="text" id="newEmployeeCity" placeholder="City")
+                            input(type="text"  style="text-transform: capitalize;"  id="newEmployeeCity" placeholder="City")
                         
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeState") State
-                            input(type="text" id="newEmployeeState" placeholder="State" pattern="[A-Za-z]{2}")
+                            input(type="text"  style="text-transform: uppercase;"  id="newEmployeeState" placeholder="State" pattern="[A-Za-z]{2}")
                         
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeZipcode") Zipcode
@@ -61,11 +64,11 @@ block content
                     div(class="newEmployeeInfoCompany")
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeeUserID") UserID
-                            input(type="text" id="newEmployeeUserID" placeholder="UserID")
+                            input(type="text" id="newEmployeeUserID" placeholder="UserID" autpcomplete="off")
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeePassword") Password
                                 i(class="far fa-check-circle isAMatchPair")
-                            input(type="password" id="newEmployeePassword" placeholder="Password")                  
+                            input(type="password" id="newEmployeePassword" placeholder="Password" autpcomplete="off")                  
                         div(class="newEmployeeInfoGroup")
                             label(for="newEmployeePasswordConfirm") Password Confirm
                                 i(class="far fa-check-circle isAMatchPair")

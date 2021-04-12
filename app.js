@@ -30,4 +30,5 @@ app.use(express.static(`${__dirname}/public`));
 app.use('/', viewRouter);
 app.use('/api/v1/employee', employeeRouter);
 app.use('/api/v1/report', reportRouter);
+
 module.exports = app;

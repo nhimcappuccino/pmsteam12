@@ -148,7 +148,7 @@ function convertTextDateToDate(input) {
         case 'June':
             convertMonth = 06;
             break;
-        case 'July ':
+        case 'July':
             convertMonth = 07;
             break;
         case 'August':

@@ -83,7 +83,11 @@
             </div>
         </header>
         <section class="addEmployees" id="addEmployees">
-            <div class="addEmployeeNotification"></div>
+            <section class="createNewEmployeeNotification" id="createNewEmployeeNotification">
+                <p class="message">
+                    Login Failed! Your username and/ or password is incorrect!
+                </p>
+            </section>
             <form id="addNewEmployee" class="addNewEmployee">
                 <div class="newEmployeeInfoGeneral">
                     <div class="newEmployeeInfoGroup">
@@ -149,11 +153,14 @@
                         <input type="text" id="newEmployeeUserID" placeholder="UserID">
                     </div>
                     <div class="newEmployeeInfoGroup">
-                        <label for="newEmployeePassword">Password</label>
-                        <input type="password" id="newEmployeePassword" placeholder="Password">
+                        <label for="newEmployeePassword">Password
+                            <i class="far fa-check-circle isAMatchPair"></i>
+                        </label>
+                        <input type="password" id="newEmployeePassword " placeholder="Password">
                     </div>
                     <div class="newEmployeeInfoGroup">
-                        <label for="newEmployeePasswordConfirm">Password Confirm</label>
+                        <label for="newEmployeePasswordConfirm">Password Confirm
+                            <i class="far fa-check-circle isAMatchPair "></i></label>
                         <input type="password" id="newEmployeePasswordConfirm" placeholder="Password Confirm">
                     </div>
                     <div class="newEmployeeInfoGroup">
@@ -180,6 +187,8 @@
                     </div>
                 </div>
                 <div class="newEmployeeInfoControl">
+
+
                     <button class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--submit"
                         id="newEmployeeInfoSubmitBtn" type="submit"> Create
                         New Employee
@@ -188,7 +197,12 @@
                         id="newEmployeeInfoReset" type="reset"> Reset
 
                     </button>
-
+                    <button class="newEmployeeInfoControll__btn newEmployeeInfoControll__btn--back"
+                        id="newEmployeeInfoBacktoEmployee" type="button">
+                        <a href="/html/employees.html">
+                            Back
+                        </a>
+                    </button>
                 </div>
             </form>
 

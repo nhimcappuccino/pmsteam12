@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/img/logo.png" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/75996eaab7.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <title>PMS - Dashboard</title>
+</head>
+
+<body>
+    <div class="pms__page">
+        <header class="header" id="header">
+            <nav class="navbar">
+                <div class="burger" id="burger">
+                    <div class="burger__button" id="burger__button"></div>
+                </div>
+                <ul class="navbar__list " id="navbar__list">
+                    <li class="navbar__items">
+                        <a href="/html/dashboard.html" class="navbar__link navbar__link--1"><i
+                                class="fas fa-th-large"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/employees.html" class="navbar__link  navbar__link--2"><i
+                                class="fas fa-users"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/customers.html" class="navbar__link navbar__link--3"><i
+                                class="fas fa-address-book"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/tasks.html" class="navbar__link navbar__link--4"><i class="fas fa-tasks"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/projects.html" class="navbar__link navbar__link--5"><i
+                                class="fas fa-project-diagram"></i></a>
+                    </li>
+                    <li class="navbar__items">
+                        <a href="/html/statistics.html" class="navbar__link navbar__link--6"><i
+                                class="fas fa-coins"></i></a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="header__group">
+                <p class="header__group--text" id="headerPageName">
+                    Project - Name of the project goes here
+                </p>
+            </div>
+            <div class="header__group">
+                <ul class="header__list">
+                    <li class="header__list--items" id="user__dropdown__menu">
+                        <img src="/img/man_profile.png" alt="user__profile" id="user__profile--img">
+                        <label id="user__profile--name">Last, First</label>
+                        <i class="fas fa-chevron-down"></i>
+                        <ul class="header__dropdown" id="header__dropdown">
+                            <li class="header__dropdown--items">
+                                <a href="/userprofile"> User Profile
+                                    <i class="fas fa-user "></i>
+
+                                </a>
+                            </li>
+                            <li class="header__dropdown--items">
+                                <a href="/logout"> Logout
+
+                                    <i class="fas fa-sign-out-alt "></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-bell"></i>
+                        <p id="user__notification">10</p>
+                    </li>
+                    <li class="header__list--items">
+                        <i class="fas fa-comment"></i>
+                        <p id="user__messages">5</p>
+                    </li>
+                </ul>
+            </div>
+        </header>
+        <section class="projectDetails" id="projectDetails">
+            <div class="projectDetailsBody">
+                <div class="projectDetailsBody__group">
+                    <div class="projectDetailsBody__milestones">
+                        <div class="milestonesHeader">
+                            <div class="milestonesHeader__header">
+                                <p>Milestones Checks</p>
+                                <button id="addNewMileStoneBtn">New Milestone</button>
+                            </div>
+                            <div class="milestonesHeader__statistic">
+                                <div class="milestonesHeader__statistic--details">
+                                    <p class="milesstonesGroup__NoassignedTasks" id="milesstonesGroup__NoassignedTasks">
+                                        <i class="fas fa-chalkboard"> 10
+                                        </i>
+                                    </p>
+
+                                    <label for="milesstonesGroup__NoassignedTasks">
+                                        No Assigned Tasks
+                                    </label>
+                                </div>
+                                <div class="milestonesHeader__statistic--details">
+                                    <p class="milesstonesGroup__inprogress" id="milesstonesGroup__inprogress">
+                                        <i class="fas fa-spinner"> 10
+
+
+                                        </i>
+                                    </p>
+
+                                    <label for="milesstonesGroup__inprogress">
+                                        In Progress
+                                    </label>
+                                </div>
+                                <div class="milestonesHeader__statistic--details">
+                                    <p class="milesstonesGroup__completed" id="milesstonesGroup__completed">
+                                        <i class="fas fa-check"> 10
+                                        </i>
+                                    </p>
+                                    <label for="milesstonesGroup__completed">
+                                        Completed
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="milestonesList">
+                            <table class="milestonesListTable">
+                                <thead>
+                                    <tr>
+                                        <th>Milestone ID</th>
+                                        <th> Description</th>
+                                        <th>Expiration Date</th>
+                                        <th>Status</th>
+                                        <th>Time Spent</th>
+                                        <th>More Information</th>
+                                        <th>Control</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="milestonesDetailList">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Conceptual Design meetings with Customer</td>
+                                        <td>04/16/2021</td>
+                                        <td>In Progress</td>
+                                        <td>5 hours</td>
+                                        <td>
+                                            <a class="seeAllTasksBtn" href="/api/v1/project/getAllTasks/:milestoneID">
+                                                View
+                                                Tasks
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="removeMilestoneBtn"
+                                                href="/api/v1/project/removeMilestone/:milestoneID">
+                                                Remove Milestone
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="projectDetailsBody__tasks">
+                        <div class="tasksHeader">
+                            <p>Tasks For Milestone: Milestone's Name</p>
+                            <button id="addNewTaskBtn">
+                                New Tasks
+                            </button>
+                        </div>
+                        <div class="tasksList">
+                            <table class="tasksTable">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Task Name</th>
+                                        <th>Description</th>
+                                        <th>Priority</th>
+                                        <th>Employee ID</th>
+
+                                        <th>Planned Start Date</th>
+                                        <th>Planned End Date</th>
+                                        <th>Planned Budget</th>
+                                        <th>Actual Start Date</th>
+                                        <th>Actual End Date</th>
+                                        <th>Actual Budget</th>
+                                        <th>Time Spent</th>
+                                        <th>Created Time</th>
+                                        <th>Last Updated</th>
+                                        <th>Control</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tasksDetailList">
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Get an approval from the departments</td>
+                                        <td>Get an approval from the department to start the task</td>
+                                        <td>1</td>
+                                        <td>4</td>
+
+                                        <td>03/16/2021</td>
+                                        <td>08/21/2021</td>
+                                        <td>$1,5000,000.00</td>
+                                        <td>03/18/2021</td>
+                                        <td>07/21/2021</td>
+                                        <td>$1,000,000.00</td>
+                                        <td>5 hours</td>
+                                        <td>03/16/2021 - 12:00:00 PM</td>
+                                        <td>03/16/2021 - 12:00:00 PM</td>
+                                        <td>
+                                            <select name="updateTaskStatus" id="updateTaskStatus"
+                                                class="updateTaskStatus">
+                                                <option value="Started">Started</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Delay">Delay</option>
+                                                <option value="Need Support">Need Support</option>
+                                                <option value="Completed">Completed</option>
+                                                <option value="remove">Remove Task</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="projectDetailsBody__group">
+                    <div class="projectDetailsBody__members">
+                        <div class="projectDetailsBody__members--header">
+                            <p>Project Members</p>
+                        </div>
+                        <div class="projectDetailsBody__members--list">
+                            <div class="participant">
+                                <img src="/img/DagdaRoxana95.jpg" alt="participant" class="projectParticipant">
+                                <p>Dagda Roxana</p>
+                            </div>
+                            <div class="participant">
+                                <img src="/img/DagdaRoxana95.jpg" alt="participant" class="projectParticipant">
+                                <p>Dagda Roxana</p>
+                            </div>
+                            <div class="participant">
+                                <img src="/img/DagdaRoxana95.jpg" alt="participant" class="projectParticipant">
+                                <p>Dagda Roxana</p>
+                            </div>
+                            <div class="participant">
+                                <img src="/img/DagdaRoxana95.jpg" alt="participant" class="projectParticipant">
+                                <p>Dagda Roxana</p>
+                            </div>
+                            <div class="participant">
+                                <img src="/img/DagdaRoxana95.jpg" alt="participant" class="projectParticipant">
+                                <p>Dagda Roxana</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="projectDetailsFooter">
+                <div class="projectDetailsFooter__timeLeft">
+                    <i class="fas fa-stopwatch"></i>
+                    <p>2 Days Left Until This Project is Due</p>
+                </div>
+            </div>
+        </section>
+
+        <form class="addNewMileStoneForm" id="addNewMileStoneForm">
+            <div class="newMileStoneForm__Group">
+                <p>New Milestone</p>
+            </div>
+            <div class="newMileStoneForm__Group">
+                <label for="newMileStoneName">Name</label>
+                <input type="text" class="newMileStoneName" id="newMileStoneName" placeholder="New Milestone's Name">
+            </div>
+            <div class="newMileStoneForm__Group">
+                <label for="newMileStoneExpirationDate">Expiration Date</label>
+                <input type="date" class="newMileStoneExpirationDate" id="newMileStoneExpirationDate">
+            </div>
+            <div class="newMileStoneForm__Control">
+                <button type="submit" id="confirmMileStoneCreation"
+                    class="newMileStoneForm__Control--submit">Create</button>
+                <button type="reset" id="cancelMileStoneCreation"
+                    class="newMileStoneForm__Control--cancel">Cancel</button>
+            </div>
+        </form>
+
+        <form class="addNewTaskForm " id="addNewTaskForm">
+            <div class="addNewTaskForm__group">
+                <h1>Create New Task</h1>
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newTaskName">Task Name</label>
+                <input id="newTaskName" type="text" placeholder="New task name">
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newTaskDescription">Description</label>
+                <input id="newTaskDescription" type="text" placeholder="Description">
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newPriority">Priority</label>
+                <input id="newPriority" type="number" min="1" max="5" placeholder="Task's priority 1 to 10">
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newTaskToAnEmployee">Assign task to Employee</label>
+                <select id="newTaskToAnEmployee">
+                    <option selected disabled>Choose an Emloyee</option>
+                    <option value="EmployeeName">EmployeeName 2</option>
+                    <option value="EmployeeName">EmployeeName 3</option>
+                    <option value="EmployeeName">EmployeeName 4</option>
+                </select>
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newTaskPlannedStartDate">Planned Start Date</label>
+                <input id="newTaskPlannedStartDate" type="date">
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newTaskPlannedEndDate">Planned End Date</label>
+                <input id="newTaskPlannedEndDate" type="date">
+            </div>
+            <div class="addNewTaskForm__group">
+                <label for="newTaskPlannedBudget">Planned Budget</label>
+                <input id="newTaskPlannedBudget" type="number" placeholder="Estimated Budget">
+            </div>
+            <div class="addNewTaskForm__group">
+                <button id="confirmationCreateTaskBtn" class="addNewTaskForm__group--createBtn">
+                    Create
+                </button>
+
+                <button id="cancelNewTaskBtn" class="addNewTaskForm__group--cancelBtn">
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+        <form class="confirmationForm" id="confirmationForm">
+            <div class="confirmationForm__group">
+                <p>Message Goes Here and it's very long</p>
+            </div>
+            <div class="confirmationForm__group">
+                <button id="confirmationOfDeletion" class="confirmationForm__group--confirm">
+                    <a href="/api/v1/"> Confirm
+
+                    </a>
+                </button>
+
+                <button id="cancelationOfDeletion" class="confirmationForm__group--cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
+
+    </div>
+
+    <script src="/js/application.js"></script>
+</body>
+
+</html>

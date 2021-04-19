@@ -4,52 +4,47 @@ block content
     body
         div(class="pms__page")
             include _header
+            form(class="addNewProjectForm" id="addNewProjectForm")
+                <h1>New Project</h1>
+                div(class="addNewProjectGroup")
+                    h2 Project Name
+                    input(type="text" placeholder="Name your new Project" id="newProjectName")
+                div(class="addNewProjectGroup")
+                    h2 Description
+                    input(type="text" placeholder="Summary" id="newProjectSummary")
+                div(class="addNewProjectGroup")
+                    h2 Planned Start Date
+                    input(type="date"  class="addNewProjectGroup__inputBox" id="newProjectPlannedStartDate")
+                div(class="addNewProjectGroup")
+                    h2 Planned End Date
+                    input(type="date" class="addNewProjectGroup__inputBox" id="newProjectPlannedEndDate")
+                div(class="addNewProjectGroup")
+                    h2 Project Manager
+                    select(id="newProjectManager")
+                        option(selected disabled) Choose Project Manager
+                div(class="addNewProjectGroup")
+                    h2 Customer
+                    select(id="newProjectCustomer")
+                        option(selected disabled) Customers
+                div(class="addNewProjectGroup")
+                    h2 Budget
+                    input(type="number" class="addNewProjectGroup__inputBox" id="newProjectBudget")
+                div(class="addNewProjectGroup")
+                    button(class="createNewProjectBtn createNewProjectBtn--submit" id="createNewProjectBtn--submit") Create Project
+                    button(type="reset" class="createNewProjectBtn createNewProjectBtn--cancel" id="createNewProjectBtn--cancel") Cancel
             section(class="projects" id="projects")
                 div(class="projectGroup")
                     div(class="projectGroup__status")
                         div(class="projectGroup__status--Btn")
-                            a(class="projectGroup__status--link " href="/activeProjects") Active Projects
+                            a(class="projectGroup__status--link" id="activeProjectsBtn") Active Projects
                         div(class="projectGroup__status--Btn")
-                            a(class="projectGroup__status--link" href="/completedProjects")  Completed Projects
+                            a(class="projectGroup__status--link" id="completedProjectsBtn")  Completed Projects
+                        div(class="projectGroup__status--Btn")
+                            a(class="projectGroup__status--link" id="otherProjectsBtn")  Other Projects
                     div(class="projectGroup__control")
-                        button
-                            a(href="/addProject") 
+                        button(id="createNewProjectFormBtn")
+                            a(href="#") 
                                 i(class="fas fa-plus")
-                div(class="projectList")
-                    div(class="projectCard")
-                        div(class="projectCard__Group projectCard__Group--1")
-                            div(class="projectCard__Group--header")
-                                p April 5, 2021
-                            div(class="projectCard__Group--headerBtn")
-                                a(href="/projectDetail/1")
-                                    i(class="fas fa-info")
-                        div(class="projectCard__Group projectCard__Group--2")
-                            div(class="projectCard__SubGroup")
-                                h2 Project Name
-                                p Project Summary
-                        div(class="projectCard__Group projectCard__Group--3")
-                            div(class="projectCard__SubGroup")
-                                p Progress
-                                div(class="projectCard__Group--progressBar")
-                                    div(class="projectProgressBar" id="projectProgressBar")
-                                        div(class="projectProgressCompletedWork" id="projectProgressCompletedWork")
-                                    p(id="projectProgressPercentage") 0%
-                        div(class="projectCard__Group projectCard__Group--4")
-                            div(class="projectCard__Group--team")
-                                div(class="teamMembers")
-                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
-                                div(class="teamMembers")
-                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
-                                div(class="teamMembers")
-                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
-                                div(class="teamMembers")
-                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
-                                div(class="teamMembers")
-                                    img(src="/img/tonyhoang92.jpg" alt="team member" id="teamMemberPhoto")
-                            div(class="teamMembers__control")
-                                button(class="teamMembers__control--btn" id="addMoreTeamMember")
-                                    a(href="/addMoreTeamMember")
-                                        i(class="fas fa-plus")
-                            div(class="projectCard__Group--timeleft")
-                                p(id="totalTimeLeft") 2 Days Left
+                div(class="projectList" id="projectList")
+                  
     script(src="/js/application.js")

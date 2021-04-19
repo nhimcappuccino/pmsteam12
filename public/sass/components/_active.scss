@@ -163,3 +163,51 @@
     animation-fill-mode: forwards;
     transition: all $ease;
 }
+
+.backgroundBlur{
+    animation-name: blurBackground;
+    animation-duration: 2s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.showCreateNewProjectForm{
+    display:flex;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    animation-name: createNewProjectFormShown;
+    animation-duration: 500ms;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+    backface-visibility: hidden;
+}
+.showCreateNewProjectGroup{
+    display: flex;
+    animation-name: createNewProjectGroupShown;
+    animation-duration: 200ms;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+    backface-visibility: hidden;
+    animation-delay: 500ms;
+}
+
+.projectCard__shown{
+    animation-name: projectCard__shown;
+    animation-duration: 400ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+    animation-delay: 200ms;
+}
+
+.showProjectDetailForm{
+    display: flex;
+    opacity: 0;
+    transform-origin: center;
+    animation-name: showProjectDetailForm;
+    animation-duration: 400ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+    animation-delay: 100ms;
+    backface-visibility: hidden;
+}

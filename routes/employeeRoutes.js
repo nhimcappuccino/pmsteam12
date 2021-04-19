@@ -10,6 +10,7 @@ router.get('/logout', authController.logout);
 router.get('/getAllEmployees', Employee.getAllEmployees);
 router.get('/getEmployeesBy/:keywords?/:department?', Employee.getEmployeesBy);
 router.get('/getEmployeeDetail/:id', Employee.getEmployeeDetail);
+router.get('/getAllManagers', Employee.getAllManagers);
 router.post('/createNewEmployee', Employee.createNewEmployee);
 router.patch('/updateEmployeeInformation/:id', Employee.updateEmployeeInformation);
 router.patch('/updateEmployeePhotoName/:id', Employee.uploadEmployeePhoto, Employee.updateEmployeePhotoName);

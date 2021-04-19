@@ -28,14 +28,21 @@ exports.login = catchAsync(async (req, res, next) => {
             req.session.userRole = employee_role;
             req.session.loggedInUserID = loggedInUserID;
             req.session.userPhoto = userPhoto;
+            if (result.recordset[0].Employee_Status === 'EMPLOYED') {
+                res.status(200).json({
+                    status: 'Success',
+                    message: `Login Successfully! Logging you in as ${employee_first_name} ${employee_last_name}`,
+                    data: {
+                        userData
+                    }
+                });
 
-            res.status(200).json({
-                status: 'Success',
-                message: `Login Successfully! Logging you in as ${employee_first_name} ${employee_last_name}`,
-                data: {
-                    userData
-                }
-            });
+            } else {
+                res.status(401).json({
+                    status: 'Failed',
+                    message: 'Your account has been disabled/ deleted! Please contact your administrator for more information.',
+                })
+            };
         };
     }).catch(err => {
         res.status(401).json({

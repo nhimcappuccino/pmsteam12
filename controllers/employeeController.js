@@ -197,26 +197,52 @@ const upload = multer({
 exports.uploadEmployeePhoto = upload.single('photo');
 
 exports.updateEmployeePhotoName = catchAsync(async (req, res, next) => {
-    let sqlUpdatePhotoQuery = `UPDATE dbo.employees SET employees.Employee_Photo = '${req.file.originalname.replace('.jpg', '')}' WHERE employees.Employee_ID =${parseInt(req.body.Employee_ID)}`;
-    let pool = await sql.connect(config);
-    let updateProcess = pool.request().query(sqlUpdatePhotoQuery).then(response => {
-        if (response.rowsAffected[0] === 1) {
-            res.status(200).json({
-                status: 'Success',
-                message: `Successfully updated user's photo! Refreshing the page for the changes to take effect...`,
-            });
+    if (req.session.isLoggedIn) {
 
-        } else {
+        let sqlUpdatePhotoQuery = `UPDATE dbo.employees SET employees.Employee_Photo = '${req.file.originalname.replace('.jpg', '')}' WHERE employees.Employee_ID =${parseInt(req.body.Employee_ID)}`;
+        let pool = await sql.connect(config);
+        let updateProcess = pool.request().query(sqlUpdatePhotoQuery).then(response => {
+            if (response.rowsAffected[0] === 1) {
+                res.status(200).json({
+                    status: 'Success',
+                    message: `Successfully updated user's photo! Refreshing the page for the changes to take effect...`,
+                });
+
+            } else {
+                res.status(400).json({
+                    status: 'Failed',
+                    message: `Failed to update user's Photo! Please contact your administrator for more detail!`,
+                });
+            };
+        }).catch(err => {
             res.status(400).json({
                 status: 'Failed',
                 message: `Failed to update user's Photo! Please contact your administrator for more detail!`,
+                error: err,
+            });
+        });
+        sql.close();
+    } else {
+        res.redirect('/');
+    }
+});
+
+
+
+exports.getAllManagers = catchAsync(async (req, res, next) => {
+    let sqlQueryEmployees = `SELECT * FROM employees where employees.Role_ID=1 OR employees.Role_ID=2`;
+    let pool = await sql.connect(config);
+    let managers = await pool.request().query(sqlQueryEmployees).then(response => {
+        if (response.recordset[0] === undefined) {
+            res.status(404).json({
+                status: 'Not Found',
+                message: 'No Manager that match the criteria',
+            });
+        } else {
+            res.status(200).json({
+                managers: response.recordsets[0],
             });
         };
-    }).catch(err => {
-        res.status(400).json({
-            status: 'Failed',
-            message: `Failed to update user's Photo! Please contact your administrator for more detail!`,
-            error: err,
-        });
     });
+    sql.close();
 });

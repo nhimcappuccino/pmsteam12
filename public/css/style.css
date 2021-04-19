@@ -212,6 +212,62 @@
     transform: translateY(5rem);
   }
 }
+@keyframes blurBackground {
+  0% {
+    filter: blur(0rem);
+  }
+  100% {
+    filter: blur(0.2rem);
+  }
+}
+@keyframes createNewProjectFormShown {
+  0% {
+    opacity: 0.5;
+    transform: scale(0);
+  }
+  30% {
+    border-radius: 1rem;
+    width: 40rem;
+    height: 3rem;
+  }
+  100% {
+    opacity: 1;
+    width: 40rem;
+    height: 72rem;
+    border-radius: 1rem;
+    transform: scale(1);
+  }
+}
+@keyframes createNewProjectGroupShown {
+  0% {
+    opacity: 0;
+    transform: translateX(-2rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes projectCard__shown {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes showProjectDetailForm {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 .wrapper {
   display: flex;
   flex-direction: row;
@@ -723,11 +779,10 @@
   text-align: center;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(-45deg, rgba(238, 119, 82, 0.8), rgba(231, 60, 126, 0.8), rgba(35, 166, 213, 0.8), rgba(35, 213, 171, 0.8));
-  background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
+  background-size: contain;
   position: relative;
   overflow: hidden;
+  background-image: url("/img/abstract_background.jpg"), linear-gradient(112.7201318901deg, #5f5f5f 4.9270833333%, black 97.84375%);
 }
 
 .addNewEmployee {
@@ -992,10 +1047,12 @@
   height: 30rem;
   margin: 2rem;
   background-color: #fefefe;
-  border-radius: 2rem;
+  border-radius: 1rem;
   font-family: "Poppins", sans-serif;
-  position: relative;
   box-shadow: 0 0.8rem 0.6rem -0.6rem rgba(128, 128, 128, 0.4);
+  position: relative;
+  opacity: 0;
+  transition: all 0.2s;
 }
 .projectCard::before, .projectCard::after {
   transition: all 0.2s;
@@ -1064,9 +1121,10 @@
   margin-bottom: 1rem;
 }
 .projectCard__Group--team {
-  padding-left: 1rem;
   display: flex;
-  width: 40%;
+  padding-left: 1rem;
+  margin-right: auto;
+  display: flex;
   overflow: hidden;
 }
 .projectCard__Group--progressBar {
@@ -1093,34 +1151,43 @@
   font-weight: 700;
   letter-spacing: 0.1rem;
   color: rgba(128, 128, 128, 0.8);
+  font-size: 1.5rem;
+  letter-spacing: 0.2rem;
 }
 .projectCard__Group--headerBtn {
   display: flex;
   width: 2rem;
   height: 2rem;
-  font-size: 1.2rem;
-  padding-top: 0.5rem;
+  font-size: 1.8rem;
+  padding-top: 0.2rem;
 }
 .projectCard__Group--headerBtn a {
+  transition: all 0.2s;
+  backface-visibility: hidden;
   text-decoration: none;
   color: rgba(128, 128, 128, 0.7);
 }
+.projectCard__Group--headerBtn a:hover {
+  color: gray;
+}
 .projectCard__Group--timeleft {
-  width: 40%;
-  height: 100%;
-  font-size: 1.2rem;
-  font-weight: 1000;
+  display: flex;
+  width: auto;
+  margin-right: 1rem;
 }
 .projectCard__Group--timeleft p {
+  padding: 0 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: #fd5602;
-  width: 70%;
+  width: 100%;
   height: 100%;
   border-radius: 4rem;
   background-color: rgba(253, 86, 2, 0.5);
+  font-size: 1.2rem;
+  font-weight: 1000;
 }
 
 .projectProgressBar {
@@ -1134,56 +1201,120 @@
   overflow: hidden;
 }
 
-.teamMembers {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  border: 0.3rem solid white;
-  border-radius: 50%;
-}
-.teamMembers:not(:first-of-type) {
-  margin-left: -2rem;
-}
-.teamMembers__control {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  width: 3.5rem;
-  height: 3.5rem;
-  margin-right: auto;
-}
-.teamMembers__control--btn {
-  cursor: pointer;
-  width: 100%;
-  height: 100%;
-  font-size: 1.5rem;
-  border: none;
-  outline: none;
-  background-color: rgba(253, 86, 2, 0.8);
-  border-radius: 50%;
-}
-.teamMembers__control--btn i {
-  color: #fefefe;
-}
-.teamMembers__control--btn a {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  text-decoration: none;
-  cursor: pointer;
-}
-
 .projectProgressCompletedWork {
   border-radius: 5rem;
-  width: 50%;
   height: 100%;
   background: linear-gradient(-45deg, rgba(238, 119, 82, 0.8), rgba(231, 60, 126, 0.8), rgba(35, 166, 213, 0.8), rgba(35, 213, 171, 0.8));
   animation: gradient 1s ease infinite;
+}
+
+.addNewProjectForm {
+  display: none;
+  flex-direction: column;
+  width: 0rem;
+  height: 0rem;
+  position: absolute;
+  top: 10%;
+  left: 40%;
+  background-color: #fefefe;
+  padding: 2rem;
+  opacity: 0;
+  transform-origin: bottom;
+  z-index: 1000;
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 0 0.8rem 0.2rem rgba(128, 128, 128, 0.8);
+}
+.addNewProjectForm h1 {
+  margin-bottom: 1rem;
+  font-weight: bold;
+  font-size: 3rem;
+  letter-spacing: 0.5rem;
+  color: #fd5602;
+}
+
+.addNewProjectGroup {
+  display: none;
+  flex-direction: column;
+  opacity: 0;
+  margin: 1rem 0;
+}
+.addNewProjectGroup input, .addNewProjectGroup select {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  background-color: none;
+  border: none;
+  border-bottom: 0.2rem solid rgba(128, 128, 128, 0.2);
+  width: 70%;
+  margin-top: 1rem;
+  color: rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.2rem;
+}
+.addNewProjectGroup input:focus, .addNewProjectGroup select:focus {
+  outline: none;
+  background-color: transparent;
+}
+.addNewProjectGroup input:placeholder-shown, .addNewProjectGroup select:placeholder-shown {
+  font-family: "Poppins", sans-serif;
+}
+.addNewProjectGroup select option {
+  border: 0px;
+  background-color: transparent;
+  outline: 0px;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.2rem;
+  color: gray;
+  font-weight: 800;
+  letter-spacing: 0.2rem;
+}
+.addNewProjectGroup h2 {
+  color: rgba(253, 86, 2, 0.7);
+  letter-spacing: 0.2rem;
+  font-weight: bold;
+}
+.addNewProjectGroup:last-of-type {
+  flex-direction: row !important;
+}
+
+.createNewProjectBtn {
+  display: flex;
+  font-family: "Poppins", sans-serif;
+  font-weight: 800;
+  letter-spacing: 0.2rem;
+  width: 15rem;
+  height: 4rem;
+  margin: 2rem 1rem 0 1rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 0.5rem;
+  border: none;
+  color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0.5rem 0.8rem -0.2rem gray;
+  transition: all 0.2s;
+}
+.createNewProjectBtn:focus {
+  outline: none;
+}
+.createNewProjectBtn--submit:hover {
+  color: #edf0f5;
+  background-color: green;
+}
+.createNewProjectBtn--cancel:hover {
+  color: #edf0f5;
+  background-color: #fd5602;
+}
+
+.NotFoundProject {
+  display: flex;
+  width: 100%;
+  font-size: 3rem;
+  font-weight: 800;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.2rem;
+  color: rgba(255, 0, 0, 0.8);
+  font-family: "Poppins", sans-serif;
 }
 
 .employeeDetails {
@@ -1573,6 +1704,609 @@
   color: #fefefe;
 }
 
+.projectDetails {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.projectDetailsBody {
+  display: flex;
+  width: 100%;
+  height: 95%;
+  background-color: #1b1c1f;
+}
+.projectDetailsBody__group {
+  display: flex;
+  flex-direction: column;
+}
+.projectDetailsBody__group:nth-of-type(1) {
+  width: 85%;
+  height: 97%;
+  margin: 1rem 1rem 1rem 0.5rem;
+}
+.projectDetailsBody__group:nth-of-type(2) {
+  width: 15%;
+  height: 97%;
+  margin: 1rem;
+}
+.projectDetailsBody__milestones, .projectDetailsBody__tasks, .projectDetailsBody__members {
+  display: flex;
+  background-color: #2a2a2a;
+  border-radius: 1rem;
+}
+.projectDetailsBody__milestones, .projectDetailsBody__tasks {
+  width: 100%;
+  margin-left: 1rem;
+}
+.projectDetailsBody__members {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.projectDetailsBody__tasks {
+  margin-top: 1rem;
+  height: 50%;
+}
+.projectDetailsBody__milestones {
+  flex-direction: column;
+  height: 50%;
+}
+
+.milestonesHeader {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0.8rem 1rem 2rem;
+  color: #fefefe;
+  letter-spacing: 0.2rem;
+}
+.milestonesHeader__header {
+  display: flex;
+  width: 100%;
+  height: 4rem;
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.4rem;
+}
+.milestonesHeader__header p {
+  margin-right: auto;
+}
+.milestonesHeader__header button {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome, Edge, Opera and Firefox */
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  margin-right: 2rem;
+  width: 15rem;
+  height: 4rem;
+  transition: all 0.2s;
+  transition-timing-function: ease-in-out;
+  background-color: transparent;
+  color: gray;
+  letter-spacing: 0.2rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  font-weight: 500;
+}
+.milestonesHeader__header button:hover {
+  color: #fefefe;
+  border: none;
+  box-shadow: 0 0 1rem #fd5602, 0 0 4rem #fd5602, 0 0 8rem #fd5602;
+  background-color: #fd5602;
+}
+.milestonesHeader__header button:active {
+  box-shadow: 0 0 0.2rem #fd5602, 0 0 2rem #fd5602, 0 0 3rem #fd5602;
+}
+.milestonesHeader__statistic {
+  font-family: "Poppins", sans-serif;
+  flex-direction: row !important;
+  display: flex;
+  width: 100%;
+  height: 8rem;
+  margin-top: 0.2rem;
+  font-size: 1rem;
+}
+.milestonesHeader__statistic p {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+.milestonesHeader__statistic label {
+  font-size: 1.1rem;
+}
+.milestonesHeader__statistic--details {
+  display: flex;
+  flex-direction: column !important;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 30%;
+}
+.milestonesHeader__statistic--details:nth-of-type(2) p {
+  color: #3c598e;
+}
+.milestonesHeader__statistic--details:nth-of-type(3) p {
+  color: #649568;
+}
+
+.milestonesList {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 1rem;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+.milestonesList::-webkit-scrollbar {
+  display: none;
+}
+
+.milestonesListTable, .tasksTable {
+  padding-right: 5rem;
+  display: table;
+  width: 99%;
+  margin-left: 0.5rem;
+  text-align: left;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.milestonesListTable thead, .milestonesListTable th, .tasksTable thead, .tasksTable th {
+  border: 0.1rem solid rgba(128, 128, 128, 0.5);
+  padding-left: 0.5rem;
+  font-size: 1.2rem;
+  color: rgba(254, 254, 254, 0.8);
+  font-weight: 400;
+  letter-spacing: 0.2rem;
+  background-color: rgba(254, 254, 254, 0.1);
+}
+.milestonesListTable tr, .tasksTable tr {
+  font-size: 1.2rem;
+  transition: all 0.2s;
+}
+.milestonesListTable tr:nth-of-type(even), .tasksTable tr:nth-of-type(even) {
+  background-color: rgba(128, 128, 128, 0.1);
+}
+.milestonesListTable tr:last-of-type td, .tasksTable tr:last-of-type td {
+  border-bottom: 0.1rem solid rgba(128, 128, 128, 0.5);
+}
+.milestonesListTable td, .tasksTable td {
+  height: 3rem;
+  padding-left: 1rem;
+  color: #fefefe;
+  font-weight: 500;
+  border-left: 0.1rem solid rgba(128, 128, 128, 0.5);
+  border-right: 0.1rem solid rgba(128, 128, 128, 0.5);
+}
+.milestonesListTable tbody tr:hover, .tasksTable tbody tr:hover {
+  cursor: pointer;
+  background-color: rgba(253, 86, 2, 0.5);
+}
+
+.projectDetailsFooter {
+  width: 100%;
+  height: 4rem;
+  background-color: #fefefe;
+  margin-top: auto;
+}
+.projectDetailsFooter__timeLeft {
+  background-color: transparent;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: left;
+  align-items: center;
+  text-align: left;
+  font-size: 1.2rem;
+}
+.projectDetailsFooter__timeLeft i {
+  font-size: 2rem;
+  margin-right: 1rem;
+  margin-left: 3rem;
+}
+.projectDetailsFooter__timeLeft p {
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+
+.seeAllTasksBtn, .removeMilestoneBtn {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  justify-content: left;
+  align-items: center;
+  text-align: left;
+  color: #fefefe;
+  font-weight: 700;
+}
+
+.projectDetailsBody__tasks {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tasksHeader {
+  display: flex;
+  width: 100%;
+  height: 8rem;
+  font-size: 1.8rem;
+  padding: 1rem 0 0 2rem;
+  color: #fefefe;
+}
+.tasksHeader p {
+  margin-right: auto;
+}
+
+#addNewTaskBtn {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Old versions of Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+     supported by Chrome, Edge, Opera and Firefox */
+  font-family: "Poppins", sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  border: none;
+  margin-right: 2rem;
+  width: 15rem;
+  height: 4rem;
+  transition: all 0.2s;
+  transition-timing-function: ease-in-out;
+  background-color: transparent;
+  color: gray;
+  letter-spacing: 0.2rem;
+  border: 0.2rem solid gray;
+  border-radius: 1rem;
+  backface-visibility: hidden;
+  font-weight: 500;
+}
+#addNewTaskBtn:hover {
+  color: #fefefe;
+  border: none;
+  box-shadow: 0 0 1rem #228c22, 0 0 4rem #228c22, 0 0 8rem #228c22;
+  background-color: #228c22;
+}
+#addNewTaskBtn:active {
+  box-shadow: 0 0 0.2rem #228c22, 0 0 2rem #228c22, 0 0 3rem #228c22;
+}
+
+.tasksTable {
+  margin-top: 4rem;
+}
+
+.tasksList {
+  padding-bottom: 2rem;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+.tasksList::-webkit-scrollbar {
+  display: none;
+}
+
+.projectDetailsBody__members {
+  display: flex;
+  flex-direction: column;
+}
+.projectDetailsBody__members--header {
+  padding: 1rem 0 0 1rem;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  width: 100%;
+  height: 5rem;
+  font-weight: 500;
+  color: #fefefe;
+  letter-spacing: 0.2rem;
+}
+.projectDetailsBody__members--list {
+  display: flex;
+  flex-direction: column;
+}
+
+.participant {
+  display: flex;
+  margin: 1rem 0 0 1rem;
+}
+.participant p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 15rem;
+  height: 100%;
+  font-size: 1.4rem;
+  margin-left: 0.2rem;
+  font-weight: 500;
+  color: #fefefe;
+  letter-spacing: 0.2rem;
+}
+
+.updateTaskStatus {
+  background-color: transparent;
+  color: #fefefe;
+  border: none;
+  width: 100%;
+  height: 100%;
+}
+.updateTaskStatus:focus {
+  outline: none;
+  border: none;
+}
+.updateTaskStatus option {
+  background-color: gray;
+}
+
+.addNewMileStoneForm {
+  display: none;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  text-align: center;
+  width: 30rem;
+  height: 40rem;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: #2a2a2a;
+  box-shadow: 0 0 1rem rgba(254, 254, 254, 0.1), 0 0 4rem rgba(254, 254, 254, 0.1), 0 0 8rem rgba(254, 254, 254, 0.1);
+}
+
+.newMileStoneForm__Group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0;
+}
+.newMileStoneForm__Group p {
+  margin: 1rem;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #228c22;
+  letter-spacing: 0.2rem;
+}
+.newMileStoneForm__Group label {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  color: gray;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+.newMileStoneForm__Group input {
+  background-color: transparent;
+  width: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  outline: none;
+  border: none;
+  border-bottom: 0.1rem solid #fefefe;
+  color: #fefefe;
+  font-size: 1.5rem;
+}
+.newMileStoneForm__Control {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 4rem;
+}
+.newMileStoneForm__Control button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  border-radius: 1rem;
+  margin: 0 2rem;
+  width: 10rem;
+  height: 4rem;
+  color: #fefefe;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  background-size: 300% 100%;
+}
+.newMileStoneForm__Control button:hover {
+  background-position: 100% 0;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.newMileStoneForm__Control--submit {
+  background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+  box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.newMileStoneForm__Control--cancel {
+  background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);
+  box-shadow: 0 5px 15px rgba(242, 97, 103, 0.4);
+}
+
+.addNewTaskForm {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  width: 50rem;
+  height: 50rem;
+  top: 15%;
+  left: 38%;
+  background-color: #2a2a2a;
+  box-shadow: 0 0 1rem rgba(254, 254, 254, 0.1), 0 0 4rem rgba(254, 254, 254, 0.1), 0 0 8rem rgba(254, 254, 254, 0.1);
+  border-radius: 1rem;
+}
+.addNewTaskForm__group {
+  color: #fefefe;
+  font-size: 1.5rem;
+  padding-left: 2rem;
+  margin-bottom: 2rem;
+}
+.addNewTaskForm__group h1 {
+  width: 100%;
+  font-size: 2.5rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.addNewTaskForm__group input, .addNewTaskForm__group select {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 0.1rem solid gray;
+  font-size: 1.4rem;
+  color: #fefefe;
+  font-weight: 500;
+  padding-left: 1rem;
+  letter-spacing: 0.2rem;
+  width: 50%;
+}
+.addNewTaskForm__group option {
+  background-color: gray;
+}
+.addNewTaskForm__group:last-of-type {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 2rem;
+}
+.addNewTaskForm__group:last-of-type button {
+  margin: 0rem 2.5rem 0 2.5rem;
+  width: 10rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  background-size: 300% 100%;
+  color: #fefefe;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.addNewTaskForm__group:last-of-type button:hover {
+  background-position: 100% 0;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.addNewTaskForm__group--createBtn {
+  background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+  box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.addNewTaskForm__group--cancelBtn {
+  background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);
+  box-shadow: 0 5px 15px rgba(242, 97, 103, 0.4);
+}
+
+.confirmationForm {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  height: 20em;
+  top: 25%;
+  left: 40%;
+  background-color: #2a2a2a;
+  box-shadow: 0 0 1rem rgba(254, 254, 254, 0.1), 0 0 4rem rgba(254, 254, 254, 0.1), 0 0 8rem rgba(254, 254, 254, 0.1);
+  border-radius: 1rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 2rem;
+}
+.confirmationForm__group {
+  display: flex;
+  width: 100%;
+  height: 50%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.confirmationForm__group p {
+  font-size: 2rem;
+  color: #fefefe;
+}
+.confirmationForm__group button {
+  margin: 0rem 2.5rem 0 2.5rem;
+  width: 10rem;
+  height: 4rem;
+  border-radius: 1rem;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  background-size: 300% 100%;
+  color: #fefefe;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+.confirmationForm__group button a {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  justify-content: center;
+  align-items: center;
+  color: #fefefe;
+}
+.confirmationForm__group button:hover {
+  background-position: 100% 0;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.confirmationForm__group--confirm {
+  background-image: linear-gradient(to right, #0ba360, #3cba92, #30dd8a, #2bb673);
+  box-shadow: 0 4px 15px 0 rgba(23, 168, 108, 0.75);
+}
+.confirmationForm__group--cancel {
+  background-image: linear-gradient(to right, #eb3941, #f15e64, #e14e53, #e2373f);
+  box-shadow: 0 5px 15px rgba(242, 97, 103, 0.4);
+}
+
 *,
 *::before,
 *::after {
@@ -1822,12 +2556,12 @@ html ::selection {
   z-index: -1;
 }
 
-#teamMemberPhoto {
+#projectManagerPhoto {
   display: flex;
   border-radius: 50%;
   padding: 0.2rem;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 5rem;
+  height: 5rem;
 }
 
 #employeeGeneralInfoPhoto {
@@ -1837,6 +2571,21 @@ html ::selection {
   border-radius: 0.5rem;
   box-shadow: 0 0.4rem 0.8rem 0.2rem gray;
   margin-top: 2rem;
+}
+
+.projectDetailsEmployeeImage {
+  display: flex;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  box-shadow: 0 0 0.5rem 0.2rem rgba(128, 128, 128, 0.8);
+}
+
+.projectParticipant {
+  display: flex;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
 }
 
 .login__form {
@@ -2246,6 +2995,55 @@ html ::selection {
   transition: all all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
+.backgroundBlur {
+  animation-name: blurBackground;
+  animation-duration: 2s;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+}
+
+.showCreateNewProjectForm {
+  display: flex;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  animation-name: createNewProjectFormShown;
+  animation-duration: 500ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  backface-visibility: hidden;
+}
+
+.showCreateNewProjectGroup {
+  display: flex;
+  animation-name: createNewProjectGroupShown;
+  animation-duration: 200ms;
+  animation-timing-function: ease;
+  animation-fill-mode: forwards;
+  backface-visibility: hidden;
+  animation-delay: 500ms;
+}
+
+.projectCard__shown {
+  animation-name: projectCard__shown;
+  animation-duration: 400ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
+  animation-delay: 200ms;
+}
+
+.showProjectDetailForm {
+  display: flex;
+  opacity: 0;
+  transform-origin: center;
+  animation-name: showProjectDetailForm;
+  animation-duration: 400ms;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-in;
+  animation-delay: 100ms;
+  backface-visibility: hidden;
+}
+
 .background__video {
   position: absolute;
   top: 0;
@@ -2298,7 +3096,7 @@ html ::selection {
   left: -2rem;
   animation-name: rotation;
   animation-timing-function: ease-in-out;
-  animation-duration: 19s;
+  animation-duration: 9s;
   animation-iteration-count: infinite;
 }
 .particle--2 {
@@ -2309,7 +3107,7 @@ html ::selection {
   z-index: 1;
   animation-name: smoothbounce;
   animation-timing-function: ease;
-  animation-duration: 9s;
+  animation-duration: 16s;
   animation-iteration-count: infinite;
 }
 .particle--3 {
@@ -2320,7 +3118,7 @@ html ::selection {
   z-index: -1;
   animation-name: scaling;
   animation-timing-function: ease-in;
-  animation-duration: 4s;
+  animation-duration: 22s;
   animation-iteration-count: infinite;
 }
 .particle--4 {
@@ -2331,7 +3129,7 @@ html ::selection {
   z-index: 4;
   animation-name: swing;
   animation-timing-function: ease-in;
-  animation-duration: 4s;
+  animation-duration: 9s;
   animation-iteration-count: infinite;
 }
 .particle--5 {
@@ -2342,7 +3140,7 @@ html ::selection {
   z-index: 4;
   animation-name: swing;
   animation-timing-function: ease-in;
-  animation-duration: 1s;
+  animation-duration: 5s;
   animation-iteration-count: infinite;
 }
 

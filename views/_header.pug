@@ -35,7 +35,7 @@ header(class="header" id="header")
                 i( class="fas fa-chevron-down")
                 ul(class="header__dropdown" id="header__dropdown")
                     li(class="header__dropdown--items")
-                        a(href=`/api/v1/employee/getEmployeeDetail/${loggedInUserID}`) User Profile
+                        a(id="currentLoggedInUser" href=`/api/v1/employee/getEmployeeDetail/${loggedInUserID}`) User Profile
                             i(class="fas fa-user")
                     li(class="header__dropdown--items")
                         a(href="/api/v1/employee/logout") Logout

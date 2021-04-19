@@ -12,7 +12,7 @@
     <title>PMS - Dashboard</title>
 </head>
 
-<body onload="setDefaultPage();employeetasks();tasksbyemployee()">
+<body onload="employeetasks();tasksbyemployee()">
     <div class="pms__page">
         <header class="header" id="header">
             <nav class="navbar">
@@ -21,31 +21,27 @@
                 </div>
                 <ul class="navbar__list " id="navbar__list">
                     <li class="navbar__items">
-                        <a href="/dashboard" class="navbar__link navbar__link--1">
-                            <i class="fas fa-th-large">
-                            </i>
-                        </a>
+                        <a href="/html/dashboard.html" class="navbar__link navbar__link--1"><i
+                                class="fas fa-th-large"></i></a>
                     </li>
                     <li class="navbar__items">
-                        <a href="/employees" class="navbar__link  navbar__link--2">
-                            <i class="fas fa-users">
-                            </i>
-                        </a>
+                        <a href="/html/employees.html" class="navbar__link  navbar__link--2"><i
+                                class="fas fa-users"></i></a>
                     </li>
                     <li class="navbar__items">
-                        <a href="/customers" class="navbar__link navbar__link--3">
-                            <i class="fas fa-address-book"></i></a>
+                        <a href="/html/customers.html" class="navbar__link navbar__link--3"><i
+                                class="fas fa-address-book"></i></a>
                     </li>
                     <li class="navbar__items">
-                        <a href="/tasks" class="navbar__link navbar__link--4"><i class="fas fa-tasks"></i></a>
+                        <a href="/html/tasks.html" class="navbar__link navbar__link--4"><i class="fas fa-tasks"></i></a>
                     </li>
                     <li class="navbar__items">
-                        <a href="/projects" class="navbar__link navbar__link--5">
-                            <i class="fas fa-project-diagram"></i></a>
+                        <a href="/html/projects.html" class="navbar__link navbar__link--5"><i
+                                class="fas fa-project-diagram"></i></a>
                     </li>
                     <li class="navbar__items">
-                        <a href="/statistics" class="navbar__link navbar__link--6">
-                            <i class="fas fa-coins"></i></a>
+                        <a href="/html/statistics.html" class="navbar__link navbar__link--6"><i
+                                class="fas fa-coins"></i></a>
                     </li>
                 </ul>
             </nav>
@@ -112,6 +108,9 @@
                         <label for="datetimepickermonth">Month:</label>
                         <input type="month" class="datepickers" id="datetimepickermonth" disabled>
                     </div>
+                </div>
+                <div class="control__group">
+                    <button id="generateReportBtn" type="button">Generate Report</button>
                 </div>
             </div>
             <div class="overview overview--2">

@@ -12,7 +12,7 @@
     <title>PMS - Dashboard</title>
 </head>
 
-<body onload="setDefaultPage();employeetasks();tasksbyemployee()">
+<body>
     <div class="pms__page">
         <header class="header" id="header">
             <nav class="navbar">
@@ -82,6 +82,56 @@
                 </ul>
             </div>
         </header>
+        <form class="addNewProjectForm" id="addNewProjectForm">
+            <h1>New Project</h1>
+            <div class="addNewProjectGroup">
+                <h2>Project Name </h2>
+                <input type="text" placeholder="Name your new Project">
+            </div>
+            <div class="addNewProjectGroup">
+                <h2>Description</h2>
+                <input type="text" placeholder="Summary">
+            </div>
+            <div class="addNewProjectGroup">
+                <h2>Planned Start Date</h2>
+                <input type="date" class="addNewProjectGroup__inputBox" id="newProjectPlannedStartDate">
+            </div>
+            <div class="addNewProjectGroup">
+                <h2>Planned Start Date</h2>
+                <input type="date" class="addNewProjectGroup__inputBox" id="newProjectPlannedEndDate">
+            </div>
+            <div class="addNewProjectGroup">
+                <h2>Project Manager</h2>
+                <select id="newProjectManager">
+                    <option selected>Choose Project Manager</option>
+                    <option value="2">Project Manager Name</option>
+                    <option value="3">Project Manager Name</option>
+                    <option value="4">Project Manager Name</option>
+                </select>
+            </div>
+            <div class="addNewProjectGroup">
+                <h2>Customer</h2>
+                <select id="newProjectCustomer">
+                    <option selected>Customers</option>
+                    <option value="2">Customer Names</option>
+                    <option value="3">Customer Names</option>
+                    <option value="4">Customer Names</option>
+                </select>
+            </div>
+            <div class="addNewProjectGroup">
+                <h2>Budget</h2>
+                <input type="number" class="addNewProjectGroup__inputBox" id="newProjectBudget">
+            </div>
+            <div class="addNewProjectGroup">
+                <button class="createNewProjectBtn createNewProjectBtn--submit" id="createNewProjectBtn--submit">
+                    Create Project
+                </button>
+                <button type="reset" class="createNewProjectBtn createNewProjectBtn--cancel"
+                    id="createNewProjectBtn--cancel">
+                    Cancel
+                </button>
+            </div>
+        </form>
         <section class="projects" id="projects">
             <div class="projectGroup">
                 <div class="projectGroup__status">
@@ -96,8 +146,8 @@
                     </div>
                 </div>
                 <div class="projectGroup__control">
-                    <button>
-                        <a href="/addProject">
+                    <button id="createNewProjectFormBtn">
+                        <a href="#">
                             <i class="fas fa-plus"></i>
                         </a>
                     </button>
@@ -110,15 +160,15 @@
                             <p>April 5, 2021</p>
                         </div>
                         <div class="projectCard__Group--headerBtn">
-                            <a href="/projectDetail/1">
+                            <a href="projectDetail.html">
                                 <i class="fas fa-info"></i>
                             </a>
                         </div>
                     </div>
                     <div class="projectCard__Group projectCard__Group--2">
                         <div class="projectCard__SubGroup">
-                            <h2>Project Name</h2>
-                            <p>Project Summary</p>
+                            <h2>Project Name is very long so what you can do about it?</h2>
+                            <p>Project Summary is very long so what you can do about it?</p>
                         </div>
                     </div>
                     <div class="projectCard__Group projectCard__Group--3">
@@ -134,29 +184,12 @@
                     </div>
                     <div class="projectCard__Group projectCard__Group--4">
                         <div class="projectCard__Group--team">
-                            <div class="teamMembers">
-                                <img src="/img/somebody2.jpg" alt="team member" id="teamMemberPhoto">
+                            <div class="projectManagerPhoto">
+                                <img src="/img/somebody2.jpg" alt="project manager photo" id="projectManagerPhoto">
                             </div>
-                            <div class="teamMembers">
-                                <img src="/img/somebody.jpg" alt="team member" id="teamMemberPhoto">
-                            </div>
-                            <div class="teamMembers">
-                                <img src="/img/somebody3.jpg" alt="team member" id="teamMemberPhoto">
-                            </div>
-                            <div class="teamMembers">
-                                <img src="/img/somebody.jpg" alt="team member" id="teamMemberPhoto">
-                            </div>
-                            <div class="teamMembers">
-                                <img src="/img/somebody3.jpg" alt="team member" id="teamMemberPhoto">
-                            </div>
+
                         </div>
-                        <div class="teamMembers__control">
-                            <button class="teamMembers__control--btn" id="addMoreTeamMember">
-                                <a href="/addMoreTeamMember">
-                                    <i class="fas fa-plus"></i>
-                                </a>
-                            </button>
-                        </div>
+
                         <div class="projectCard__Group--timeleft">
                             <p id="totalTimeLeft">
 
@@ -165,10 +198,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
             </div>
         </section>
 

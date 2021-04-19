@@ -50,7 +50,46 @@ const tickMarks = document.querySelectorAll('.isAMatchPair');
 const updateEmployeeInformationNotification = document.getElementById('updateEmployeeInformationNotification');
 
 
+//CREATE NEW PROJECT RESTRICTION FOR DATETIMEPICKER
+const createNewProjectFormBtn = document.getElementById('createNewProjectFormBtn');
+const addNewProjectForm = document.getElementById('addNewProjectForm');
+const createNewProjectBtnSubmit = document.getElementById('createNewProjectBtn--submit');
+const createNewProjectBtnCancel = document.getElementById('createNewProjectBtn--cancel');
+const addNewProjectGroup = document.querySelectorAll('.addNewProjectGroup');
 
+const projectsPage = document.getElementById('projects');
+//Show all type of projects
+const activeProjectsBtn = document.getElementById('activeProjectsBtn');
+const completedProjectsBtn = document.getElementById('completedProjectsBtn');
+const otherProjectsBtn = document.getElementById('otherProjectsBtn');
+const projectListDisplay = document.getElementById('projectList');
+
+
+//NEW PROJECT CREATION FORM
+const newProjectPlannedStartDate = document.getElementById('newProjectPlannedStartDate');
+const newProjectPlannedEndDate = document.getElementById('newProjectPlannedEndDate');
+const newProjectName = document.getElementById('newProjectName');
+const newProjectSummary = document.getElementById('newProjectSummary');
+const newProjectManager = document.getElementById('newProjectManager');
+const newProjectCustomer = document.getElementById('newProjectCustomer');
+const newProjectBudget = document.getElementById('newProjectBudget');
+
+//PROJECT DETAIL PAGE 
+
+const milesstonesGroup__NoassignedTasks = document.getElementById('milesstonesGroup__NoassignedTasks');
+const milesstonesGroup__inprogress = document.getElementById('milesstonesGroup__inprogress');
+const milesstonesGroup__completed = document.getElementById('milesstonesGroup__completed');
+const milestonesDetailList = document.getElementById('milestonesDetailList');
+const projectMembersList = document.getElementById('projectDetailsBody__members--list');
+const milestonesListTable = document.getElementById('milestonesListTable');
+const seeAllTasksBtn = document.querySelectorAll('.seeAllTasksBtn');
+const tasksDetailList = document.getElementById('tasksDetailList');
+
+//Remove all previous dates 
+if (newProjectPlannedStartDate || newProjectPlannedEndDate) {
+    newProjectPlannedStartDate.min = new Date().toISOString().split('T')[0];
+    newProjectPlannedEndDate.min = new Date().toISOString().split('T')[0];
+}
 
 // Navbar Button function
 if (burgerBtn) {
@@ -93,7 +132,13 @@ function displayNotification(notificationBox, className, message, status) {
         notificationBox.classList.remove(`notification_shown_${status}`);
     }, 2000);
 };
-
+function formatDate(date) {
+    let getDate = date.split('-')[2];
+    let getMonth = new Date(date.split('-')[1]).toLocaleString('en-US', { month: 'long' });
+    let getYear = date.split('-')[0];
+    let dateString = `${getMonth} ${getDate}, ${getYear}`;
+    return dateString;
+}
 
 function convertDateFormat(date) {
     let day;
@@ -703,7 +748,456 @@ if (updateEmployeePhotoBtn) {
 
 
 
-//
+//Projects form handler 
+const showCreateNewProjectFormFunction = () => {
+    createNewProjectFormBtn.addEventListener('click', (e) => {
+
+        addNewProjectForm.classList.add('showCreateNewProjectForm');
+        projectsPage.classList.add('backgroundBlur');
+        addNewProjectGroup.forEach(inputBox => {
+            inputBox.classList.add('showCreateNewProjectGroup');
+
+        });
+    });
+};
+const removeCreateNewProjectFormFunction = () => {
+    createNewProjectBtnCancel.addEventListener('click', (e) => {
+        addNewProjectForm.classList.remove('showCreateNewProjectForm');
+        projectsPage.classList.remove('backgroundBlur');
+
+        addNewProjectGroup.forEach(inputBox => {
+            inputBox.classList.remove('showCreateNewProjectGroup');
+        });
+    });
+};
+
+if (createNewProjectFormBtn) {
+
+    showCreateNewProjectFormFunction();
+};
+if (createNewProjectBtnCancel) {
+    removeCreateNewProjectFormFunction();
+};
+
+
+
+
+if (createNewProjectBtnSubmit || createNewProjectBtnCancel) {
+    createNewProjectBtnSubmit.addEventListener('click', e => {
+        e.preventDefault();
+
+    });
+};
+// FETCH project data from database
+const renderProjects = (project) => {
+    let today = new Date();
+    let date_Planned;
+    let date_Current = new Date(today);
+    if (project.Actual_End_Date === null) {
+        date_Planned = new Date(project.Planned_End_Date);
+    } else if (project.Actual_End_Date !== null) {
+        date_Planned = new Date(project.Actual_End_Date);
+    };
+    let timeLeft = Math.abs(date_Planned - date_Current);
+    let daysLeft = (Math.ceil(timeLeft / (1000 * 60 * 60 * 24))) / 7;
+    let weeksLeft = Math.trunc(daysLeft);
+    let totalDaysLeft = Math.ceil((Number((daysLeft - weeksLeft).toFixed(2))) * 7);
+    let timeLeftString;
+    if (weeksLeft > 0) {
+        timeLeftString = `${weeksLeft} Weeks and ${totalDaysLeft} Days Left`;
+    } else if (weeksLeft <= 0) {
+        timeLeftString = `${totalDaysLeft} Days Left`
+    }
+    let convertTime = project.Created_At
+    convertTime = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
+    const projectProgressCompletedWork = document.getElementById('projectProgressCompletedWork');
+    const projectProgressPercentage = document.getElementById('projectProgressPercentage');
+    let projectMarkup = `
+                        <div class="projectCard">
+                                <div class="projectCard__Group projectCard__Group--1">
+                                    <div class="projectCard__Group--header">
+                                        <p>${formatDate(convertTime)}</p>
+                                    </div>
+                                    <div class="projectCard__Group--headerBtn">
+                                        <a href="/api/v1/project/getProjectDetail/${project.Project_ID}">
+                                            <i class="fas fa-info"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="projectCard__Group projectCard__Group--2">
+                                    <div class="projectCard__SubGroup">
+                                        <h2>${project.Project_Name}</h2>
+                                        <p>${project.Project_Description}</p>
+                                    </div>
+                                </div>
+                                <div class="projectCard__Group projectCard__Group--3">
+                                    <div class="projectCard__SubGroup">
+                                        <p>Progress</p>
+                                        <div class="projectCard__Group--progressBar">
+                                            <div class="projectProgressBar" id="projectProgressBar">
+                                                <div class="projectProgressCompletedWork" id="projectProgressCompletedWork" style="width:${project.Percentage_Completion * 100}%"></div>
+                                            </div>
+                                            <p id="projectProgressPercentage">${project.Percentage_Completion * 100}%</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="projectCard__Group projectCard__Group--4">
+                                    <div class="projectCard__Group--team">
+                                        <div class="projectManagerPhoto">
+                                            <img src="/img/${project.Employee_Photo}.jpg" alt="project manager photo" id="projectManagerPhoto">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="projectCard__Group--timeleft">
+                                        <p id="totalTimeLeft">
+                                            ${timeLeftString}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>`
+
+    projectListDisplay.insertAdjacentHTML('beforeend', projectMarkup);
+
+
+};
+
+const renderNotFoundProject = (message) => {
+    const errorMarkup = `<div class="NotFoundProject">
+                            <p>
+                                ${message}
+                            </p>
+                        </div>`
+    projectListDisplay.insertAdjacentHTML('beforeend', errorMarkup)
+
+
+};
+
+const cleanProjectListArea = () => {
+    while (projectListDisplay.hasChildNodes()) {
+        projectListDisplay.removeChild(projectListDisplay.firstChild);
+
+    };
+};
+const getAllActiveProjects = async () => {
+    try {
+        const result = await fetch(`/api/v1/project/getALLActiveProjects`,
+            {
+                method: `GET`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+
+        const data = await result.json();
+        if (data.status === 'Success') {
+            const projects = data.projectData.recordset;
+            cleanProjectListArea();
+            projects.forEach(project => {
+                renderProjects(project);
+            });
+
+            const projectCards = document.querySelectorAll('.projectCard');
+            if (projectCards) {
+                projectCards.forEach(projectCard => {
+                    projectCard.classList.add('projectCard__shown');
+                });
+            };
+        } else if (data.status === 'Not Found') {
+            cleanProjectListArea();
+            renderNotFoundProject(data.message);
+        }
+
+    } catch (err) {
+        console.log(err);
+    };
+
+};
+
+const getAllCompletedProjects = async () => {
+    try {
+        const result = await fetch(`/api/v1/project/getALLCompletedProjects`,
+            {
+                method: `GET`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+
+        const data = await result.json();
+        if (data.status === 'Not Found') {
+            cleanProjectListArea();
+            renderNotFoundProject(data.message);
+        } else if (data.status === 'Success') {
+            const projects = data.projectData.recordset;
+            cleanProjectListArea();
+            projects.forEach(project => {
+                renderProjects(project);
+            });
+
+            const projectCards = document.querySelectorAll('.projectCard');
+            if (projectCards) {
+                projectCards.forEach(projectCard => {
+                    projectCard.classList.add('projectCard__shown');
+                });
+            };
+        };
+    } catch (err) {
+        console.log(err);
+    };
+
+};
+
+const getAllOtherProjects = async () => {
+    try {
+        const result = await fetch(`/api/v1/project/getAllOtherProjects`,
+            {
+                method: `GET`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+
+        const data = await result.json();
+        if (data.status === 'Not Found') {
+            cleanProjectListArea();
+            renderNotFoundProject(data.message);
+        } else if (data.status === 'Success') {
+            const projects = data.projectData.recordset;
+            cleanProjectListArea();
+            projects.forEach(project => {
+                renderProjects(project);
+            });
+
+            const projectCards = document.querySelectorAll('.projectCard');
+            if (projectCards) {
+                projectCards.forEach(projectCard => {
+                    projectCard.classList.add('projectCard__shown');
+                });
+            };
+        };
+    } catch (err) {
+        console.log(err);
+    };
+
+};
+
+if (activeProjectsBtn || completedProjectsBtn || otherProjectsBtn) {
+    activeProjectsBtn.addEventListener('click', e => {
+        e.preventDefault();
+        getAllActiveProjects();
+    });
+    completedProjectsBtn.addEventListener('click', e => {
+        e.preventDefault();
+        getAllCompletedProjects();
+    });
+    otherProjectsBtn.addEventListener('click', e => {
+        e.preventDefault();
+        getAllOtherProjects();
+    })
+};
+
+const renderCustomerList = (customer) => {
+    let customerMarkup;
+    if (!customer) {
+        customerMarkup = `<option value="#">No available customers to choose</option>`
+    } else {
+        customerMarkup = `<option value="${customer.Customer_ID}">${customer.Title} ${customer.First_Name} ${customer.Last_Name}</option>`
+    };
+
+    newProjectCustomer.insertAdjacentHTML('beforeend', customerMarkup);
+};
+
+const renderManagerList = (Manager) => {
+    let ManagerMarkup;
+    if (!Manager) {
+        ManagerMarkup = `<option value="#">No available Managers to choose</option>`
+    } else {
+        ManagerMarkup = `<option value="${Manager.Employee_ID}">${Manager.First_Name} ${Manager.Last_Name}</option>`
+    };
+
+    newProjectManager.insertAdjacentHTML('beforeend', ManagerMarkup);
+};
+
+
+const getCustomerList = async () => {
+    try {
+        const result = await fetch(`/api/v1/customer/getAllCustomers`,
+            {
+                method: `GET`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+        const data = await result.json();
+        if (data) {
+            while (newProjectCustomer.hasChildNodes()) {
+                newProjectCustomer.removeChild(newProjectCustomer.firstChild);
+
+            };
+            let customers = data.customers;
+            customers.forEach(customer => {
+                renderCustomerList(customer);
+            });
+        } else {
+            renderCustomerList();
+        }
+
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+const getManagerList = async () => {
+    try {
+        const result = await fetch(`/api/v1/employee/getAllManagers`,
+            {
+                method: `GET`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            });
+        const data = await result.json();
+        if (data) {
+            while (newProjectManager.hasChildNodes()) {
+                newProjectManager.removeChild(newProjectManager.firstChild);
+
+            };
+            let managers = data.managers;
+            managers.forEach(Manager => {
+                renderManagerList(Manager);
+            });
+        } else {
+            renderManagerList();
+        }
+
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+if (newProjectManager) {
+    newProjectManager.addEventListener('click', e => {
+        getManagerList();
+    });
+};
+if (newProjectCustomer) {
+    newProjectCustomer.addEventListener('click', e => {
+        getCustomerList();
+    });
+};
+
+//CREATE NEW PROJECT FUNCTION 
+const createNewProject = async (newProject) => {
+    try {
+        const result = await fetch(`/api/v1/project/createNewProject`,
+            {
+                method: `POST`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newProject),
+            });
+        const response = await result.json();
+    } catch (err) {
+        console.log(err);
+    };
+};
+
+if (createNewProjectBtnSubmit) {
+    createNewProjectBtnSubmit.addEventListener('click', e => {
+        e.preventDefault();
+        let newProject = new Object();
+        let currentLoggedInUser = document.getElementById('currentLoggedInUser');
+        newProject.Project_Name = newProjectName.value;
+        newProject.Project_Description = newProjectSummary.value;
+        newProject.Planned_Start_Date = new Date(newProjectPlannedStartDate.value);
+        newProject.Planned_End_Date = new Date(newProjectPlannedEndDate.value);
+        newProject.Project_Manager_ID = parseInt(newProjectManager.value);
+        newProject.Customer_ID = parseInt(newProjectCustomer.value);
+        newProject.Budget = parseFloat(newProjectBudget.value);
+        newProject.Created_By = parseInt(currentLoggedInUser.getAttribute('href').split('/')[5]);
+        createNewProject(newProject);
+    });
+};
+
+
+//PROJECT DETAIL PAGE BUTTONS HANDLER 
+const renderTaskList = (task) => {
+    let taskMarkup = `
+    <tr>
+        <td>${task.Task_ID}</td>
+        <td>${task.Task_Name}</td>
+        <td>${task.Task_Description}</td>
+        <td>${task.Priority}</td>
+        <td>${task.Employee_ID}</td>
+        <td>${task.Task_Planned_Start_Date}</td>
+        <td>${task.Task_Planned_End_Date}</td>
+        <td>${task.Actual_Start_Date}</td>
+        <td>${task.Actual_End_Date}</td>
+        <td>${task.Created_At}</td>
+        <td>${task.Last_Updated_At}</td>
+        <td>${task.Total_Minutes[0]}</td>
+        <td>
+            <select name="updateTaskStatus" id="updateTaskStatus"
+                class="updateTaskStatus">
+                <option value="Started">Started</option>
+                <option value="Processing">Processing</option>
+                <option value="Delay">Delay</option>
+                <option value="Need Support">Need Support</option>
+                <option value="Completed">Completed</option>
+                <option value="remove">Remove Task</option>
+            </select>
+        </td>
+    </tr>`;
+
+    tasksDetailList.insertAdjacentHTML('beforeend', taskMarkup);
+
+};
+
+const getAllRelatedTasks = async (command) => {
+    try {
+        const result = await fetch(command, {
+            method: `GET`,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+
+        const data = await result.json();
+        let tasks = data.tasks;
+        while (tasksDetailList.hasChildNodes()) {
+            tasksDetailList.removeChild(tasksDetailList.firstChild);
+
+        };
+        tasks.forEach(task => {
+            renderTaskList(task);
+        });
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+    ;
+if (seeAllTasksBtn) {
+    seeAllTasksBtn.forEach(seeTaskBtn => {
+        seeTaskBtn.addEventListener('click', e => {
+            e.preventDefault();
+            let getAllTasks = e.target.getAttribute('href');
+            getAllRelatedTasks(getAllTasks);
+        });
+    });
+};
+
+
 
 // Render charts
 function tasksbyemployee() {
@@ -750,6 +1244,8 @@ function tasksbyemployee() {
         }
     });
 };
+
+
 function employeetasks() {
     const employeetasks = document.getElementById('employeetasks').getContext('2d');
     const chart = new Chart(employeetasks, {
@@ -796,10 +1292,6 @@ function employeetasks() {
 
         }
     });
-};
-function setDefaultPage() {
-    document.getElementById(`dashboard`).classList.add('show_full_page');
-
 };
 
 

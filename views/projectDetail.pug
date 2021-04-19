@@ -1,0 +1,140 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="projectDetails" id="projectDetails")
+                div(class="projectDetailsBody")
+                    div(class="projectDetailsBody__group")
+                        div(class="projectDetailsBody__milestones")
+                            div(class="milestonesHeader")
+                                div(class="milestonesHeader__header")
+                                    p Milestones Checks
+                                    button(id="addNewMileStoneBtn") New Milestone
+                                div(class="milestonesHeader__statistic")
+                                    div(class="milestonesHeader__statistic--details")
+                                        p(class="milesstonesGroup__NoassignedTasks" )
+                                           i(class="fas fa-chalkboard" id="milesstonesGroup__NoassignedTasks")=noAssignedTasks
+                                        label(for="milesstonesGroup__NoassignedTasks") No Assigned Tasks
+
+                                    div(class="milestonesHeader__statistic--details")
+                                        p(class="milesstonesGroup__inprogress" )
+                                            i(class="fas fa-spinner" id="milesstonesGroup__inprogress")=inProgress
+                                        label(for="milesstonesGroup__inprogress") In Progress
+
+                                    div(class="milestonesHeader__statistic--details")
+                                        p(class="milesstonesGroup__completed")
+                                            i(class="fas fa-check"  id="milesstonesGroup__completed")=completed
+                                        label(for="milesstonesGroup__completed") Completed
+                            div(class="milestonesList")
+                                table(class="milestonesListTable")
+                                    thead
+                                        tr
+                                            th Milestone ID
+                                            th  Description
+                                            th Expiration Date
+                                            th Status
+                                            th Time Spent
+                                            th More Information
+                                            th Control
+                                    tbody(id="milestonesDetailList")
+                                        each milestone in projectDetail
+                                            tr
+                                                td=milestone.ID
+                                                td=milestone.Milestones_Name
+                                                td=milestone.Milestones_Expiration_Date.toLocaleString('en-US', {month:'long', day:'2-digit', year:'numeric', hour:'2-digit',minute:'2-digit',second:'2-digit'})
+                                                td=milestone.Milestones_Status
+                                                td=milestone.Total_Minutes[0]
+                                                td 
+                                                    a(class="seeAllTasksBtn"  href=`/api/v1/project/getAllTasks/${milestone.ID}`) View Tasks
+                                                td
+                                                    a(class="removeMilestoneBtn" href=`/api/v1/project/removeMilestone/${milestone.ID}`) Remove Milestone
+                        div(class="projectDetailsBody__tasks")
+                            div(class="tasksHeader")
+                                p Tasks For Milestone:
+                                button(id="addNewTaskBtn") New Tasks
+                            div(class="tasksList")
+                                table(class="tasksTable")
+                                    thead
+                                        tr
+                                            th ID
+                                            th Task Name
+                                            th Description
+                                            th Priority
+                                            th Employee ID
+                                            th Planned Start Date
+                                            th Planned End Date
+                                            th Actual Start Date
+                                            th Actual End Date
+                                            th Created Time
+                                            th Last Updated
+                                            th Time Spent
+                                            th Control
+                                    tbody(id="tasksDetailList")
+                    div(class="projectDetailsBody__group")
+                        div(class="projectDetailsBody__members")
+                            div(class="projectDetailsBody__members--header")
+                                p Project Members
+                            div(class="projectDetailsBody__members--list" id="projectDetailsBody__members--list")
+                                each employee in participant 
+                                    div(class="participant")
+                                        img(src=`/img/${employee.Employee_Photo}.jpg` alt="participant" class="projectParticipant")
+                                        p=`${employee.First_Name} ${employee.Last_Name}`
+                            
+                div(class="projectDetailsFooter")
+                    div(class="projectDetailsFooter__timeLeft")
+                        i(class="fas fa-stopwatch" id="timeLeftForTheProjectUntilDue")
+                        p 2 Days Left Until This Project is Due
+
+            form(class="addNewMileStoneForm" id="addNewMileStoneForm")
+                div(class="newMileStoneForm__Group")
+                    p New Milestone
+                div(class="newMileStoneForm__Group")
+                    label(for="newMileStoneName") Name
+                    input(type="text" class="newMileStoneName" id="newMileStoneName" placeholder="New Milestone's Name")
+                div(class="newMileStoneForm__Group")
+                    label(for="newMileStoneExpirationDate") Expiration Date
+                    input(type="date" class="newMileStoneExpirationDate" id="newMileStoneExpirationDate")
+                div(class="newMileStoneForm__Control")
+                    button(type="submit" id="confirmMileStoneCreation" class="newMileStoneForm__Control--submit") Create
+                    button(type="reset" id="cancelMileStoneCreation" class="newMileStoneForm__Control--cancel") Cancel
+            form(class="addNewTaskForm " id="addNewTaskForm")
+                div(class="addNewTaskForm__group")
+                    h1 Create New Task
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskName") Task Name
+                    input(id="newTaskName" type="text" placeholder="New task name")
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskDescription") Description
+                    input(id="newTaskDescription" type="text" placeholder="Description")
+                div(class="addNewTaskForm__group")
+                    label(for="newPriority") Priority
+                    input(id="newPriority" type="number" min="1" max="5" placeholder="Task's priority 1 to 10")
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskToAnEmployee") Assign task to Employee
+                    select(id="newTaskToAnEmployee")
+                        option(selected disabled) Choose an Employee
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskPlannedStartDate") Planned Start Date
+                    input(id="newTaskPlannedStartDate" type="date") 
+
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskPlannedEndDate") Planned End Date
+                    input(id="newTaskPlannedEndDate" type="date") 
+
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskPlannedBudget") Planned Budget
+                    input(id="newTaskPlannedBudget" type="number" placeholder="Estimated Budget")
+                div(class="addNewTaskForm__group")
+                    button(id="confirmationCreateTaskBtn" class="addNewTaskForm__group--createBtn") Create
+                    button(id="cancelNewTaskBtn" class="addNewTaskForm__group--cancelBtn") Cancel
+            form(class="confirmationForm" id="confirmationForm")
+                div(class="confirmationForm__group")
+                    p Message Goes Here and it's very long
+                div(class="confirmationForm__group")
+                    button(id="confirmationOfDeletion" class="confirmationForm__group--confirm")
+                        a(href="/api/v1/") Confirm
+                    button(id="cancelationOfDeletion" class="confirmationForm__group--cancel") Cancel
+
+        script(src="/js/application.js")

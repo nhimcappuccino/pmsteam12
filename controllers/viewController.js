@@ -68,12 +68,15 @@ exports.getProject = (req, res, next) => {
         const data = req.session.username;
         const user_full_name = data.First_Name + ' ' + data.Last_Name;
         const user_photo = req.session.userPhoto;
+        const loggedInUserID = req.session.loggedInUserID;
 
         res.status(200).render(`projects`, {
             title: `PMS - Projects Management`,
             page: `Projects Management`,
             user: user_full_name,
             user_photo,
+            loggedInUserID
+
         });
     } else {
         res.redirect('/');

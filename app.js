@@ -10,6 +10,8 @@ const session = require('express-session');
 const employeeRouter = require('./routes/employeeRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const reportRouter = require('./routes/reportRoutes');
+const projectRouter = require('./routes/projectRoutes');
+const customerRouter = require('./routes/customerRoutes');
 
 app.use(express.json()); //middleware to parse all req res to json type
 app.use(cookieParser());
@@ -30,5 +32,6 @@ app.use(express.static(`${__dirname}/public`));
 app.use('/', viewRouter);
 app.use('/api/v1/employee', employeeRouter);
 app.use('/api/v1/report', reportRouter);
-
+app.use('/api/v1/project', projectRouter);
+app.use('/api/v1/customer', customerRouter)
 module.exports = app;

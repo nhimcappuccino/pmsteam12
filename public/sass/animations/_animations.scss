@@ -244,3 +244,67 @@ transform: rotate(0deg);
         transform: translateY(5rem);
     }
 }
+
+@keyframes blurBackground {
+    0%{
+        filter: blur(0rem);
+    }
+    100%{
+        filter: blur(.2rem);
+    }
+}
+
+@keyframes createNewProjectFormShown {
+    0%{
+        opacity: .5;
+        transform: scale(0);
+    }
+
+    30%{
+        border-radius: 1rem;
+        width: 40rem;
+        height: 3rem;
+    }
+    
+    100%{
+    opacity: 1;
+    width: 40rem;
+    height: 72rem;
+    border-radius: 1rem;
+    transform: scale(1);
+
+    }
+}
+@keyframes createNewProjectGroupShown {
+    0%{
+        opacity: 0;
+        transform: translateX(-2rem);
+    }
+    100%{
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes projectCard__shown {
+    0%{
+        opacity: 0;
+        transform: scale(0);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes showProjectDetailForm {
+    0%{
+        opacity: 0;
+        transform: scale(.5);
+    }
+
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}

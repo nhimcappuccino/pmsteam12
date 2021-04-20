@@ -80,12 +80,8 @@ exports.getProject = (req, res, next) => {
         });
     } else {
         res.redirect('/');
-<<<<<<< HEAD
-    };
-};
 
-=======
-    }
+    };
 };
 
 exports.getStatistics = (req, res, next) => {
@@ -107,4 +103,3 @@ exports.getStatistics = (req, res, next) => {
         res.redirect('/');
     }
 };
->>>>>>> f3b5e130813222c4c954ed9132772e5cd1fe19d4

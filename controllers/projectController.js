@@ -46,12 +46,12 @@ exports.getAllActiveProjects = catchAsync(async (req, res, next) => {
 
         let sqlGetAllProjects = `SELECT * FROM projects LEFT JOIN employees on  employees.Employee_ID = projects.Project_Manager_ID WHERE projects.Project_Status_ID = 2 `
         let pool = await sql.connect(config);
-        let projects = pool.request().query(sqlGetAllProjects).then(response => {
+        let projects = await pool.request().query(sqlGetAllProjects).then(response => {
 
             if (response.rowsAffected[0] === 0) {
                 res.status(404).json({
-                    status: 'Failed',
-                    message: `There is no project that match the criteria!`,
+                    status: 'Not Found',
+                    message: `There is no project that currently Active!`,
                 });
 
             } else {
@@ -69,6 +69,7 @@ exports.getAllActiveProjects = catchAsync(async (req, res, next) => {
             });
         });
 
+        sql.close();
 
     } else {
         res.redirect('/');
@@ -81,7 +82,7 @@ exports.getAllCompletedProjects = catchAsync(async (req, res, next) => {
 
         let sqlGetAllProjects = `SELECT * FROM projects LEFT JOIN employees on  employees.Employee_ID = projects.Project_Manager_ID WHERE projects.Project_Status_ID = 4 `
         let pool = await sql.connect(config);
-        let projects = pool.request().query(sqlGetAllProjects).then(response => {
+        let projects = await pool.request().query(sqlGetAllProjects).then(response => {
 
             if (response.rowsAffected[0] === 0) {
                 res.status(404).json({
@@ -104,6 +105,7 @@ exports.getAllCompletedProjects = catchAsync(async (req, res, next) => {
             });
         });
 
+        sql.close();
 
     } else {
         res.redirect('/');
@@ -112,10 +114,9 @@ exports.getAllCompletedProjects = catchAsync(async (req, res, next) => {
 
 exports.getAllOtherProjects = catchAsync(async (req, res, next) => {
     if (req.session.isLoggedIn) {
-
         let sqlGetAllProjects = `SELECT * FROM projects LEFT JOIN employees on  employees.Employee_ID = projects.Project_Manager_ID WHERE projects.Project_Status_ID <> 2 AND projects.Project_Status_ID <> 4 `
         let pool = await sql.connect(config);
-        let projects = pool.request().query(sqlGetAllProjects).then(response => {
+        let projects = await pool.request().query(sqlGetAllProjects).then(response => {
 
             if (response.rowsAffected[0] === 0) {
                 res.status(404).json({
@@ -138,6 +139,7 @@ exports.getAllOtherProjects = catchAsync(async (req, res, next) => {
             });
         });
 
+        sql.close();
 
     } else {
         res.redirect('/');
@@ -145,76 +147,78 @@ exports.getAllOtherProjects = catchAsync(async (req, res, next) => {
 });
 
 exports.getProjectDetail = catchAsync(async (req, res, next) => {
+    const data = req.session.username;
+    const user_full_name = data.First_Name + ' ' + data.Last_Name;
+    const user_photo = req.session.userPhoto;
+    const loggedInUserID = req.session.loggedInUserID;
+
     let sqlGetProjectDetail = `SELECT * FROM projects left join milestones on milestones.Project_ID = projects.Project_ID WHERE projects.Project_ID = ${req.params.id}`;
     let sqlGetEmployeeInProject = `SELECT * FROM tasks left join employees on employees.Employee_ID = tasks.Employee_ID WHERE tasks.Project_ID = ${req.params.id}`
-    let pool = await sql.connect(config);
 
-    let project = pool.request().query(sqlGetProjectDetail).then(response => {
+    let projectDetail;
+    let noAssignedTasks = 0;
+    let inProgress = 0;
+    let completed = 0;
+    let participantList = new Array();
+    let newPerson = new Object();
+    let flags = [];
+    let output = [];
+    let l;
+    let i;
+    let returnResult;
+    let pool = await sql.connect(config);
+    let project = await pool.request().query(sqlGetProjectDetail).then(response => {
+        returnResult = response;
         if (response.rowsAffected[0] === 0) {
             res.status(404).json({
                 status: 'Not Found',
-                message: `There is no project that match the criteria!`,
+                message: 'Cannot find detail for this project!',
             });
+        } else if (response.rowsAffected[0] > 0) {
+            projectDetail = response.recordsets[0];
 
-        } else {
-            const data = req.session.username;
-            const user_full_name = data.First_Name + ' ' + data.Last_Name;
-            const user_photo = req.session.userPhoto;
-            const loggedInUserID = req.session.loggedInUserID;
-
-            let projectDetail = response.recordsets[0];
-            let noAssignedTasks = 0;
-            let inProgress = 0;
-            let completed = 0;
-            let workOnEmployee = pool.request().query(sqlGetEmployeeInProject).then(participant => {
-                projectDetail.forEach(milestone => {
-                    if (milestone.Milestones_Status === 'No Assigned Tasks') {
-                        noAssignedTasks++;
-                    } else if (milestone.Milestones_Status === 'In Progress') {
-                        inProgress++;
-                    } else if (milestone.Milestones_Status === 'Completed') {
-                        completed++;
-                    }
-                });
-                let participantList = new Array();
-                participant.recordsets[0].forEach(person => {
-                    let newPerson = new Object();
-                    newPerson.Employee_ID = person.Employee_ID[0];
-                    newPerson.First_Name = person.First_Name;
-                    newPerson.Last_Name = person.Last_Name;
-                    newPerson.Employee_Photo = person.Employee_Photo;
-                    participantList.push(newPerson);
-                });
-                let flags = [], output = [], l = participantList.length, i;
-                for (i = 0; i < l; i++) {
-                    if (flags[participantList[i].Employee_ID]) continue;
-                    flags[participantList[i].Employee_ID] = true;
-                    output.push(participantList[i]);
+            projectDetail.forEach(milestone => {
+                if (milestone.Milestones_Status === 'No Assigned Tasks') {
+                    noAssignedTasks++;
+                } else if (milestone.Milestones_Status === 'In Progress') {
+                    inProgress++;
+                } else if (milestone.Milestones_Status === 'Completed') {
+                    completed++;
                 };
-                res.status(200).render(`projectDetail`, {
-                    title: `PMS - Project Detail`,
-                    page: `Project Detail`,
-                    project: response,
-                    user: user_full_name,
-                    user_photo,
-                    loggedInUserID,
-                    participant: output,
-                    noAssignedTasks,
-                    inProgress,
-                    completed,
-                    projectDetail,
-                });
             });
         };
-    }).catch(err => {
-        console.log(err);
-        res.status(400).json({
-            status: 'Failed',
-            message: `Error occurred while trying to retrieve data from the database`,
-            err: err,
+    });
+    let workOnEmployee = await pool.request().query(sqlGetEmployeeInProject).then(participant => {
+        participant.recordsets[0].forEach(person => {
+            newPerson.Employee_ID = person.Employee_ID[0];
+            newPerson.First_Name = person.First_Name;
+            newPerson.Last_Name = person.Last_Name;
+            newPerson.Employee_Photo = person.Employee_Photo;
+            participantList.push(newPerson);
         });
+        l = participantList.length;
+        for (i = 0; i < l; i++) {
+            if (flags[participantList[i].Employee_ID]) continue;
+            flags[participantList[i].Employee_ID] = true;
+            output.push(participantList[i]);
+        };
+    });
+    res.status(200).render(`projectDetail`, {
+        title: `PMS - Project Detail`,
+        page: `Project Detail`,
+        project: returnResult,
+        user: user_full_name,
+        user_photo,
+        loggedInUserID,
+        participant: output,
+        noAssignedTasks,
+        inProgress,
+        completed,
+        projectDetail,
     });
 
+
+    sql.close();
 });
 
 
@@ -240,5 +244,6 @@ exports.getAllTasks = catchAsync(async (req, res, next) => {
             message: 'Error occurred while trying to retrieve data from the database',
         });
     })
+    sql.close();
 
 });

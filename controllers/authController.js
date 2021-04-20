@@ -2,6 +2,7 @@ const catchAsync = require('./../utils/catchAsync');
 const config = require('./../dbconfig');
 const sql = require('mssql');
 const Employee = require('./../models/employeeModel');
+const { user } = require('./../dbconfig');
 
 exports.login = catchAsync(async (req, res, next) => {
     const { username, password } = req.body;
@@ -52,6 +53,25 @@ exports.login = catchAsync(async (req, res, next) => {
     });
     sql.close();
 });
+
+exports.roleCheck = catchAsync(async (req, res, next) => {
+    const data = req.session.username;
+    const user_full_name = data.First_Name + ' ' + data.Last_Name;
+    const user_photo = req.session.userPhoto;
+    const loggedInUserID = req.session.loggedInUserID;
+    const userRole = req.session.userRole;
+    if (userRole <= 3) {
+        next();
+    } else {
+        res.status(400).render(`notAllowed`, {
+            user: user_full_name,
+            user_photo,
+            loggedInUserID,
+        });
+
+    };
+});
+
 
 exports.logout = catchAsync(async (req, res, next) => {
     req.session.destroy();

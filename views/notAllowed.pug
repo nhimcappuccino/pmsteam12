@@ -1,0 +1,13 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="notAllowed" id="notAllowed")
+                div(class="notAllowedNotification")
+                    h1 You do not have permission to access this page
+                    button(type="button")
+                        <a href="/projects"> Go Back
+
+    script(src="/js/application.js")

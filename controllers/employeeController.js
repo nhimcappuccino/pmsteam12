@@ -2,6 +2,7 @@ const config = require('./../dbconfig');
 const sql = require('mssql');
 const catchAsync = require('../utils/catchAsync');
 const multer = require('multer');
+const { get, post } = require('../routes/projectRoutes');
 
 exports.updateEmployeeInformation = catchAsync(async (req, res, next) => {
 
@@ -39,6 +40,8 @@ exports.updateEmployeeInformation = catchAsync(async (req, res, next) => {
             message: `Failed to update ${req.body.First_Name} ${req.body.Last_Name}'s Information! Please contact your administrator for more detail!`,
         });
     });
+    sql.close();
+
 });
 
 exports.getAllEmployees = catchAsync(async (req, res, next) => {
@@ -198,10 +201,9 @@ exports.uploadEmployeePhoto = upload.single('photo');
 
 exports.updateEmployeePhotoName = catchAsync(async (req, res, next) => {
     if (req.session.isLoggedIn) {
-
         let sqlUpdatePhotoQuery = `UPDATE dbo.employees SET employees.Employee_Photo = '${req.file.originalname.replace('.jpg', '')}' WHERE employees.Employee_ID =${parseInt(req.body.Employee_ID)}`;
         let pool = await sql.connect(config);
-        let updateProcess = pool.request().query(sqlUpdatePhotoQuery).then(response => {
+        let updateProcess = await pool.request().query(sqlUpdatePhotoQuery).then(response => {
             if (response.rowsAffected[0] === 1) {
                 res.status(200).json({
                     status: 'Success',
@@ -214,6 +216,7 @@ exports.updateEmployeePhotoName = catchAsync(async (req, res, next) => {
                     message: `Failed to update user's Photo! Please contact your administrator for more detail!`,
                 });
             };
+
         }).catch(err => {
             res.status(400).json({
                 status: 'Failed',
@@ -221,10 +224,10 @@ exports.updateEmployeePhotoName = catchAsync(async (req, res, next) => {
                 error: err,
             });
         });
-        sql.close();
     } else {
         res.redirect('/');
-    }
+    };
+    sql.close();
 });
 
 
@@ -246,3 +249,5 @@ exports.getAllManagers = catchAsync(async (req, res, next) => {
     });
     sql.close();
 });
+
+

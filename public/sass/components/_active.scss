@@ -211,3 +211,15 @@
     animation-delay: 100ms;
     backface-visibility: hidden;
 }
+
+.showFormProjectDetailPage{
+    display: flex;
+    opacity: 0;
+    transform-origin: center;
+    animation-name: showFormProjectDetailPage;
+    animation-duration: 400ms;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in;
+    animation-delay: 100ms;
+    backface-visibility: hidden;
+}

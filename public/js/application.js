@@ -85,6 +85,15 @@ const milestonesListTable = document.getElementById('milestonesListTable');
 const seeAllTasksBtn = document.querySelectorAll('.seeAllTasksBtn');
 const tasksDetailList = document.getElementById('tasksDetailList');
 
+//ADD MILESTONE, ADD TASKS
+const addNewMileStoneBtn = document.getElementById('addNewMileStoneBtn');
+const addNewTaskBtn = document.getElementById('addNewTaskBtn');
+const addNewMileStoneForm = document.getElementById('addNewMileStoneForm');
+const addNewTaskForm = document.getElementById('addNewTaskForm');
+const confirmationForm = document.getElementById('confirmationForm');
+const cancelMileStoneCreation = document.getElementById('cancelMileStoneCreation');
+const cancelNewTaskBtn = document.getElementById('cancelNewTaskBtn');
+const cancelationOfDeletion = document.getElementById('cancelationOfDeletion');
 //Remove all previous dates 
 if (newProjectPlannedStartDate || newProjectPlannedEndDate) {
     newProjectPlannedStartDate.min = new Date().toISOString().split('T')[0];
@@ -229,6 +238,13 @@ if (dropdownMenuBtn) {
 };
 
 //DASHBOARD FUNCTION BUTTONS
+
+// Create our number formatter.
+let formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+});
+
 const generalReport = async () => {
     let reportPeriodValue = reportPeriod.value;
     let today = getToday();
@@ -270,7 +286,15 @@ const generalReport = async () => {
             },
         });
         const data = await result.json();
-
+        let response = data.todayReport;
+        let totalNumberOfProjects = document.getElementById('totalNumberOfProjects');
+        let totalNumberOfActiveEmployees = document.getElementById('totalNumberOfActiveEmployees');
+        let totalNumberOfTasksInProgress = document.getElementById('totalNumberOfTasksInProgress');
+        let totalNumberOfCosts = document.getElementById('totalNumberOfCosts');
+        totalNumberOfProjects.innerHTML = Object.values(response.totalProject[0]);
+        totalNumberOfActiveEmployees.innerHTML = Object.values(response.activeEmployees[0]);
+        totalNumberOfTasksInProgress.innerHTML = Object.values(response.tasksInprogress[0]);
+        totalNumberOfCosts.innerHTML = formatter.format(Object.values(response.totalCost[0]));
     } catch (err) { console.log(err) };
 };
 
@@ -711,6 +735,7 @@ if (imageFile) {
 };
 
 const uploadEmployeePhoto = async (getEmployeeID, photo) => {
+
     const result = await fetch(`/api/v1/employee/updateEmployeePhotoName/${getEmployeeID}`,
         {
             method: `PATCH`,
@@ -736,12 +761,18 @@ if (updateEmployeePhotoBtn) {
     updateEmployeePhotoBtn.addEventListener('click', (e) => {
         e.preventDefault();
         const photoFile = document.getElementById('imageFile').files[0];
-        const photoName = imageFile.value.replace(/^.*[\\\/]/, ''); //get file name
+        // const photoName = imageFile.value.replace(/^.*[\\\/]/, ''); //get file name
         const formData = new FormData();
         const getEmployeeID = parseInt(document.getElementById('employeeGeneralInfo__group--id').innerHTML);
         formData.append('photo', photoFile);
         formData.append('Employee_ID', getEmployeeID);
-        uploadEmployeePhoto(getEmployeeID, formData, photoName);
+        console.log(getEmployeeID);
+        if (photoFile === undefined) {
+            displayNotification(updateEmployeeInformationNotification, 'updateEmployeeInformationBox_shown', 'Please provide a photo', 'failed');
+        } else {
+
+            uploadEmployeePhoto(getEmployeeID, formData);
+        }
 
     });
 };
@@ -905,6 +936,9 @@ const getAllActiveProjects = async () => {
                 });
             };
         } else if (data.status === 'Not Found') {
+            cleanProjectListArea();
+            renderNotFoundProject(data.message);
+        } else if (data.status === 'Failed') {
             cleanProjectListArea();
             renderNotFoundProject(data.message);
         }
@@ -1197,6 +1231,20 @@ if (seeAllTasksBtn) {
     });
 };
 
+if (addNewMileStoneBtn || addNewTaskBtn) {
+    addNewMileStoneBtn.addEventListener('click', () => {
+        addNewMileStoneForm.classList.toggle('showFormProjectDetailPage');
+    });
+    addNewTaskBtn.addEventListener('click', () => {
+        addNewTaskForm.classList.toggle('showFormProjectDetailPage');
+    });
+    cancelMileStoneCreation.addEventListener('click', () => {
+        addNewMileStoneForm.classList.remove('showFormProjectDetailPage')
+    });
+    cancelNewTaskBtn.addEventListener('click', () => {
+        addNewTaskForm.classList.remove('showFormProjectDetailPage')
+    });
+};
 
 
 // Render charts

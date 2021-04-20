@@ -13,16 +13,18 @@ function resolveDates(date) {
 
 exports.getGeneralReport = catchAsync(async (req, res, next) => {
     let pool = await sql.connect(config);
-    // const activeEmployees = await pool.request().query(`SELECT COUNT(*) FROM employees WHERE Employee_Status =1`);
-
-
-    if (req.params.period === 'today') {
-        console.log(resolveDates(req.params.to));
-    };
-
+    const activeEmployees = await pool.request().query(`SELECT COUNT(*) FROM employees WHERE Employee_Status ='Employed'`);
+    const totalProject = await pool.request().query(`SELECT COUNT(*) FROM projects WHERE projects.Project_Status_ID = 2`);
+    const tasksInprogress = await pool.request().query(`SELECT COUNT(*) FROM tasks WHERE tasks.Task_Status='Processing'`);
+    const totalCost = await pool.request().query(`SELECT SUM(projects.Money_spent) FROM projects `);
+    let todayReport = new Object();
+    todayReport.activeEmployees = activeEmployees.recordsets[0];
+    todayReport.totalProject = totalProject.recordsets[0];
+    todayReport.tasksInprogress = tasksInprogress.recordsets[0];
+    todayReport.totalCost = totalCost.recordsets[0];
     res.status(200).json({
         status: 'Sucess',
-
+        todayReport
     });
 });
 

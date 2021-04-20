@@ -32,7 +32,7 @@ block content
                                     thead
                                         tr
                                             th Milestone ID
-                                            th  Description
+                                            th Description
                                             th Expiration Date
                                             th Status
                                             th Time Spent
@@ -40,16 +40,17 @@ block content
                                             th Control
                                     tbody(id="milestonesDetailList")
                                         each milestone in projectDetail
-                                            tr
-                                                td=milestone.ID
-                                                td=milestone.Milestones_Name
-                                                td=milestone.Milestones_Expiration_Date.toLocaleString('en-US', {month:'long', day:'2-digit', year:'numeric', hour:'2-digit',minute:'2-digit',second:'2-digit'})
-                                                td=milestone.Milestones_Status
-                                                td=milestone.Total_Minutes[0]
-                                                td 
-                                                    a(class="seeAllTasksBtn"  href=`/api/v1/project/getAllTasks/${milestone.ID}`) View Tasks
-                                                td
-                                                    a(class="removeMilestoneBtn" href=`/api/v1/project/removeMilestone/${milestone.ID}`) Remove Milestone
+                                            if milestone.ID !== null
+                                                tr
+                                                    td=milestone.ID
+                                                    td=milestone.Milestones_Name
+                                                    td=milestone.Milestones_Expiration_Date.toLocaleString('en-US', {month:'long', day:'2-digit', year:'numeric', hour:'2-digit',minute:'2-digit',second:'2-digit'})
+                                                    td=milestone.Milestones_Status
+                                                    td=milestone.Total_Minutes[0]
+                                                    td 
+                                                        a(class="seeAllTasksBtn"  href=`/api/v1/project/getAllTasks/${milestone.ID}`) View Tasks
+                                                    td
+                                                        a(class="removeMilestoneBtn" href=`/api/v1/project/removeMilestone/${milestone.ID}`) Remove Milestone
                         div(class="projectDetailsBody__tasks")
                             div(class="tasksHeader")
                                 p Tasks For Milestone:

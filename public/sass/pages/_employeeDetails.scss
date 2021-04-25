@@ -397,3 +397,43 @@
     padding: 0 2rem;
     color: $primary-font-color;
 }
+
+
+.deactivateProjectBtn{
+    display: flex;
+    position: absolute;
+    width: 4rem;
+    height: 4rem;
+    bottom: 7rem;
+    right: 2rem;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: transparent;
+    background-image: linear-gradient(to right bottom, rgba(185,46,52,1)0,  rgba(185,46,52,.5)50%);
+    box-shadow: 0 0 1rem rgba(185,46,52,.5),
+    0 0 2rem rgba(212, 34, 34,1),
+    0 0 4rem rgba(212, 34, 34,1);
+    transition: all .2s;
+    &:hover{
+        box-shadow: 0 0 .5rem rgba(185,46,52,.5),
+        0 0 1rem rgba(212, 34, 34,1),
+        0 0 2rem rgba(212, 34, 34,1);
+    }
+    & a{
+        text-decoration: none;
+        display: flex;
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 2rem;
+        color: rgba($primary-font-color,1);
+    
+    }
+}   

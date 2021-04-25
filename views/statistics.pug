@@ -1,13 +1,97 @@
 extends base
 
-block content 
-    body 
+block content    
+    body
         div(class="pms__page")
             include _header
-            div(class="main")
-                h1 STATISTICS 
-                p here are some stats
-            div()
-                button() click me
-            button() dont click me 
-        script (src="/js/application.js")
+            section(class="statisticsPageNotification" id="statisticsPageNotification")
+                p(class="message")
+            section(class="statistics" id="statistics")
+                div(class="statistics__group")
+                    div(class="reportConstruction")
+                        div(class="reportConstruction__control")
+                            button(class="reportTypeTab reportTypeTab--1") Project
+                                input(type="checkbox" value="project" id="reportTypeProject")
+                            button(class="reportTypeTab reportTypeTab--2") Employee
+                                input(type="checkbox"  value="employee" id="reportTypeEmployee")
+                            button(class="reportTypeTab reportTypeTab--3") Expense
+                                input(type="checkbox" value="expense" id="reportTypeExpense")
+                    div(class="reportConstruction")
+                        form(class="reportConstruction__form reportConstruction__reportByProject" id="reportConstruction__reportByProject")
+                            div(class="reportConstruction__form--group")
+                                div(class="reportConstruction__form--subgroup")
+                                    label ID
+                                    input(type="text" id="reportKeywords")
+                            div(class="reportConstruction__form--group")
+                                div(class="reportConstruction__form--subgroup")
+                                    label Timeframes
+                                    select(name="reportTimeframes" id="reportTimeframes")
+                                        option(value="none" disabled selected) Report Timeframes
+                                        option(value="yesterday")  Yesterday
+                                        option(value="lastweek") Last Week
+                                        option(value="30days") Last 30 Days
+                                        option(value="90days") Last 90 Days
+                                        option(value="specificDate") Specific Date
+                                        option(value="dateRange") Date Range
+                            div(class="reportConstruction__form--group")
+                                div(class="reportConstruction__form--subgroup")
+                                    label Specific Date
+                                    input(type="date" class="datepickers" id="reportConstruction__form--specificDate" disabled)
+                            div(class="reportConstruction__form--group")
+                                div(class="reportConstruction__form--subgroup")
+                                    label From
+                                    input(type="date" class="datepickers" id="reportConstruction__form--FromDate" disabled)
+                                div(class="reportConstruction__form--subgroup")
+                                    label To
+                                    input(type="date" class="datepickers" id="reportConstruction__form--ToDate" disabled)
+                            div(class="reportConstruction__form--group")
+                                div(class="reportConstruction__form--control")
+                                    button(type="button" id="reportConstruction--create") Create Report
+                                    button(type="button" id="reportConstruction--reset") Reset
+                div(class="statistics__group")
+                    div(class="reportDisplayGroup")
+                        div(class="reportDisplayGroup__details")
+                            div(class="reportDisplayArea" id="reportByProjectDetails")
+                                div(class="reportDisplayArea__header" id="reportDisplayArea__headerProject")
+                
+                                div(class="reportDisplayArea__body")
+                                    table
+                                        thead
+                                            tr
+                                                th Task ID 
+                                                th Task Name
+                                                th Task Description 
+                                                th Status
+                                                th Responsible Employee
+                                                th Milestone ID
+                                                th Planned End Date 
+                                        tbody(id="reportDetailsByProjectTable")
+                            div(class="reportDisplayArea" id="reportByEmployeeDetails")
+                                div(class="reportDisplayArea__header" id="reportDisplayArea__headerEmployee")
+                                div(class="reportDisplayArea__body")
+                                    table
+                                        thead
+                                            tr
+                                                th Date
+                                                th Project Work On
+                                                th Tasks Work On
+                                                th Login
+                                                th Logout 
+                                                th Total Time
+                                        tbody(id="reportDetailsByEmployeeTable")
+                            div(class="reportDisplayArea" id="reportByExpenseDetails")
+                                div(class="reportDisplayArea__header" id="reportDisplayArea__headerExpense")
+                            
+                                div(class="reportDisplayArea__body")
+                                    table
+                                        thead
+                                            tr
+                                                <th>Expense ID</th>
+                                                <th>Reason</th>
+                                                <th>Description</th>
+                                                <th>Cost</th>
+                                                <th>Project ID</th>
+                                                <th>Responsible By</th>
+                                                <th>Time Recorded</th>
+                                        tbody(id="reportDetailsByExpenseTable")
+        script(src="/js/application.js")

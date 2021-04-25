@@ -8,30 +8,30 @@ block content
                 <h1>New Project</h1>
                 div(class="addNewProjectGroup")
                     h2 Project Name
-                    input(type="text" placeholder="Name your new Project" id="newProjectName")
+                    input(type="text" placeholder="Name your new Project" id="newProjectName" required)
                 div(class="addNewProjectGroup")
                     h2 Description
-                    input(type="text" placeholder="Summary" id="newProjectSummary")
+                    input(type="text" placeholder="Summary" id="newProjectSummary" required)
                 div(class="addNewProjectGroup")
                     h2 Planned Start Date
-                    input(type="date"  class="addNewProjectGroup__inputBox" id="newProjectPlannedStartDate")
+                    input(type="date"  class="addNewProjectGroup__inputBox" id="newProjectPlannedStartDate" required)
                 div(class="addNewProjectGroup")
                     h2 Planned End Date
-                    input(type="date" class="addNewProjectGroup__inputBox" id="newProjectPlannedEndDate")
+                    input(type="date" class="addNewProjectGroup__inputBox" id="newProjectPlannedEndDate" required)
                 div(class="addNewProjectGroup")
                     h2 Project Manager
                     select(id="newProjectManager")
-                        option(selected disabled) Choose Project Manager
                 div(class="addNewProjectGroup")
                     h2 Customer
                     select(id="newProjectCustomer")
-                        option(selected disabled) Customers
                 div(class="addNewProjectGroup")
                     h2 Budget
-                    input(type="number" class="addNewProjectGroup__inputBox" id="newProjectBudget")
+                    input(type="number" class="addNewProjectGroup__inputBox" id="newProjectBudget" required)
                 div(class="addNewProjectGroup")
-                    button(class="createNewProjectBtn createNewProjectBtn--submit" id="createNewProjectBtn--submit") Create Project
+                    button(class="createNewProjectBtn createNewProjectBtn--submit" type="submit" id="createNewProjectBtn--submit") Create Project
                     button(type="reset" class="createNewProjectBtn createNewProjectBtn--cancel" id="createNewProjectBtn--cancel") Cancel
+            section(class="projectPageNotification" id="projectPageNotification")
+                p(class="message")
             section(class="projects" id="projects")
                 div(class="projectGroup")
                     div(class="projectGroup__status")

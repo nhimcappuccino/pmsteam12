@@ -73,6 +73,8 @@ const newProjectSummary = document.getElementById('newProjectSummary');
 const newProjectManager = document.getElementById('newProjectManager');
 const newProjectCustomer = document.getElementById('newProjectCustomer');
 const newProjectBudget = document.getElementById('newProjectBudget');
+const projectPageNotification = document.getElementById('projectPageNotification');
+
 
 //PROJECT DETAIL PAGE 
 
@@ -94,6 +96,22 @@ const confirmationForm = document.getElementById('confirmationForm');
 const cancelMileStoneCreation = document.getElementById('cancelMileStoneCreation');
 const cancelNewTaskBtn = document.getElementById('cancelNewTaskBtn');
 const cancelationOfDeletion = document.getElementById('cancelationOfDeletion');
+const confirmationOfDeletion = document.getElementById('confirmationOfDeletion');
+const confirmMileStoneCreation = document.getElementById('confirmMileStoneCreation');
+let removeMilestoneBtn = document.querySelectorAll('.removeMilestoneBtn');
+const confirmationCreateTaskBtn = document.getElementById('confirmationCreateTaskBtn');
+
+const deactivateProjectBtn = document.querySelector('.deactivateProjectBtn');
+// ADD EXPENSE FOR THE PROJECT 
+const addNewExpenseBtn = document.getElementById('addNewExpenseBtn');
+const confirmationCreateExpenseBtn = document.getElementById('confirmationCreateExpenseBtn');
+const cancelNewExpenseBtn = document.getElementById('cancelNewExpenseBtn');
+const addNewExpenseForm = document.getElementById('addNewExpenseForm');
+let newExpenseName = document.getElementById('newExpenseName');
+let newExpenseDescription = document.getElementById('newExpenseDescription');
+let newExpenseCost = document.getElementById('newExpenseCost');
+let newExpenseForProject = document.getElementById('newExpenseForProject');
+
 //Remove all previous dates 
 if (newProjectPlannedStartDate || newProjectPlannedEndDate) {
     newProjectPlannedStartDate.min = new Date().toISOString().split('T')[0];
@@ -560,7 +578,6 @@ if (personalContactBtn || workBtn) {
 };
 // SAVE INFORMATION BUTTON => FETCH PATCH REQUEST
 const updateEmployeeNewInformation = async (bodyData) => {
-    console.log(bodyData);
     try {
         const result = await fetch(`/api/v1/employee/updateEmployeeInformation/${bodyData.getEmployeeID}`,
             {
@@ -781,33 +798,41 @@ if (updateEmployeePhotoBtn) {
 
 //Projects form handler 
 const showCreateNewProjectFormFunction = () => {
-    createNewProjectFormBtn.addEventListener('click', (e) => {
 
-        addNewProjectForm.classList.add('showCreateNewProjectForm');
-        projectsPage.classList.add('backgroundBlur');
-        addNewProjectGroup.forEach(inputBox => {
-            inputBox.classList.add('showCreateNewProjectGroup');
 
-        });
+    addNewProjectForm.classList.add('showCreateNewProjectForm');
+    projectsPage.classList.add('backgroundBlur');
+    addNewProjectGroup.forEach(inputBox => {
+        inputBox.classList.add('showCreateNewProjectGroup');
+
     });
+    getCustomerList();
+    getManagerList();
+
+
+
 };
 const removeCreateNewProjectFormFunction = () => {
-    createNewProjectBtnCancel.addEventListener('click', (e) => {
-        addNewProjectForm.classList.remove('showCreateNewProjectForm');
-        projectsPage.classList.remove('backgroundBlur');
 
-        addNewProjectGroup.forEach(inputBox => {
-            inputBox.classList.remove('showCreateNewProjectGroup');
-        });
+    addNewProjectForm.classList.remove('showCreateNewProjectForm');
+    projectsPage.classList.remove('backgroundBlur');
+
+    addNewProjectGroup.forEach(inputBox => {
+        inputBox.classList.remove('showCreateNewProjectGroup');
     });
+
 };
 
 if (createNewProjectFormBtn) {
+    createNewProjectFormBtn.addEventListener('click', (e) => {
+        showCreateNewProjectFormFunction();
 
-    showCreateNewProjectFormFunction();
+    });
 };
 if (createNewProjectBtnCancel) {
-    removeCreateNewProjectFormFunction();
+    createNewProjectBtnCancel.addEventListener('click', (e) => {
+        removeCreateNewProjectFormFunction();
+    });
 };
 
 
@@ -843,50 +868,106 @@ const renderProjects = (project) => {
     convertTime = new Date().toISOString().replace(/T.*/, '').split('-').join('-');
     const projectProgressCompletedWork = document.getElementById('projectProgressCompletedWork');
     const projectProgressPercentage = document.getElementById('projectProgressPercentage');
-    let projectMarkup = `
-                        <div class="projectCard">
-                                <div class="projectCard__Group projectCard__Group--1">
-                                    <div class="projectCard__Group--header">
-                                        <p>${formatDate(convertTime)}</p>
+    let projectMarkup = ``;
+    if (project.Project_Status_ID === 5) {
+        projectMarkup = `
+        <div class="projectCard">
+                <div style="display:flex"  class="projectCard__Inactive">
+
+                </div>
+                <div class="projectCard__Group projectCard__Group--1">
+                    <div class="projectCard__Group--header">
+                        <p>${formatDate(convertTime)}</p>
+                    </div>
+                    <div class="projectCard__Group--headerBtn">
+                        <a href="/api/v1/project/getProjectDetail/${project.Project_ID}">
+                            <i class="fas fa-info"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="projectCard__Group projectCard__Group--2">
+                    <div class="projectCard__SubGroup">
+                        <h2>${project.Project_Name}</h2>
+                        <p>${project.Project_Description}</p>
+                    </div>
+                </div>
+                <div class="projectCard__Group projectCard__Group--3">
+                    <div class="projectCard__SubGroup">
+                        <p>Progress</p>
+                        <div class="projectCard__Group--progressBar">
+                            <div class="projectProgressBar" id="projectProgressBar">
+                                <div class="projectProgressCompletedWork" id="projectProgressCompletedWork" style="width:${project.Percentage_Completion * 100}%"></div>
+                            </div>
+                            <p id="projectProgressPercentage">${project.Percentage_Completion * 100}%</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="projectCard__Group projectCard__Group--4">
+                    <div class="projectCard__Group--team">
+                        <div class="projectManagerPhoto">
+                            <img src="/img/${project.Employee_Photo}.jpg" alt="project manager photo" id="projectManagerPhoto">
+                        </div>
+
+                    </div>
+
+                    <div class="projectCard__Group--timeleft">
+                        <p id="totalTimeLeft">
+                            ${timeLeftString}
+                        </p>
+                    </div>
+                </div>
+            </div>`;
+
+    } else {
+        projectMarkup = `
+                            <div class="projectCard">
+                                    <div class="projectCard__Inactive">
+    
                                     </div>
-                                    <div class="projectCard__Group--headerBtn">
-                                        <a href="/api/v1/project/getProjectDetail/${project.Project_ID}">
-                                            <i class="fas fa-info"></i>
-                                        </a>
+                                    <div class="projectCard__Group projectCard__Group--1">
+                                        <div class="projectCard__Group--header">
+                                            <p>${formatDate(convertTime)}</p>
+                                        </div>
+                                        <div class="projectCard__Group--headerBtn">
+                                            <a href="/api/v1/project/getProjectDetail/${project.Project_ID}">
+                                                <i class="fas fa-info"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="projectCard__Group projectCard__Group--2">
-                                    <div class="projectCard__SubGroup">
-                                        <h2>${project.Project_Name}</h2>
-                                        <p>${project.Project_Description}</p>
+                                    <div class="projectCard__Group projectCard__Group--2">
+                                        <div class="projectCard__SubGroup">
+                                            <h2>${project.Project_Name}</h2>
+                                            <p>${project.Project_Description}</p>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="projectCard__Group projectCard__Group--3">
-                                    <div class="projectCard__SubGroup">
-                                        <p>Progress</p>
-                                        <div class="projectCard__Group--progressBar">
-                                            <div class="projectProgressBar" id="projectProgressBar">
-                                                <div class="projectProgressCompletedWork" id="projectProgressCompletedWork" style="width:${project.Percentage_Completion * 100}%"></div>
+                                    <div class="projectCard__Group projectCard__Group--3">
+                                        <div class="projectCard__SubGroup">
+                                            <p>Progress</p>
+                                            <div class="projectCard__Group--progressBar">
+                                                <div class="projectProgressBar" id="projectProgressBar">
+                                                    <div class="projectProgressCompletedWork" id="projectProgressCompletedWork" style="width:${project.Percentage_Completion * 100}%"></div>
+                                                </div>
+                                                <p id="projectProgressPercentage">${project.Percentage_Completion * 100}%</p>
                                             </div>
-                                            <p id="projectProgressPercentage">${project.Percentage_Completion * 100}%</p>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="projectCard__Group projectCard__Group--4">
-                                    <div class="projectCard__Group--team">
-                                        <div class="projectManagerPhoto">
-                                            <img src="/img/${project.Employee_Photo}.jpg" alt="project manager photo" id="projectManagerPhoto">
+                                    <div class="projectCard__Group projectCard__Group--4">
+                                        <div class="projectCard__Group--team">
+                                            <div class="projectManagerPhoto">
+                                                <img src="/img/${project.Employee_Photo}.jpg" alt="project manager photo" id="projectManagerPhoto">
+                                            </div>
+    
                                         </div>
-
+    
+                                        <div class="projectCard__Group--timeleft">
+                                            <p id="totalTimeLeft">
+                                                ${timeLeftString}
+                                            </p>
+                                        </div>
                                     </div>
+                                </div>`;
 
-                                    <div class="projectCard__Group--timeleft">
-                                        <p id="totalTimeLeft">
-                                            ${timeLeftString}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>`
+    }
 
     projectListDisplay.insertAdjacentHTML('beforeend', projectMarkup);
 
@@ -1046,14 +1127,18 @@ const renderCustomerList = (customer) => {
 };
 
 const renderManagerList = (Manager) => {
-    let ManagerMarkup;
-    if (!Manager) {
-        ManagerMarkup = `<option value="#">No available Managers to choose</option>`
-    } else {
-        ManagerMarkup = `<option value="${Manager.Employee_ID}">${Manager.First_Name} ${Manager.Last_Name}</option>`
-    };
+    let managerMarkup;
 
-    newProjectManager.insertAdjacentHTML('beforeend', ManagerMarkup);
+    if (!Manager) {
+        managerMarkup = `<option value="#">No available Managers to choose</option>`
+    } else {
+
+        Manager.forEach(manager => {
+            managerMarkup = `<option value="${manager.Employee_ID}">${manager.First_Name} ${manager.Last_Name}</option>`
+            newProjectManager.insertAdjacentHTML('beforeend', managerMarkup);
+
+        });
+    };
 };
 
 
@@ -1103,9 +1188,9 @@ const getManagerList = async () => {
 
             };
             let managers = data.managers;
-            managers.forEach(Manager => {
-                renderManagerList(Manager);
-            });
+
+            renderManagerList(managers);
+
         } else {
             renderManagerList();
         }
@@ -1116,16 +1201,7 @@ const getManagerList = async () => {
     }
 }
 
-if (newProjectManager) {
-    newProjectManager.addEventListener('click', e => {
-        getManagerList();
-    });
-};
-if (newProjectCustomer) {
-    newProjectCustomer.addEventListener('click', e => {
-        getCustomerList();
-    });
-};
+
 
 //CREATE NEW PROJECT FUNCTION 
 const createNewProject = async (newProject) => {
@@ -1140,6 +1216,12 @@ const createNewProject = async (newProject) => {
                 body: JSON.stringify(newProject),
             });
         const response = await result.json();
+        if (response) {
+            removeCreateNewProjectFormFunction();
+            displayNotification(projectPageNotification, 'createNewEmployeeNotification_shown', 'Successfully created a new Project', 'success');
+            window.reload(true);
+        };
+
     } catch (err) {
         console.log(err);
     };
@@ -1150,6 +1232,7 @@ if (createNewProjectBtnSubmit) {
         e.preventDefault();
         let newProject = new Object();
         let currentLoggedInUser = document.getElementById('currentLoggedInUser');
+        let errorFlag = false;
         newProject.Project_Name = newProjectName.value;
         newProject.Project_Description = newProjectSummary.value;
         newProject.Planned_Start_Date = new Date(newProjectPlannedStartDate.value);
@@ -1158,39 +1241,99 @@ if (createNewProjectBtnSubmit) {
         newProject.Customer_ID = parseInt(newProjectCustomer.value);
         newProject.Budget = parseFloat(newProjectBudget.value);
         newProject.Created_By = parseInt(currentLoggedInUser.getAttribute('href').split('/')[5]);
-        createNewProject(newProject);
+
+        for (let key in newProject) {
+            if (newProject[key] === '' || newProject[key] === NaN) {
+                displayNotification(projectPageNotification, 'createNewEmployeeNotification_shown', 'Please provide all the inputs to continue', 'failed');
+                errorFlag = true;
+            };
+        };
+        if (errorFlag === false) {
+            createNewProject(newProject);
+        } else {
+            displayNotification(projectPageNotification, 'createNewEmployeeNotification_shown', 'Input is invalid! Please fix your input and try again', 'failed');
+
+        };
     });
 };
 
+const formatDateTime = (input) => {
+    let output;
+    return output = `${input.getMonth()}/${input.getDate()}/${input.getFullYear()}`;
 
+};
 //PROJECT DETAIL PAGE BUTTONS HANDLER 
 const renderTaskList = (task) => {
+
+    let plannedStartDate = task.Task_Planned_Start_Date === null ? 'Not Yet Updated' : formatDateTime(new Date(task.Task_Planned_Start_Date));
+    let plannedEndDate = task.Task_Planned_End_Date === null ? 'Not Yet Updated' : formatDateTime(new Date(task.Task_Planned_End_Date));
+    let actualStartDate = task.Actual_Start_Date === null ? 'Not Yet Updated' : formatDateTime(new Date(task.Actual_Start_Date));
+    let actualEndDate = task.Actual_End_Date === null ? 'Not Yet Updated' : formatDateTime(new Date(task.Actual_End_Date));
+    let createdAt = task.Created_At === null ? 'Not Yet Updated' : formatDateTime(new Date(task.Created_At));
+    let lastUpdatedAt = task.Last_Updated_At === null ? 'Not Yet Updated' : formatDateTime(new Date(task.Last_Updated_At));
+    let options;
+    switch (task.Task_Status) {
+        case 'Started':
+            options = `
+            <option value="Started-${task.Milestone_ID}-${task.Task_ID}" selected disabled>Started</option>
+            <option value="Processing-${task.Milestone_ID}-${task.Task_ID}">Processing</option>
+            `
+            break;
+        case 'Processing':
+            options = `
+            <option value="Processing-${task.Milestone_ID}-${task.Task_ID}" selected disabled>Processing</option>
+            <option value="Delay-${task.Milestone_ID}-${task.Task_ID}">Delay</option>
+            <option value="NeedSupport-${task.Milestone_ID}-${task.Task_ID}">Need Support</option>
+            <option value="Completed-${task.Milestone_ID}-${task.Task_ID}">Completed</option>
+            <option value="remove-${task.Milestone_ID}-${task.Task_ID}">Remove Task</option>
+            `
+            break;
+        case 'Delay':
+            options = `
+            <option value="Delay-${task.Milestone_ID}-${task.Task_ID}" selected disabled>Delay</option>
+            <option value="NeedSupport-${task.Milestone_ID}-${task.Task_ID}">Need Support</option>
+            <option value="Completed-${task.Milestone_ID}-${task.Task_ID}">Completed</option>
+            <option value="remove-${task.Milestone_ID}-${task.Task_ID}">Remove Task</option>
+            `
+            break;
+        case 'NeedSupport':
+            options = `
+            <option value="NeedSupport-${task.Milestone_ID}-${task.Task_ID}" selected disabled>Need Support</option>
+            <option value="Completed-${task.Milestone_ID}-${task.Task_ID}">Completed</option>
+            <option value="remove-${task.Milestone_ID}-${task.Task_ID}">Remove Task</option>
+            `
+            break;
+        case 'Completed':
+            options = `
+            <option value="Completed-${task.Milestone_ID}-${task.Task_ID}" selected disabled>Completed</option>
+            <option value="remove-${task.Milestone_ID}-${task.Task_ID}">Remove Task</option>
+            `
+            break;
+        case 'remove':
+            break;
+    }
+
+
     let taskMarkup = `
-    <tr>
+        <tr >
         <td>${task.Task_ID}</td>
         <td>${task.Task_Name}</td>
         <td>${task.Task_Description}</td>
         <td>${task.Priority}</td>
         <td>${task.Employee_ID}</td>
-        <td>${task.Task_Planned_Start_Date}</td>
-        <td>${task.Task_Planned_End_Date}</td>
-        <td>${task.Actual_Start_Date}</td>
-        <td>${task.Actual_End_Date}</td>
-        <td>${task.Created_At}</td>
-        <td>${task.Last_Updated_At}</td>
+        <td>${plannedStartDate}</td>
+        <td>${plannedEndDate}</td>
+        <td>${actualStartDate}</td>
+        <td>${actualEndDate}</td>
+        <td>${createdAt}</td>
+        <td>${lastUpdatedAt}</td>
         <td>${task.Total_Minutes[0]}</td>
         <td>
-            <select name="updateTaskStatus" id="updateTaskStatus"
-                class="updateTaskStatus">
-                <option value="Started">Started</option>
-                <option value="Processing">Processing</option>
-                <option value="Delay">Delay</option>
-                <option value="Need Support">Need Support</option>
-                <option value="Completed">Completed</option>
-                <option value="remove">Remove Task</option>
+            <select  class="updateTaskStatus">
+            ${options};
             </select>
         </td>
-    </tr>`;
+    </tr> `;
 
     tasksDetailList.insertAdjacentHTML('beforeend', taskMarkup);
 
@@ -1212,15 +1355,20 @@ const getAllRelatedTasks = async (command) => {
             tasksDetailList.removeChild(tasksDetailList.firstChild);
 
         };
-        tasks.forEach(task => {
-            renderTaskList(task);
-        });
+        if (!tasks) {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'There is no tasks for this milestone to display! Please add Task first.', 'failed');
+        } else {
+            tasks.forEach(task => {
+                renderTaskList(task);
+            });
+
+        };
 
     } catch (err) {
         console.log(err);
     }
-}
-    ;
+};
+
 if (seeAllTasksBtn) {
     seeAllTasksBtn.forEach(seeTaskBtn => {
         seeTaskBtn.addEventListener('click', e => {
@@ -1231,21 +1379,993 @@ if (seeAllTasksBtn) {
     });
 };
 
+const showAddNewTaskForm = () => {
+    addNewTaskForm.classList.add('showFormProjectDetailPage');
+    getAllEmployeesOption();
+
+};
+const removeAddNewTaskForm = () => {
+    addNewTaskForm.classList.remove('showFormProjectDetailPage');
+};
 if (addNewMileStoneBtn || addNewTaskBtn) {
     addNewMileStoneBtn.addEventListener('click', () => {
         addNewMileStoneForm.classList.toggle('showFormProjectDetailPage');
     });
     addNewTaskBtn.addEventListener('click', () => {
-        addNewTaskForm.classList.toggle('showFormProjectDetailPage');
+        showAddNewTaskForm();
+
     });
     cancelMileStoneCreation.addEventListener('click', () => {
         addNewMileStoneForm.classList.remove('showFormProjectDetailPage')
     });
     cancelNewTaskBtn.addEventListener('click', () => {
-        addNewTaskForm.classList.remove('showFormProjectDetailPage')
+        removeAddNewTaskForm();
     });
 };
 
+
+const newMilestoneCreation = async (input) => {
+    try {
+        const result = await fetch(`/api/v1/project/createNewMilestone`,
+            {
+                method: `POST`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(input),
+            });
+        const response = await result.json();
+        let data = response;
+        if (data.status === 'Success') {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', data.message, 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else if (data.status === 'Bad Request') {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', data.message, 'failed');
+        }
+
+    } catch (err) {
+        console.log(err);
+    };
+};
+
+if (confirmMileStoneCreation) {
+    confirmMileStoneCreation.addEventListener('click', (e) => {
+        let errorFlag = false;
+
+        e.preventDefault();
+        let newMilestone = new Object();
+        newMilestone.Project_ID = parseInt(document.getElementById('newMileStoneForProjectID').value);
+        newMilestone.Milestones_Name = document.getElementById('newMileStoneName').value;
+        newMilestone.Milestones_Expiration_Date = new Date(document.getElementById('newMileStoneExpirationDate').value);
+
+        for (let key in newMilestone) {
+            if (newMilestone[key] === '' || newMilestone[key] === NaN) {
+                errorFlag = true;
+            };
+        };
+        if (errorFlag === false) {
+            let projectDetailNotification = document.getElementById('projectDetailNotification');
+            newMilestoneCreation(newMilestone);
+
+        } else {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'Input error! Please check your input then try again', 'failed');
+
+        }
+
+    });
+};
+
+const deleteMilestone = async (fetchRequest) => {
+    try {
+        const result = await fetch(`${fetchRequest} `,
+            {
+                method: `DELETE`,
+            });
+        const response = await result;
+        let data = response;
+        console.log(data.status, response);
+
+        if (data.status === 400 || data.status === 404) {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'Failed to delete the milestone! Milestone does NOT exist or NOT FOUND!', 'failed');
+        } else if (data.status === 204) {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'Successfully deleted the milestone', 'success');
+
+            setTimeout(() => {
+                location.reload();
+
+            }, 2000);
+        }
+    } catch (err) {
+        console.log(err);
+    };
+
+};
+const deactivateProjectRequest = async (fetchRequest) => {
+    try {
+        const result = await fetch(`${fetchRequest}`,
+            {
+                method: `DELETE`,
+            });
+        const response = await result;
+        let data = response;
+        console.log(data.status, response);
+
+        if (data.status === 400 || data.status === 404) {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'Failed to deactivate the project!', 'failed');
+        } else if (data.status === 204) {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'Successfully Deactivate this project', 'success');
+
+            setTimeout(() => {
+                location.assign('/projects');
+
+            }, 2000);
+        }
+    } catch (err) {
+        console.log(err);
+    };
+}
+if (deactivateProjectBtn) {
+    deactivateProjectBtn.addEventListener('click', e => {
+        e.preventDefault();
+        let fetchRequest = e.target.getAttribute('href');
+        confirmationOfDeletionMessage.innerHTML = `Are You Sure you Want to Deactivate This Project: Project ID ${e.target.getAttribute('href').split('/')[5]} `;
+        confirmationForm.classList.add('showFormProjectDetailPage');
+        if (confirmationOfDeletion) {
+            confirmationOfDeletion.addEventListener('click', event => {
+                deactivateProjectRequest(fetchRequest);
+            });
+            cancelationOfDeletion.addEventListener('click', event => {
+                confirmationForm.classList.remove('showFormProjectDetailPage');
+
+            });
+        }
+    });
+};
+
+
+if (removeMilestoneBtn) {
+    removeMilestoneBtn.forEach(removeMilestone => {
+        removeMilestone.addEventListener('click', (e) => {
+            e.preventDefault();
+            let fetchRequest = e.target.getAttribute('href');
+            let confirmationOfDeletionMessage = document.getElementById('confirmationOfDeletionMessage');
+            confirmationOfDeletionMessage.innerHTML = `Are You Sure you Want to Delete Milestone ID: ${fetchRequest.split('/')[5]} `;
+            confirmationForm.classList.add('showFormProjectDetailPage');
+            if (confirmationOfDeletion) {
+                confirmationOfDeletion.addEventListener('click', event => {
+                    event.preventDefault();
+                    deleteMilestone(fetchRequest);
+                });
+                cancelationOfDeletion.addEventListener('click', event => {
+                    event.preventDefault();
+
+                    confirmationForm.classList.remove('showFormProjectDetailPage');
+
+                })
+            }
+
+        });
+    });
+};
+
+const createNewExpense = async (expense) => {
+
+    try {
+        const result = await fetch(`/api/v1/project/createNewExpense`,
+            {
+                method: `POST`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(expense),
+            });
+        const response = await result.json();
+        let data = response;
+        if (data.status === 'Success') {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', data.message, 'success');
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else if (data.status === 'Bad Request') {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', data.message, 'failed');
+        }
+
+    } catch (err) {
+        console.log(err);
+    };
+
+};
+
+if (addNewExpenseBtn) {
+    addNewExpenseBtn.addEventListener('click', e => {
+        addNewExpenseForm.classList.toggle('showFormProjectDetailPage');
+        let newExpense = new Object();
+        let currentLoggedInUser = document.getElementById('currentLoggedInUser');
+
+
+        if (confirmationCreateExpenseBtn) {
+            confirmationCreateExpenseBtn.addEventListener('click', event => {
+                event.preventDefault();
+                newExpense.Expense_Name = newExpenseName.value;
+                newExpense.Expense_Description = newExpenseDescription.value;
+                newExpense.Cost = parseFloat(newExpenseCost.value);
+                newExpense.Project_ID = parseInt(newExpenseForProject.value);
+                newExpense.Created_By = parseInt(currentLoggedInUser.getAttribute('href').split('/')[5]);
+
+                createNewExpense(newExpense);
+            });
+            cancelNewExpenseBtn.addEventListener('click', event => {
+                event.preventDefault();
+                addNewExpenseForm.classList.remove('showFormProjectDetailPage');
+            });
+        };
+    });
+};
+
+
+
+const renderEmployeesListOption = (employees) => {
+    let employeeMarkup;
+
+    if (!employees) {
+        employeeMarkup = `<option value = "#" > No available Employees to choose</option> `
+    } else {
+
+        employees.forEach(employee => {
+            employeeMarkup = `<option option value = "${employee.Employee_ID}" > ${employee.First_Name} ${employee.Last_Name}</option> `
+            newTaskToAnEmployee.insertAdjacentHTML('beforeend', employeeMarkup);
+
+        });
+    };
+};
+
+const getAllEmployeesOption = async () => {
+    try {
+        const result = await fetch('/api/v1/employee/getAllEmployees', {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        const data = await result.json();
+        let employees = [...data.data.recordset];
+        renderEmployeesListOption(employees);
+
+    } catch (err) { console.log(err) };
+};
+
+const createNewTask = async (task) => {
+    try {
+        const result = await fetch('/api/v1/project/createNewTask', {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(task),
+        });
+        const data = await result.json();
+        if (data.status === 'Success') {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', data.message, 'success');
+
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+
+
+        } else {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', data.message, 'failed');
+        };
+
+
+    } catch (err) { console.log(err) };
+};
+
+
+
+
+if (confirmationCreateTaskBtn) {
+    confirmationCreateTaskBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        let errorFlag = false;
+        let newTask = new Object();
+        newTask.Task_Name = document.getElementById('newTaskName').value;
+        newTask.Task_Description = document.getElementById('newTaskDescription').value;
+        newTask.Priority = parseInt(document.getElementById('newPriority').value);
+        newTask.Employee_ID = parseInt(document.getElementById('newTaskToAnEmployee').value);
+        newTask.Task_Planned_Start_Date = new Date(document.getElementById('newTaskPlannedStartDate').value);
+        newTask.Task_Planned_End_Date = new Date(document.getElementById('newTaskPlannedEndDate').value);
+        newTask.Project_ID = parseInt(document.getElementById('newTaskForProject').value);
+        newTask.Milestone_ID = parseInt(document.getElementById('newTaskForMilestone').value);
+        for (let key in newTask) {
+            if (newTask[key] === '' || newTask[key] === NaN || newTask[key] === undefined) {
+                errorFlag = true;
+            };
+        };
+        if (errorFlag === false) {
+            createNewTask(newTask);
+        }
+
+    });
+};
+
+const updateNewTaskData = async (taskData) => {
+    try {
+        const result = await fetch(`/api/v1/project/updateTasksInfomation/${taskData.Task_ID}/${taskData.Task_Status}`,
+            {
+                method: `PATCH`,
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(taskData),
+            });
+
+        displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', 'Processing your update request', 'success');
+        const data = await result.json();
+        const response = data;
+        if (response.status === 'Success') {
+            setTimeout(() => {
+                displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', response.message, response.status.toLowerCase());
+            }, 2000);
+            setTimeout(() => {
+                location.reload();
+            }, 4000);
+
+        } else if (response.status === 'Failed') {
+            displayNotification(projectDetailNotification, 'createNewEmployeeNotification_shown', response.message, response.status.toLowerCase());
+        };
+    } catch (err) {
+        console.log(err);
+    };
+}
+
+if (tasksDetailList) {
+    tasksDetailList.addEventListener('click', e => {
+
+        const updateTaskStatusSelectBox = document.querySelectorAll('.updateTaskStatus');
+        updateTaskStatusSelectBox.forEach(selectBox => {
+            selectBox.addEventListener('change', () => {
+                if (selectBox.value.split('-')[0] === 'remove') {
+
+                } else {
+                    let taskUpdate = new Object();
+                    let currentLoggedInUser = document.getElementById('currentLoggedInUser');
+                    taskUpdate.Milestone_ID = parseInt(selectBox.value.split('-')[1]);
+                    taskUpdate.Task_Status = selectBox.value.split('-')[0];
+                    taskUpdate.Last_Changed_By = parseInt(currentLoggedInUser.getAttribute('href').split('/')[5]);
+                    taskUpdate.Task_ID = parseInt(selectBox.value.split('-')[2]);
+                    console.log(taskUpdate);
+                    updateNewTaskData(taskUpdate);
+                };
+
+            })
+        }
+        );
+    });
+};
+// REPORT PAGE FUNCTIONS
+const reportTypeProject = document.getElementById('reportTypeProject');
+const reportTypeEmployee = document.getElementById('reportTypeEmployee');
+const reportTypeExpense = document.getElementById('reportTypeExpense');
+const reportTypeTab = document.querySelectorAll('.reportTypeTab');
+
+const gerateStatisticsReportBtn = document.getElementById('reportConstruction--create');
+const resetStatisticsReportBtn = document.getElementById('reportConstruction--reset');
+const statisticsPageNotification = document.getElementById('statisticsPageNotification');
+const reportTimeframes = document.getElementById('reportTimeframes');
+let reportKeywords = document.getElementById('reportKeywords');
+let reportConstructionFormSpecificDate = document.getElementById('reportConstruction__form--specificDate');
+let reportConstructionFormFromDate = document.getElementById('reportConstruction__form--FromDate');
+let reportConstructionFormToDate = document.getElementById('reportConstruction__form--ToDate');
+
+// REPORT AREA 
+
+const reportByProjectDetails = document.getElementById('reportByProjectDetails');
+const reportDisplayArea__headerProject = document.getElementById('reportDisplayArea__headerProject');
+const reportDetailsByProjectTable = document.getElementById('reportDetailsByProjectTable');
+
+const reportByEmployeeDetails = document.getElementById('reportByEmployeeDetails');
+const reportDisplayArea__headerEmployee = document.getElementById('reportDisplayArea__headerEmployee');
+const reportDetailsByEmployeeTable = document.getElementById('reportDetailsByEmployeeTable');
+
+const reportByExpenseDetails = document.getElementById('reportByExpenseDetails');
+const reportDisplayArea__headerExpense = document.getElementById('reportDisplayArea__headerExpense');
+const reportDetailsByExpenseTable = document.getElementById('reportDetailsByExpenseTable');
+
+
+
+
+let selectedReportType = '';
+const removeSelectedTab = function () {
+    reportTypeTab.forEach(tab => {
+        tab.classList.remove('selectedReportTab');
+    });
+};
+
+const resetForm = function () {
+    reportConstructionFormSpecificDate.disabled = true;
+    reportConstructionFormToDate.disabled = true;
+    reportConstructionFormFromDate.disabled = true;
+};
+const resetReportArea = () => {
+    reportByEmployeeDetails.style.display = 'none';
+    reportByProjectDetails.style.display = 'none';
+}
+
+if (reportTypeExpense) {
+    reportTypeExpense.addEventListener('change', e => {
+        if (e.target.checked === true) {
+            removeSelectedTab();
+            reportTypeProject.checked = false;
+            reportTypeEmployee.checked = false;
+            const selectTab = document.querySelector('.reportTypeTab--3');
+            selectTab.classList.add('selectedReportTab');
+            selectedReportType = 'Expense';
+        };
+    });
+}
+if (reportTypeEmployee) {
+    reportTypeEmployee.addEventListener('change', e => {
+        if (e.target.checked === true) {
+            removeSelectedTab();
+            reportTypeProject.checked = false;
+            reportTypeExpense.checked = false;
+            const selectTab = document.querySelector('.reportTypeTab--2');
+            selectTab.classList.add('selectedReportTab');
+            selectedReportType = 'Employee';
+        };
+
+    });
+}
+if (reportTypeProject) {
+    reportTypeProject.addEventListener('change', e => {
+        if (e.target.checked === true) {
+            removeSelectedTab();
+            reportTypeEmployee.checked = false;
+            reportTypeExpense.checked = false;
+            const selectTab = document.querySelector('.reportTypeTab--1');
+            selectTab.classList.add('selectedReportTab');
+            selectedReportType = 'Project';
+        };
+
+    });
+}
+if (reportTimeframes) {
+    reportTimeframes.addEventListener('change', e => {
+        console.log(reportTimeframes.value);
+        if (reportTimeframes.value === 'dateRange') {
+            reportConstructionFormSpecificDate.disabled = true;
+            reportConstructionFormToDate.disabled = false;
+            reportConstructionFormFromDate.disabled = false;
+        } else if (reportTimeframes.value === 'specificDate') {
+            reportConstructionFormSpecificDate.disabled = false;
+            reportConstructionFormToDate.disabled = true;
+            reportConstructionFormFromDate.disabled = true;
+        } else {
+            resetForm();
+        };
+    });
+};
+
+
+
+// GENERATE REPORT FUNCTIONS FOR PROJECT REPORT 
+const renderReportTaskList = (task) => {
+
+    let taskMarkup;
+    if (!task) {
+        taskMarkup = `<tr><td colspan="7">No Task Found</td></tr>`
+    } else {
+        taskMarkup = `
+                        <tr>
+                            <td>${task.Task_ID}</td>
+                            <td>${task.Task_Name}</td>
+                            <td>${task.Task_Description}</td>
+                            <td>${task.Task_Status}</td>
+                            <td>${task.Employee_ID}</td>
+                            <td>${task.Milestone_ID}</td>
+                            <td>${new Date(task.Task_Planned_End_Date).toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })}</td>
+                        </tr>`;
+    };
+    reportDetailsByProjectTable.insertAdjacentHTML('beforeend', taskMarkup);
+};
+
+const renderProjectSummary = (requestReportData, summaryData, requestReportPerson) => {
+
+
+    let reportPeriod = ``;
+    let today = new Date();
+    while (reportDisplayArea__headerProject.hasChildNodes()) {
+        reportDisplayArea__headerProject.removeChild(reportDisplayArea__headerProject.firstChild);
+    };
+
+    if (requestReportData.Specific_Date === undefined && requestReportData.From_Date === undefined && requestReportData.Specific_Date === undefined) {
+        reportPeriod = `Not Specified`
+    } else {
+        requestReportData.Specific_Date === undefined ? reportPeriod = `${requestReportData.From_Date} - ${requestReportData.To_Date}` : reportPeriod = `${requestReportData.Specific_Date}`;
+
+    };
+    let projectSummaryMarkup = `
+                <div class="reportDisplayArea__summary">
+                    <div class="reportSummaryGroup">
+                        <h4>Reporting Period:</h4>
+                        <p>${reportPeriod}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Date of Report:</h4>
+                        <p>${today.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Report Person:</h4>
+                        <p>${requestReportPerson}</p>
+                    </div>
+                </div>
+                <div class="reportDisplayArea__summary">
+                    <div class="reportSummaryGroup">
+                        <h4>Project Name:</h4>
+                        <p>${summaryData[0].Project_Name}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Project Manager ID:</h4>
+                        <p>${summaryData[0].Project_Manager_ID}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Customer ID:</h4>
+                        <p>${summaryData[0].Customer_ID}</p>
+                    </div>
+                </div>`;
+
+
+    reportDisplayArea__headerProject.insertAdjacentHTML('beforeend', projectSummaryMarkup);
+
+};
+const getReportByProject = async (requestReportData) => {
+    resetReportArea();
+    try {
+        const result = await fetch(`/api/v1/report/getReportByProject`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestReportData)
+        });
+        const data = await result.json();
+        let summaryData = data.reportData;
+        let reportPerson = data.requestReportPerson;
+        while (reportDetailsByProjectTable.hasChildNodes()) {
+            reportDetailsByProjectTable.removeChild(reportDetailsByProjectTable.firstChild);
+        };
+        if (data.status === 'Success') {
+            reportByProjectDetails.style.display = 'flex';
+            renderProjectSummary(requestReportData, summaryData, reportPerson);
+
+            summaryData.forEach(task => {
+                renderReportTaskList(task);
+            });
+        };
+
+    } catch (err) {
+        console.log(err);
+    };
+};
+// GENERATE REPORT FUNCTIONS FOR PROJECT REPORT -------------END
+
+/// GENERATE REPORT FUNCTIONS FOR EMPLOYEE REPORT 
+
+const convertDatetimeFormat = (input) => {
+    let getDate = input.split('-')[2].substring(2, '');
+    let getMonth = input.split('-')[1];
+    let getYear = input.split('-')[0];
+    let getTime = input.split('T')[1].replace('Z', '').replace('.000', '');
+    let formatedDateTime = `${getMonth}/${getDate}/${getYear} - ${getTime}`;
+    return formatedDateTime;
+};
+
+const renderEmployeeReportTimeSheet = (timeSheet) => {
+    let timeSheetMarkup;
+    if (!timeSheet || timeSheet.Project_ID === null) {
+        timeSheetMarkup = `<tr><td colspan="6">No Data Found</td></tr>`
+    } else {
+        timeSheetMarkup = `
+                        <tr>
+                            <td>${new Date(timeSheet.Clock_out).toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })}</td>
+                            <td>${timeSheet.Project_ID}</td>
+                            <td>${timeSheet.Task_ID}</td>
+                            <td>${convertDatetimeFormat(timeSheet.Clock_in)}</td>
+                            <td>${convertDatetimeFormat(timeSheet.Clock_out)}</td>
+                            <td>${timeSheet.Minuits_elapsed / 60} Hours</td>
+                        </tr>`;
+    };
+    reportDetailsByEmployeeTable.insertAdjacentHTML('beforeend', timeSheetMarkup);
+};
+const renderEmployeeSummary = (requestReportData, summaryData, requestReportPerson, totalEmployeeTime) => {
+    let reportPeriod = ``;
+    let today = new Date();
+    while (reportDisplayArea__headerEmployee.hasChildNodes()) {
+        reportDisplayArea__headerEmployee.removeChild(reportDisplayArea__headerEmployee.firstChild);
+    };
+
+    if (requestReportData.Specific_Date === undefined && requestReportData.From_Date === undefined && requestReportData.Specific_Date === undefined) {
+        reportPeriod = `Not Specified`
+    } else {
+        requestReportData.Specific_Date === undefined ? reportPeriod = `${requestReportData.From_Date} - ${requestReportData.To_Date}` : reportPeriod = `${requestReportData.Specific_Date}`;
+
+    };
+    let employeeSummaryMarkup = `
+                <div class="reportDisplayArea__summary">
+                    <div class="reportSummaryGroup">
+                        <h4>Reporting Period:</h4>
+                        <p>${reportPeriod}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Date of Report:</h4>
+                        <p>${today.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Report Person:</h4>
+                        <p>${requestReportPerson}</p>
+                    </div>
+                </div>
+                <div class="reportDisplayArea__summary">
+                    <div class="reportSummaryGroup">
+                        <h4>Employee Name:</h4>
+                        <p>${summaryData[0].First_Name} ${summaryData[0].Last_Name}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Department ID:</h4>
+                        <p>${summaryData[0].Department_ID}</p>
+                    </div>
+                    <div class="reportSummaryGroup">
+                        <h4>Total Time:</h4>
+                        <p>${totalEmployeeTime / 60} Hours</p>
+                    </div>
+                </div>`;
+
+
+    reportDisplayArea__headerEmployee.insertAdjacentHTML('beforeend', employeeSummaryMarkup);
+
+};
+const getReportByEmployee = async (requestReportData) => {
+    resetReportArea();
+    try {
+        const result = await fetch(`/api/v1/report/getReportByEmployee`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestReportData)
+        });
+        const data = await result.json();
+        let summaryData = data.reportData;
+        let reportPerson = data.requestReportPerson;
+        let totalEmployeeTime = 0;
+        while (reportDetailsByEmployeeTable.hasChildNodes()) {
+            reportDetailsByEmployeeTable.removeChild(reportDetailsByEmployeeTable.firstChild);
+        };
+        if (data.status === 'Success') {
+            reportByEmployeeDetails.style.display = 'flex';
+            summaryData.forEach(dayMinutes => {
+                totalEmployeeTime += parseFloat(dayMinutes.Minuits_elapsed);
+            });
+            renderEmployeeSummary(requestReportData, summaryData, reportPerson, totalEmployeeTime);
+            summaryData.forEach(timeSheet => {
+                renderEmployeeReportTimeSheet(timeSheet);
+            });
+        } else if (data.status === 'Not Found') {
+            displayNotification(statisticsPageNotification, 'createNewEmployeeNotification_shown', data.message, 'failed');
+
+        }
+
+    } catch (err) {
+        console.log(err);
+    };
+};
+
+// GENERATE REPORT FUNCTIONS FOR EMPLOYEE REPORT -------------END
+
+
+//GENERATE REPORT FUNCTIONS FOR EXPENSE REPORT 
+
+const renderReportExpense = (expense) => {
+    let expenseMarkup;
+    if (!expense || expense.Project_ID === null) {
+        expenseMarkup = `<tr><td colspan="6">No Data Found</td></tr>`
+    } else {
+        expenseMarkup = `
+                        <tr>
+                            <td>${expense.Expense_ID}</td>
+                            <td>${expense.Expense_Name}</td>
+                            <td>${expense.Expense_Description}</td>
+                            <td>$${expense.Cost}</td>
+                            <td>${expense.Project_ID[0]}</td>
+                            <td>${expense.Created_By[0]}</td>
+                            <td>${convertDatetimeFormat(expense.Created_At[0])}</td>
+                        </tr>`;
+    };
+    reportDetailsByExpenseTable.insertAdjacentHTML('beforeend', expenseMarkup);
+};
+const renderExpenseSummary = (requestReportData, summaryData, requestReportPerson, totalCost) => {
+    let reportPeriod = ``;
+    let today = new Date();
+    while (reportDisplayArea__headerExpense.hasChildNodes()) {
+        reportDisplayArea__headerExpense.removeChild(reportDisplayArea__headerExpense.firstChild);
+    };
+
+    if (requestReportData.Specific_Date === undefined && requestReportData.From_Date === undefined && requestReportData.Specific_Date === undefined) {
+        reportPeriod = `Not Specified`
+    } else {
+        requestReportData.Specific_Date === undefined ? reportPeriod = `${requestReportData.From_Date} - ${requestReportData.To_Date}` : reportPeriod = `${requestReportData.Specific_Date}`;
+
+    };
+    let expenseSummaryMarkup = `
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Reporting Period:</h4>
+                                        <p>${reportPeriod}</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Date of Report:</h4>
+                                        <p>${today.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })}</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Report Person:</h4>
+                                        <p>${requestReportPerson}</p>
+                                    </div>
+                                </div>
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Project Name:</h4>
+                                        <p>${summaryData[0].Project_Name}</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Spending are made on:</h4>
+                                        <p>${summaryData.length} Items</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Total Expense:</h4>
+                                        <p>$${totalCost}</p>
+                                    </div>
+                                </div>`;
+    reportDisplayArea__headerExpense.insertAdjacentHTML('beforeend', expenseSummaryMarkup);
+
+};
+const getReportByExpense = async (requestReportData) => {
+    resetReportArea();
+    try {
+        const result = await fetch(`/api/v1/report/getReportByExpense`, {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestReportData)
+        });
+        const data = await result.json();
+
+        let summaryData = data.reportData;
+        let reportPerson = data.requestReportPerson;
+        while (reportDetailsByExpenseTable.hasChildNodes()) {
+            reportDetailsByExpenseTable.removeChild(reportDetailsByExpenseTable.firstChild);
+        };
+        if (data.status === 'Success') {
+            reportByExpenseDetails.style.display = 'flex';
+            let totalCost = 0;
+            summaryData.forEach(item => {
+                totalCost += item.Cost;
+            });
+            renderExpenseSummary(requestReportData, summaryData, reportPerson, totalCost);
+            summaryData.forEach(expense => {
+                renderReportExpense(expense);
+            });
+        } else if (data.status === 'Not Found') {
+            displayNotification(statisticsPageNotification, 'createNewEmployeeNotification_shown', data.message, 'failed');
+
+        };
+
+    } catch (err) {
+        console.log(err);
+    };
+};
+
+
+//GENERATE REPORT FUNCTIONS FOR EXPENSE REPORT ------------------END
+
+
+
+if (gerateStatisticsReportBtn) {
+    resetReportArea();
+
+    gerateStatisticsReportBtn.addEventListener('click', e => {
+        if (selectedReportType === '' || selectedReportType === ' ') {
+            displayNotification(statisticsPageNotification, 'createNewEmployeeNotification_shown', 'Please select what type of report you want to generate', 'failed');
+        } else {
+            let today = new Date();
+            let yesterday = new Date(today);
+            let lastWeek = new Date(today);
+            let last30Days = new Date(today);
+            let last90Days = new Date(today);
+            yesterday.setDate(yesterday.getDate() - 1);
+            lastWeek.setDate(lastWeek.getDate() - 7);
+            last30Days.setDate(last30Days.getDate() - 30);
+            last90Days.setDate(last90Days.getDate() - 90);
+
+
+            let reportResquestData = new Object();
+            let getReportFromDate;
+            let getReportToDate;
+            let getReportDate;
+            if (reportTimeframes.value === 'yesterday') {
+                getReportDate = yesterday.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+            } else if (reportTimeframes.value === 'lastweek') {
+                getReportFromDate = today.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+                getReportToDate = lastWeek.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+            } else if (reportTimeframes.value === '30days') {
+                getReportToDate = today.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+                getReportFromDate = last30Days.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+            } else if (reportTimeframes.value === '90days') {
+                getReportToDate = today.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+                getReportFromDate = last90Days.toLocaleString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+            } else if (reportTimeframes.value === 'specificDate') {
+                getReportDate = reportConstructionFormSpecificDate.value;
+            } else if (reportTimeframes.value === 'dateRange') {
+                getReportFromDate = reportConstructionFormFromDate.value;
+                getReportToDate = reportConstructionFormToDate.value;
+            }
+            reportResquestData.Report_Type = selectedReportType;
+            reportResquestData.ID = parseInt(reportKeywords.value);
+            reportResquestData.From_Date = getReportFromDate;
+            reportResquestData.To_Date = getReportToDate;
+            reportResquestData.Specific_Date = getReportDate;
+            switch (selectedReportType) {
+                case 'Project':
+                    getReportByProject(reportResquestData);
+                    break;
+                case 'Employee':
+                    getReportByEmployee(reportResquestData);
+                    break;
+                case 'Expense':
+                    getReportByExpense(reportResquestData);
+                    break;
+            }
+
+
+        }
+    });
+    resetStatisticsReportBtn.addEventListener('click', e => {
+        resetReportArea();
+        removeSelectedTab();
+        resetForm();
+        reportTimeframes.value = 'none';
+        selectedReportType = '';
+        reportKeywords.value = '';
+    });
+
+};
+
+const refreshTasksPage = document.getElementById('refreshTasksPage');
+const myTasksList = document.getElementById('myTasksList');
+const employeeCheckIn = document.querySelectorAll('.employeeCheckIn');
+const employeeCheckOut = document.querySelectorAll('.employeeCheckOut');
+
+const renderMyTaskList = (task) => {
+    let optionMarkup = ``;
+    if (task.Task_Status === 'Started') {
+        optionMarkup = `
+        <option value="Started" selected disabled>Started</option>
+        <option value="Processing">Processing</option>
+        <option value="Delay">Delay</option>
+        <option value="NeedSupport">Need Support</option>
+        <option value="Completed">Completed</option>
+        `
+    } else if (task.Task_Status === 'Processing') {
+        optionMarkup = `
+        <option value="Processing" selected disabled>Processing</option>
+        <option value="Delay">Delay</option>
+        <option value="NeedSupport">Need Support</option>
+        <option value="Completed">Completed</option>
+        `
+    } else if (task.Task_Status === 'Delay') {
+        optionMarkup = `
+        <option value="Delay" selected disabled>Delay</option>
+        <option value="NeedSupport">Need Support</option>
+        <option value="Completed">Completed</option>
+        `
+    } else if (task.Task_Status === 'Need Support') {
+        optionMarkup = `
+        <option value="NeedSupport" selected disabled>Need Support</option>
+        <option value="Completed">Completed</option>
+        `
+    } else {
+        optionMarkup = `
+        <option value="Completed" selected disabled>Completed</option>
+         `
+    }
+    let lastUpdatedAt;
+    task.Last_Updated_At === null ? lastUpdatedAt = `Not Yet Updated` : lastUpdatedAt = convertDatetimeFormat(tasks.Last_Updated_At);
+    let myTaskMarkup = `
+                <tr>
+                    <td>${task.Task_ID}</td>
+                    <td>${task.Project_ID[0]}</td>
+                    <td>${task.Milestone_ID}</td>
+                    <td>${task.Task_Name}</td>
+                    <td>${task.Task_Description}</td>
+                    <td>${task.Priority}</td>
+                    <td>
+                        <select class="employeeUpdateTaskStatus">
+                            ${optionMarkup}
+                        </select>
+                    </td>
+                    <td>${convertDatetimeFormat(task.Task_Planned_End_Date)}</td>
+                    <td>${convertDatetimeFormat(task.Created_At)}</td>
+                    <td>${lastUpdatedAt}</td>
+                    <td>${task.Last_Changed_By === null ? 'Not Yet Updated' : task.Last_Changed_By}</td>
+                    <td>
+                        <a href="/api/v1/project/checkInEmployee/${task.Employee_ID}/${task.Project_ID[0]}/${task.Milestone_ID}" class="employeeCheckIn">Check-in</a>
+                        <div class="employeeCheckedIn">Checked-in</div>
+                    </td>
+                    <td>
+                        <a href="/api/v1/project/checkOutEmployee/${task.Employee_ID}/${task.Project_ID[0]}/${task.Milestone_ID}" class="employeeCheckOut">Check-out</a>
+                        <div class="employeeCheckedOut">Checked-out</div>
+                    </td>
+                </tr>`;
+    myTasksList.insertAdjacentHTML('beforeend', myTaskMarkup);
+
+};
+
+const getAllMyTask = async (fetchRequest) => {
+    try {
+        const result = await fetch(`${fetchRequest}`, {
+            method: "GET",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        });
+        const data = await result.json();
+        if (data.status === 'Success') {
+            let tasks = data.tasks;
+            while (myTasksList.hasChildNodes()) {
+                myTasksList.removeChild(myTasksList.firstChild);
+            };
+            tasks.forEach(task => {
+                if (task.Task_Status !== 'Completed') {
+                    renderMyTaskList(task);
+
+                };
+            });
+
+        };
+
+
+    } catch (err) { console.log(err) };
+};
+
+const employeeUpdateTaskStatus = document.querySelectorAll('.employeeUpdateTaskStatus');
+if (myTasksList) {
+    myTasksList.addEventListener('click', e => {
+        e.preventDefault();
+        let taskStatusToUpdate;
+        taskStatusToUpdate = e.target.value;
+    });
+};
+
+if (refreshTasksPage) {
+    refreshTasksPage.addEventListener('click', e => {
+        e.preventDefault();
+        let fetchRequest = refreshTasksPage.getAttribute('href');
+        getAllMyTask(fetchRequest);
+
+
+    })
+};
 
 // Render charts
 function tasksbyemployee() {

@@ -12,7 +12,7 @@
     <title>PMS - Dashboard</title>
 </head>
 
-<body onload="setDefaultPage();employeetasks();tasksbyemployee()">
+<body>
     <div class="pms__page">
         <header class="header" id="header">
             <nav class="navbar">
@@ -82,7 +82,268 @@
                 </ul>
             </div>
         </header>
-        <section class="employees" id="employees">
+        <section class="statisticsPageNotification">
+            <p class="message">message and it's very long</p>
+        </section>
+        <section class="statistics" id="statistics">
+            <div class="statistics__group">
+                <div class="reportConstruction">
+                    <div class="reportConstruction__control">
+                        <button type="checkbox">Project
+                            <input type="checkbox" id="reportByProjectBtn" value="project" class="reportTypeCheckboxes">
+                        </button>
+                        <button type="checkbox">Employee
+                            <input type="checkbox" id="reportByEmployeeBtn" value="employee"
+                                class="reportTypeCheckboxes">
+
+                        </button>
+                        <button type="checkbox">Expense
+                            <input type="checkbox" id="reportByExpenseBtn" value="expense" class="reportTypeCheckboxes">
+                        </button>
+
+                    </div>
+                </div>
+                <div class="reportConstruction">
+                    <form class="reportConstruction__form reportConstruction__reportByProject"
+                        id="reportConstruction__reportByProject">
+                        <div class="reportConstruction__form--group">
+                            <div class="reportConstruction__form--subgroup">
+                                <label>Keywords</label>
+                                <input type="text" id="reportKeywords">
+                            </div>
+                        </div>
+                        <div class="reportConstruction__form--group">
+                            <div class="reportConstruction__form--subgroup">
+                                <label>Timeframes</label>
+                                <select name="reportTimeframes" id="reportTimeframes">
+                                    <option value="none" disabled selected>Report Timeframes</option>
+                                    <option value="yesterday"> Yesterday</option>
+                                    <option value="lastweek">Last Week</option>
+                                    <option value="30days">Last 30 Days</option>
+                                    <option value="90days">Last 90 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="reportConstruction__form--group">
+                            <div class="reportConstruction__form--subgroup">
+                                <label>Specific Date:</label>
+                                <input type="date" class="datepickers" id="reportConstruction__form--specificDate"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="reportConstruction__form--group">
+                            <div class="reportConstruction__form--subgroup">
+                                <label>From:</label>
+                                <input type="date" class="datepickers" id="reportConstruction__form--FromDate" disabled>
+
+                            </div>
+                            <div class="reportConstruction__form--subgroup">
+                                <label>To:</label>
+                                <input type="date" class="datepickers" id="reportConstruction__form--ToDate" disabled>
+                            </div>
+                        </div>
+
+                        <div class="reportConstruction__form--group">
+                            <div class="reportConstruction__form--control">
+                                <button type="button" id="reportConstruction--create">Create Report</button>
+                                <button type="button" id="reportConstruction--reset">Reset</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+            <div class="statistics__group">
+                <div class="reportDisplayGroup">
+                    <div class="reportDisplayGroup__details">
+                        <div class="reportDisplayArea" id="reportByProjectDetails">
+                            <div class="reportDisplayArea__header">
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Reporting Period:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Date of Report:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Report Person:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                </div>
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Project Name:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Project Manager:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Customer:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reportDisplayArea__body">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Milestone ID </th>
+                                            <th>Milestone Name</th>
+                                            <th>Status </th>
+                                            <th>Total Tasks</th>
+                                            <th>Expiration Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reportDetailsByProjectTable">
+                                        <tr>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="reportDisplayArea" id="reportByEmployeeDetails">
+                            <div class="reportDisplayArea__header">
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Reporting Period:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Date of Report:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Report Person:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                </div>
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Employee Name:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Department:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Total Time:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reportDisplayArea__body">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Date </th>
+                                            <th>Login</th>
+                                            <th>Logout </th>
+                                            <th>Total Time</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reportDetailsByEmployeeTable">
+                                        <tr>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="reportDisplayArea" id="reportByExpenseDetails">
+                            <div class="reportDisplayArea__header">
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Reporting Period:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Date of Report:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Report Person:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                </div>
+                                <div class="reportDisplayArea__summary">
+                                    <div class="reportSummaryGroup">
+                                        <h4>Project Name:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Project Manager:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                    <div class="reportSummaryGroup">
+                                        <h4>Total Expense:</h4>
+                                        <p>Data</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="reportDisplayArea__body">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Expense ID</th>
+                                            <th>Reason</th>
+                                            <th>Description </th>
+                                            <th>Cost</th>
+                                            <th>Time Recorded</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reportDetailsByExpenseTable">
+                                        <tr>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                            <td>Troi oi</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
         </section>
 

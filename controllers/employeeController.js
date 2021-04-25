@@ -117,7 +117,7 @@ exports.getEmployeesBy = catchAsync(async (req, res, next) => {
     } else if (req.params.keywords === 'ISNOTNULL') {
         sqlQueryEmployeesBy = `SELECT * FROM employees LEFT JOIN departments ON employees.Department_ID = departments.Department_ID LEFT JOIN roles ON employees.Role_ID = roles.Role_ID WHERE employees.First_Name IS NOT NULL AND employees.Department_ID=${req.params.department}`
     } else {
-        sqlQueryEmployeesBy = `SELECT * FROM employees LEFT JOIN departments ON employees.Department_ID = departments.Department_ID LEFT JOIN roles ON employees.Role_ID = roles.Role_ID WHERE employees.First_Name LIKE '%${req.params.keywords}%' AND employees.Department_ID=${req.params.department}`
+        sqlQueryEmployeesBy = `SELECT * FROM employees LEFT JOIN departments ON employees.Department_ID = departments.Department_ID LEFT JOIN roles ON employees.Role_ID = roles.Role_ID WHERE (employees.First_Name LIKE '%${req.params.keywords}%' OR employees.Last_Name LIKE '%${req.params.keywords}%') AND employees.Department_ID=${req.params.department}`
     };
     let pool = await sql.connect(config);
     let employees = await pool.request().query(sqlQueryEmployeesBy).then(result => {

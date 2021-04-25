@@ -12,20 +12,25 @@ block content
                                 div(class="milestonesHeader__header")
                                     p Milestones Checks
                                     button(id="addNewMileStoneBtn") New Milestone
+                                    button(id="addNewExpenseBtn") Add Expense
+
                                 div(class="milestonesHeader__statistic")
                                     div(class="milestonesHeader__statistic--details")
                                         p(class="milesstonesGroup__NoassignedTasks" )
-                                           i(class="fas fa-chalkboard" id="milesstonesGroup__NoassignedTasks")=noAssignedTasks
+                                           i(class="fas fa-chalkboard" )
+                                           p(id="milesstonesGroup__NoassignedTasks")=noAssignedTasks
                                         label(for="milesstonesGroup__NoassignedTasks") No Assigned Tasks
 
                                     div(class="milestonesHeader__statistic--details")
                                         p(class="milesstonesGroup__inprogress" )
-                                            i(class="fas fa-spinner" id="milesstonesGroup__inprogress")=inProgress
+                                            i(class="fas fa-spinner" )
+                                            p(id="milesstonesGroup__inprogress")=inProgress
                                         label(for="milesstonesGroup__inprogress") In Progress
 
                                     div(class="milestonesHeader__statistic--details")
                                         p(class="milesstonesGroup__completed")
-                                            i(class="fas fa-check"  id="milesstonesGroup__completed")=completed
+                                            i(class="fas fa-check")
+                                            p(id="milesstonesGroup__completed")=completed
                                         label(for="milesstonesGroup__completed") Completed
                             div(class="milestonesList")
                                 table(class="milestonesListTable")
@@ -50,7 +55,7 @@ block content
                                                     td 
                                                         a(class="seeAllTasksBtn"  href=`/api/v1/project/getAllTasks/${milestone.ID}`) View Tasks
                                                     td
-                                                        a(class="removeMilestoneBtn" href=`/api/v1/project/removeMilestone/${milestone.ID}`) Remove Milestone
+                                                        a(class="removeMilestoneBtn" href=`/api/v1/project/removeMilestoneById/${milestone.ID}`) Remove Milestone
                         div(class="projectDetailsBody__tasks")
                             div(class="tasksHeader")
                                 p Tasks For Milestone:
@@ -86,23 +91,37 @@ block content
                 div(class="projectDetailsFooter")
                     div(class="projectDetailsFooter__timeLeft")
                         i(class="fas fa-stopwatch" id="timeLeftForTheProjectUntilDue")
-                        p 2 Days Left Until This Project is Due
-
+                        p=timeLeftTillDueString
+            section(class="projectDetailNotification" id="projectDetailNotification")
+                p(class="message") message
+    
             form(class="addNewMileStoneForm" id="addNewMileStoneForm")
                 div(class="newMileStoneForm__Group")
                     p New Milestone
+                div(class="newMileStoneForm__Group")
+                    label(for="newMileStoneForProjectName") Project Name
+                    input(type="text" class="newMileStoneForProjectName" id="newMileStoneForProject" value=`${projectDetail[0].Project_Name}` disabled)
+                div(class="newMileStoneForm__Group")
+                    label(for="newMileStoneForProjectID") Project ID
+                    input(type="text" class="newMileStoneForProjectID" id="newMileStoneForProjectID" value=`${projectDetail[0].Project_ID[0]}` disabled)
                 div(class="newMileStoneForm__Group")
                     label(for="newMileStoneName") Name
                     input(type="text" class="newMileStoneName" id="newMileStoneName" placeholder="New Milestone's Name")
                 div(class="newMileStoneForm__Group")
                     label(for="newMileStoneExpirationDate") Expiration Date
-                    input(type="date" class="newMileStoneExpirationDate" id="newMileStoneExpirationDate")
+                    input(type="datetime-local" class="newMileStoneExpirationDate" id="newMileStoneExpirationDate")
                 div(class="newMileStoneForm__Control")
                     button(type="submit" id="confirmMileStoneCreation" class="newMileStoneForm__Control--submit") Create
                     button(type="reset" id="cancelMileStoneCreation" class="newMileStoneForm__Control--cancel") Cancel
             form(class="addNewTaskForm " id="addNewTaskForm")
                 div(class="addNewTaskForm__group")
                     h1 Create New Task
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskForProject") Project ID
+                    input(id="newTaskForProject" type="text" value=`${(Object.values(project.recordset[0].Project_ID))[0]}` disabled)
+                div(class="addNewTaskForm__group")
+                    label(for="newTaskForProject") Milestones ID
+                    input(id="newTaskForMilestone" type="text" placeholder=`Milestone that this task belongs`)
                 div(class="addNewTaskForm__group")
                     label(for="newTaskName") Task Name
                     input(id="newTaskName" type="text" placeholder="New task name")
@@ -111,7 +130,7 @@ block content
                     input(id="newTaskDescription" type="text" placeholder="Description")
                 div(class="addNewTaskForm__group")
                     label(for="newPriority") Priority
-                    input(id="newPriority" type="number" min="1" max="5" placeholder="Task's priority 1 to 10")
+                    input(id="newPriority" type="number" min="1" max="10" placeholder="Task's priority 1 to 10")
                 div(class="addNewTaskForm__group")
                     label(for="newTaskToAnEmployee") Assign task to Employee
                     select(id="newTaskToAnEmployee")
@@ -119,23 +138,38 @@ block content
                 div(class="addNewTaskForm__group")
                     label(for="newTaskPlannedStartDate") Planned Start Date
                     input(id="newTaskPlannedStartDate" type="date") 
-
                 div(class="addNewTaskForm__group")
                     label(for="newTaskPlannedEndDate") Planned End Date
                     input(id="newTaskPlannedEndDate" type="date") 
-
-                div(class="addNewTaskForm__group")
-                    label(for="newTaskPlannedBudget") Planned Budget
-                    input(id="newTaskPlannedBudget" type="number" placeholder="Estimated Budget")
                 div(class="addNewTaskForm__group")
                     button(id="confirmationCreateTaskBtn" class="addNewTaskForm__group--createBtn") Create
                     button(id="cancelNewTaskBtn" class="addNewTaskForm__group--cancelBtn") Cancel
             form(class="confirmationForm" id="confirmationForm")
                 div(class="confirmationForm__group")
-                    p Message Goes Here and it's very long
+                    p(id="confirmationOfDeletionMessage") Message Goes Here and it's very long
                 div(class="confirmationForm__group")
                     button(id="confirmationOfDeletion" class="confirmationForm__group--confirm")
-                        a(href="/api/v1/") Confirm
+                        a(href="#") Confirm
                     button(id="cancelationOfDeletion" class="confirmationForm__group--cancel") Cancel
-
+            form(class="addNewExpenseForm" id="addNewExpenseForm")
+                div(class="addNewExpenseForm__group")
+                    h1 Add New Expense
+                div(class="addNewExpenseForm__group")
+                    label(for="newExpenseName") Spending Reason
+                    input(id="newExpenseName" type="text" placeholder="New Expense name")
+                div(class="addNewExpenseForm__group")
+                    label(for="newExpenseDescription") Description
+                    input(id="newExpenseDescription" type="text" placeholder="Description")
+                div(class="addNewExpenseForm__group")
+                    label(for="newExpenseCost") Cost
+                    input(id="newExpenseCost" type="number" step="0.10" placeholder="Cost")
+                div(class="addNewExpenseForm__group")
+                    label(for="newExpenseForProject") Project ID
+                    input(id="newExpenseForProject" value=`${projectDetail[0].Project_ID[0]}` type="text" disabled)
+                div(class="addNewExpenseForm__group")
+                    button(id="confirmationCreateExpenseBtn" class="addNewExpenseForm__group--createBtn") Add Expense
+                    button(id="cancelNewExpenseBtn" class="addNewExpenseForm__group--cancelBtn") Cancel
+            button(class="deactivateProjectBtn")
+                a(href=`/api/v1/project/deactivateProject/${projectDetail[0].Project_ID[0]}`)
+                    i(class="fas fa-trash")
         script(src="/js/application.js")

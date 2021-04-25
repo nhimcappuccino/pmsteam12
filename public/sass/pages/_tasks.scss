@@ -1,0 +1,120 @@
+.tasksByEmployee{
+    display: flex;
+    flex-direction: column;
+}
+
+.myTasksGroup{
+    display: flex;
+    &__header{
+        display: flex;
+        width: 100%;
+        height: 10rem;
+        padding: 2rem;
+        @include defaultFont;
+        text-align: center;
+        align-items: center;
+        background-color: rgba($tertiary-font-color,.2);
+        & h1{
+            font-size: 2.2rem;
+            letter-spacing: .2rem;
+            font-weight: bold;
+            color: rgba($tertiary-font-color,1);
+            margin-right: 4rem;
+            margin-left: 6rem;
+        }
+        & button{
+            background-color: transparent;
+            outline: none;
+            border:none;
+            width: 15rem;
+            height: 4rem;
+            background-image: linear-gradient(112.72013189013455deg, rgba(86, 216, 228,1) 4.927083333333334%,rgba(154, 206, 149,1) 97.84374999999999%);
+            box-shadow: 0 0 .5rem rgba($tertiary-font-color,.5),
+            0 0 1rem rgba($tertiary-font-color,.5),
+            0 0 2rem rgba($tertiary-font-color,.5);
+            border-radius: .5rem;
+            transition: all .2s;
+            &:hover{
+                box-shadow: 0 0 .2rem rgba($tertiary-font-color,.5),
+                0 0 .5rem rgba($tertiary-font-color,.5),
+                0 0 1rem rgba($tertiary-font-color,.5);
+            }
+            & a{
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                text-align: center;
+                color: rgba($primary-font-color,1);
+                font-weight: 600;
+                font-size: 1.2rem;
+            & p{
+                margin-right: 1rem;
+            }
+            & i{
+                font-size: 2rem;
+                animation-name: infiniteSpining;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                animation-timing-function: ease;
+            }
+            }
+            
+        }
+    }
+}
+.myTasksTable{
+    display: table;
+    width: 100%;
+    height: 90%;
+    overflow: scroll;
+    border-collapse: collapse;
+    @include defaultFont;
+    & thead{
+        & tr{
+            height: 5rem;
+            color: rgba($primary-font-color,1);
+        }
+        font-size: 1.4rem;
+        background-color: rgba($secondary-font-color,1);
+    }
+    & tbody{
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 700;
+        background-color: rgba($tertiary-font-color,.2);
+        & tr{
+            height: 4rem;
+            position: relative;
+        }
+        & tr:nth-of-type(even){
+            background-color: rgba($tertiary-font-color,.5);
+        }
+        & td:nth-of-type(7){
+            & select{
+                outline: none;
+                border: none ;
+                background-color: transparent;
+                width: 10rem;
+                height: 100%;
+                font-size: 1.4rem;
+                font-weight: 500;
+                letter-spacing: .1rem;
+                color: rgba(black,1);
+            }
+        }
+        & td:nth-of-type(12), & td:nth-of-type(13){
+            overflow: hidden;
+            padding: 0;
+            position: relative;
+            & a{
+                width: 100%;
+                height: 100%;
+                text-decoration: none;
+                color: rgba($secondary-page-color,1);
+            }
+        }
+    }
+}

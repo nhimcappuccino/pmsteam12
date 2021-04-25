@@ -30,9 +30,9 @@ const login = async (username, password) => {
         if (response.status === "Success") {
             displayNotification(response.message, response.status.toLowerCase());
             if (response.data.userData.Role_ID < 4) {
-                window.setTimeout(() => { location.assign('/dashboard'); }, 1000);
+                window.setTimeout(() => { location.assign('/dashboard'); }, 0);
             } else {
-                window.setTimeout(() => { location.assign('/projects'); }, 1000);
+                window.setTimeout(() => { location.assign('/projects'); }, 0);
             };
 
         } else if (response.status === "Failed") {

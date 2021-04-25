@@ -1,0 +1,305 @@
+.statistics{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    &__group{
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        &:nth-of-type(1){
+            width: 20%;
+            flex-direction: column;
+            margin: 5rem 1rem 1rem 1rem;
+            border-radius: 1rem;
+        }
+        &:nth-of-type(2){
+            width: 82%;
+            flex-direction: column;
+
+        }
+    }
+}
+.reportConstruction{
+    display: flex;
+    flex-direction: row;
+    &__control{
+        display: flex;
+        width: 100%;
+        height: 4rem;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        & input{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: transparent;
+            outline: none;
+            opacity: 0;
+     
+        }
+        & button{
+            @include defaultFont;
+            position: relative;
+            display: flex;
+            width: 33.33%;
+            height: 4rem;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background-color: transparent;
+            border: none;
+            outline:none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: .2rem;
+            background-color: rgba($primary-font-color,.8);
+            transition: all .2s;
+            color: rgba($tertiary-font-color,1);
+            
+            &:nth-of-type(1),  &:nth-of-type(2){
+                border:.2rem solid rgba($tertiary-font-color,.2);
+                border-top-right-radius: 1rem;
+                border-top-left-radius:1rem ;
+                border-bottom:none;
+                
+            }
+            &:nth-of-type(2){
+                border-left: none;
+            }
+            &:nth-of-type(3){
+                border:.2rem solid rgba($tertiary-font-color,.2);
+                border-left: none;
+                border-top-left-radius:1rem ;
+                border-bottom:none;
+
+            }
+            &:hover{
+                background-color: rgba($tertiary-font-color,.2);
+                color: rgba($primary-font-color,1);
+            }
+           
+        }
+
+    }
+    &__form{
+        display:none;
+        background-color: rgba($tertiary-font-color,.2);
+        border-bottom-left-radius: 1rem;
+        border-bottom-right-radius: 1rem;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        text-align: left;
+        &--group{
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            @include defaultFont;
+            font-weight: 600;
+            letter-spacing: .2rem;
+            font-size: 1.2rem;
+            &:nth-of-type(1){
+                margin-top: 2rem;
+            }
+            & input, & select{
+                width: 20rem;
+                height:3rem;
+                outline: none;
+                border-radius: .6rem;
+                border: .2rem solid rgba($tertiary-font-color,.2);
+            }
+     
+        }
+        &--subgroup{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            height: 5rem;
+            & label{
+                display: flex;
+                width: 15rem;
+            }
+            & option{
+                font-weight: 700;
+                font-size: 1.2rem;
+            }
+        }
+        &--control{
+            display: flex;
+            width: 100%;
+            height: 8rem;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            & button{
+                @include noSelect;
+                @include defaultFont;
+                padding: 1rem;
+                font-size: 1rem;
+                font-weight: 600;
+                border: none;
+                margin-right: 2rem;
+                width: 14rem;
+                height: 4rem;
+                transition: all .2s;
+                transition-timing-function: ease-in-out;
+                background-color: transparent;
+                color: rgba($tertiary-font-color,1);
+                letter-spacing: .2rem;
+                border: .2rem solid rgba($tertiary-font-color,1);
+                border-radius: 1rem ;
+                backface-visibility: hidden;
+                font-weight: 500;
+                &:hover{
+                    &:nth-of-type(1){
+
+                        color: rgba($primary-font-color,1);
+                        border: none;
+                        box-shadow: 0 0 .5rem rgba(green,1), 0 0 2rem rgba(green,1), 0 0 4rem rgba(green,1);
+                        background-color: rgba(green,1);
+                        &:active{
+                            box-shadow: 0 0 .2rem rgba(green,1), 0 0 2rem rgba(green,1), 0 0 3rem rgba(green,1);
+                        }
+                    }
+                    &:nth-of-type(2){
+
+                        color: rgba($primary-font-color,1);
+                        border: none;
+                        box-shadow: 0 0 .5rem rgba($secondary-page-color,1), 0 0 2rem rgba($secondary-page-color,1), 0 0 4rem rgba($secondary-page-color,1);
+                        background-color: rgba($secondary-page-color,1);
+                        &:active{
+                            box-shadow: 0 0 .2rem rgba($secondary-page-color,1), 0 0 2rem rgba($secondary-page-color,1), 0 0 3rem rgba($secondary-page-color,1);
+                        }
+                    }
+                }
+               
+            }
+        }
+    }
+    &__reportByProject{
+        display: flex;
+    }
+}
+.reportDisplayGroup{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    &__details{
+        margin-top: 5rem;
+        display: flex;
+        width: 100%;
+        height:100%;
+
+    }
+}
+
+.reportDisplayArea{
+    display: flex;
+    flex-direction: column;
+    width: 98%;
+    height: 98%;
+    background-color: rgba($tertiary-font-color,.2);
+    border-radius: .5rem;
+    box-shadow: inset 0 0 2rem .5rem rgba($tertiary-font-color,.2);
+    overflow: hidden;
+    &__header{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 20%;
+        background-color: rgba(black,.2);
+
+    }
+    &__summary{
+        display: flex;
+        flex-direction: column;
+        margin: 1rem;
+        height: 10rem;
+        width: 50%;
+        font-size: 1.4rem;
+
+    }
+    
+}
+.reportSummaryGroup{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+    margin-top: 2rem;
+    & h4{
+        width: 18rem;
+        margin-left: 2rem;
+    }
+    & p{
+        font-weight: 500;
+    }
+}
+.reportDisplayArea__body{
+    margin-top: 1rem;
+    width: 100%;
+    height: 80%;
+    overflow-y: scroll;
+    
+    & table{
+        border-collapse: collapse;
+        width: 100%;
+        text-align: center;
+    }
+    & th:first-of-type{
+        width: 10rem;
+    }
+    & th{
+
+        border: .2rem solid rgba($tertiary-font-color,1);
+        background-color: rgba($tertiary-font-color,.2);
+        color: rgba($secondary-font-color,1);
+    }
+    & tr{
+        font-size: 1.5rem;
+        background-color: rgba($primary-font-color,.8);
+        &:nth-of-type(even){
+            background-color: rgba($tertiary-font-color,.2);
+        }
+    }
+}
+#reportByProjectDetails{
+    display: flex;
+}
+#reportByEmployeeDetails{
+    display: none;
+}
+#reportByExpenseDetails{
+    display: flex;
+}
+
+.statisticsPageNotification{
+    @include defaultFont;
+    font-weight: 700;
+    display: flex;
+    width: auto;
+    letter-spacing: .2rem;
+    position: absolute;
+    top: 5rem;
+    left: 40%;
+    background-color: rgba(0,0,0,.8);
+    height: 5rem;
+    font-size: 1.5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 0 2rem;
+    color: $primary-font-color;
+    transform: translateY(-5rem);
+}

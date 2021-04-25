@@ -1,0 +1,34 @@
+extends base
+
+block content    
+    body
+        div(class="pms__page")
+            include _header
+            section(class="tasksByEmployee" id="tasksByEmployee")
+                div(class="myTasksGroup")
+                    div(class="myTasksGroup__header")
+                        h1 My Tasks
+                        button
+                            a(href=`/api/v1/project/getAllTasks/${loggedInUserID}` id="refreshTasksPage")
+                                p Show All Tasks
+                                i(class="fas fa-sync")
+                div(class="myTasksGroup")
+                    table(class="myTasksTable")
+                        thead
+                            tr
+                                th Tasks ID
+                                th Project ID
+                                th Milestone ID
+                                th Task Name
+                                th Description
+                                th Priority
+                                th Task Status
+                                th Planned End Date
+                                th Created At
+                                th Last Updated At
+                                th Changed By
+                                th Check-in
+                                th Check-out
+                        tbody(id="myTasksList")
+
+        script(src="/js/application.js")

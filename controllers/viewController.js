@@ -80,7 +80,6 @@ exports.getProject = (req, res, next) => {
         });
     } else {
         res.redirect('/');
-
     };
 };
 
@@ -101,5 +100,25 @@ exports.getStatistics = (req, res, next) => {
         });
     } else {
         res.redirect('/');
-    }
+    };
 };
+
+exports.getTasksByEmployee = (req, res, next) => {
+    if (req.session.isLoggedIn) {
+        const data = req.session.username;
+        const user_full_name = data.First_Name + ' ' + data.Last_Name;
+        const user_photo = req.session.userPhoto;
+        const loggedInUserID = req.session.loggedInUserID;
+
+        res.status(200).render(`tasks`, {
+            title: `PMS - Tasks`,
+            page: `Projects and Tasks`,
+            user: user_full_name,
+            user_photo,
+            loggedInUserID
+
+        });
+    } else {
+        res.redirect('/');
+    };
+}

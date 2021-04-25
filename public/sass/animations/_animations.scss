@@ -319,3 +319,9 @@ transform: rotate(0deg);
         transform: scale(1);
     }
 }
+@keyframes infiniteSpining {
+    100%{
+        transform: rotate(720deg);
+
+    }
+}

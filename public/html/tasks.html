@@ -12,7 +12,7 @@
     <title>PMS - Dashboard</title>
 </head>
 
-<body onload="setDefaultPage();employeetasks();tasksbyemployee()">
+<body>
     <div class="pms__page">
         <header class="header" id="header">
             <nav class="navbar">
@@ -47,7 +47,7 @@
             </nav>
             <div class="header__group">
                 <p class="header__group--text" id="headerPageName">
-                    Tasks
+                    Projects and Tasks
                 </p>
             </div>
             <div class="header__group">
@@ -82,8 +82,128 @@
                 </ul>
             </div>
         </header>
-        <section class="employees" id="employees">
+        <section class="tasksByEmployee" id="tasksByEmployee">
+            <div class="myTasksGroup">
+                <div class="myTasksGroup__header">
+                    <h1>My Tasks</h1>
+                    <button>
+                        <a href="/api/v1/project/getAllTasks/1">
+                            <p>Show All Tasks</p>
+                            <i class="fas fa-sync"></i>
+                        </a>
+                    </button>
+                </div>
+            </div>
+            <div class="myTasksGroup">
+                <table class="myTasksTable">
+                    <thead>
+                        <tr>
+                            <th>
+                                Tasks ID
+                            </th>
+                            <th>
+                                Project ID
+                            </th>
+                            <th>
+                                Milestone ID
+                            </th>
+                            <th>
+                                Task Name
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Priority
+                            </th>
+                            <th>
+                                Task Status
+                            </th>
+                            <th>
+                                Planned End Date
+                            </th>
+                            <th>
+                                Created At
+                            </th>
+                            <th>
+                                Last Updated At
+                            </th>
+                            <th>
+                                Changed By
+                            </th>
+                            <th>
+                                Check-in
+                            </th>
+                            <th>
+                                Check-out
+                            </th>
 
+                        </tr>
+                    </thead>
+                    <tbody id="myTasksList">
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>Debug Code</td>
+                            <td>Generate 100 surveys to collect information to help develop the algorithm of the chatbot
+                            </td>
+                            <td>1</td>
+                            <td>
+                                <select id="employeeUpdateTaskStatus">
+                                    <option value="Started">Started</option>
+                                    <option value="Processing">Processing</option>
+                                    <option value="Delay">Delay</option>
+                                    <option value="NeedSupport">Need Support</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </td>
+                            <td>05/01/2021</td>
+                            <td>01/05/2021</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>
+                                <a href="/api/v1/project/checkInEmployee/1" class="employeeCheckIn">Check-in</a>
+                                <div class="employeeCheckedIn">Checked-in</div>
+                            </td>
+                            <td>
+                                <a href="/api/v1/project/checkOutEmployee/1" class="employeeCheckOut">Check-out</a>
+                                <div class="employeeCheckedOut">Checked-out</div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>Debug Code</td>
+                            <td>Generate 100 surveys to collect information to help develop the algorithm of the chatbot
+                            </td>
+                            <td>1</td>
+                            <td>
+                                <select id="employeeUpdateTaskStatus">
+                                    <option value="Started">Started</option>
+                                    <option value="Processing">Processing</option>
+                                    <option value="Delay">Delay</option>
+                                    <option value="NeedSupport">Need Support</option>
+                                    <option value="Completed">Completed</option>
+                                </select>
+                            </td>
+                            <td>05/01/2021</td>
+                            <td>01/05/2021</td>
+                            <td>1</td>
+                            <td>1</td>
+                            <td>
+                                <a href="/api/v1/project/checkInEmployee/1" class="employeeCheckIn">Check-in</a>
+                            </td>
+                            <td>
+                                <a href="/api/v1/project/checkOutEmployee/1" class="employeeCheckOut">Check-out</a>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
         </section>
 
     </div>

@@ -200,6 +200,30 @@
     animation-delay: 200ms;
 }
 
+.projectCard__Inactive{
+    display: none;
+    @include noSelect;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($tertiary-font-color,.2);
+    position: absolute;
+    top: 0;
+    left:0;
+    z-index: 1000;
+    &::before{
+        width: 100%;
+        height: 100%;
+        color: rgba($secondary-page-color,1);
+        font-size: 1.8rem;
+        content: "Project is Deactivated";
+        position: absolute;
+        top: 50%;
+        left: 25%;
+        font-weight: 700;
+    }
+    
+}
+
 .showProjectDetailForm{
     display: flex;
     opacity: 0;
@@ -222,4 +246,24 @@
     animation-timing-function: ease-in;
     animation-delay: 100ms;
     backface-visibility: hidden;
+}
+
+.selectedReportTab{
+    background-color: rgba($tertiary-font-color,.2) !important;
+    color: rgba($primary-font-color,1) !important;
+}
+
+.employeeCheckedIn, .employeeCheckedOut{
+    display: none;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: green;
+    font-size: 1.2rem;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba($tertiary-font-color,.2);
 }

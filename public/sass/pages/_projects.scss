@@ -110,6 +110,7 @@
     
 }
 .projectCard{
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     width: 35rem;
@@ -296,7 +297,7 @@
     width: 0rem;
     height:0rem;
     position: absolute;
-    top:10%;
+    top:14%;
     left: 40%;
     background-color: rgba($primary-font-color,1);
     padding: 2rem;
@@ -395,4 +396,25 @@
     letter-spacing: .2rem;
     color: rgba(red,.8);
     @include defaultFont;
+}
+.projectPageNotification{
+    @include defaultFont;
+    display: flex;
+    width: auto;
+    padding: 0 2rem;
+    height: 5rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: .2rem;
+    background-color: rgba(black,1);
+    position: absolute;
+    border-bottom-left-radius: .8rem;
+    border-bottom-right-radius: .8rem;
+    bottom: 0rem;
+    transform: translateY(-5rem);
+    top: 5%;
+    left: 38%;
 }
